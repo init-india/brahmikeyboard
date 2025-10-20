@@ -1,0 +1,55 @@
+name: Brahmi Character Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-brahmi:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Validate Brahmi Mappings
+      run: |
+        echo "Validating Brahmi character mappings..."
+        
+        python3 -c "
+        import json
+        import os
+        
+        # Expected Brahmi Unicode ranges
+        BRAHMI_RANGES = [
+            (0x11000, 0x1104F),  # Brahmi block
+            (0x11052, 0x1106F),  # Brahmi numbers and punctuation
+        ]
+        
+        def is_valid_brahmi(char):
+            code_point = ord(char)
+            return any(start <= code_point <= end for start, end in BRAHMI_RANGES)
+        
+        # Check all mapping files
+        mapping_dir = 'packages/shared-data/src'
+        for filename in os.listdir(mapping_dir):
+            if filename.endswith('.json') and filename not in ['script-config.json', 'roman-to-indian-scripts.json']:
+                filepath = os.path.join(mapping_dir, filename)
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                
+                # Validate Brahmi characters in mappings
+                brahmi_mappings = data.get('brahmi_mappings', {})
+                for category, mappings in brahmi_mappings.items():
+                    if mappings:
+                        for key, brahmi_char in mappings.items():
+                            if brahmi_char and not is_valid_brahmi(brahmi_char):
+                                print(f'❌ Invalid Brahmi character in {filename}: {brahmi_char} (U+{ord(brahmi_char):04X})')
+                                exit(1)
+                
+                print(f'✓ {filename} Brahmi characters validated')
+        
+        print('✅ All Brahmi character mappings are valid!')
+        "

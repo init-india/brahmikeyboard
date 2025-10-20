@@ -1,0 +1,114 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Validate Gradle Wrapper
+      uses: gradle/wrapper-validation-action@v1
+      
+    - name: Make Gradle Wrapper Executable
+      run: chmod +x ./gradlew
+      
+    - name: Build Debug APK
+      run: |
+        cd apps/android
+        ./gradlew assembleDebug --stacktrace --no-daemon
+        
+    - name: Run Tests
+      run: |
+        cd apps/android
+        ./gradlew testDebugUnitTest --stacktrace --no-daemon
+        
+    - name: Static Analysis
+      run: |
+        cd apps/android
+        ./gradlew lintDebug --stacktrace --no-daemon
+        
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: apps/android/app/build/outputs/apk/debug/
+        retention-days: 7
+
+  json-validation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Validate JSON Files
+      run: |
+        echo "Validating JSON files..."
+        
+        # Check script-config.json
+        python3 -c "
+        import json
+        try:
+            with open('packages/shared-data/src/script-config.json', 'r') as f:
+                json.load(f)
+            print('✓ script-config.json is valid')
+        except Exception as e:
+            print('✗ script-config.json error:', e)
+            exit(1)
+        "
+        
+        # Check all language mapping files
+        for file in packages/shared-data/src/*.json; do
+          if [[ $file != *"script-config.json" && $file != *"roman-to-indian-scripts.json" ]]; then
+            python3 -c "
+            import json
+            try:
+                with open('$file', 'r') as f:
+                    data = json.load(f)
+                # Basic structure validation
+                assert 'script' in data, 'Missing script field'
+                assert 'brahmi_mappings' in data, 'Missing brahmi_mappings'
+                print('✓ $(basename $file) is valid')
+            except Exception as e:
+                print('✗ $(basename $file) error:', e)
+                exit(1)
+            "
+          fi
+        done
+        
+        echo "All JSON files validated successfully! ✅"
+
+  kotlin-analysis:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Kotlin Compilation Check
+      run: |
+        cd apps/android
+        ./gradlew compileDebugKotlin --stacktrace --no-daemon --continue
