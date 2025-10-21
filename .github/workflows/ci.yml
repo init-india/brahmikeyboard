@@ -172,4 +172,4 @@ jobs:
     - name: Kotlin Compilation Check
       run: |
         cd apps/android
-        ./gradlew compileDebugKotlin --stacktrace --no-daemon --continue
+        ./gradlew compileFdroidDebugKotlin compileGoogleplayDebugKotlin --stacktrace --no-daemon --continue

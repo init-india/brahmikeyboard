@@ -6,14 +6,16 @@ build:
     style: 1
     comments: 1
 
+complexity:
+  TooManyFunctions:
+    active: false  # MOVED from style to complexity
+
 style:
   MagicNumber:
     active: false
   NewLineAtEndOfFile:
     active: false
   ReturnCount:
-    active: false
-  TooManyFunctions:
     active: false
 
 exceptions:
@@ -30,8 +32,8 @@ empty-blocks:
   EmptyCatchBlock:
     active: false
 
-unused:
+potential-bugs:
   UnusedPrivateMember:
-    active: false
+    active: false  # MOVED from unused to potential-bugs
   UnusedPrivateProperty:
-    active: false
+    active: false  # MOVED from unused to potential-bugs
