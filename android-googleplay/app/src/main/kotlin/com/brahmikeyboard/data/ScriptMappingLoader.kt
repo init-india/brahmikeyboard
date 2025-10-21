@@ -9,7 +9,7 @@ class ScriptMappingLoader(private val assets: AssetManager) {
     private val romanMappings = loadRomanMappings()
     private val scriptMappings = mutableMapOf<String, Map<String, String>>()
     
-    private fun loadRomanMappings(): Map<String, Map<String, String>> {
+    private fun loadRomanMappings(): Map<String, Map<String, Map<String, String>>> {
         return try {
             val inputStream: InputStream = assets.open("script-mappings/roman-to-indian-scripts.json")
             val jsonString = inputStream.bufferedReader().use { it.readText() }
@@ -35,27 +35,22 @@ class ScriptMappingLoader(private val assets: AssetManager) {
     private fun createFullMapping(data: ScriptMappingData): Map<String, String> {
         val fullMap = mutableMapOf<String, String>()
         
-        // Add vowels
         data.brahmi_mappings.vowels?.forEach { (key, value) ->
             fullMap[key] = value
         }
         
-        // Add consonants
         data.brahmi_mappings.consonants?.forEach { (key, value) ->
             fullMap[key] = value
         }
         
-        // Add vowel marks
         data.brahmi_mappings.vowel_marks?.forEach { (key, value) ->
             fullMap[key] = value
         }
         
-        // Add special marks
         data.brahmi_mappings.special_marks?.forEach { (key, value) ->
             fullMap[key] = value
         }
         
-        // Add numerals
         data.brahmi_mappings.numerals?.forEach { (key, value) ->
             fullMap[key] = value
         }
@@ -67,16 +62,14 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         var result = romanText
         val mappings = romanMappings
         
-        // Process consonants first (longer sequences)
         mappings["consonants"]?.forEach { (roman, scriptMap) ->
             val targetChar = scriptMap[targetScript] ?: return@forEach
-            result = result.replace(roman, targetChar)
+            result = result.replace(roman.toRegex(), targetChar)
         }
         
-        // Process vowels
         mappings["vowels"]?.forEach { (roman, scriptMap) ->
             val targetChar = scriptMap[targetScript] ?: return@forEach
-            result = result.replace(roman, targetChar)
+            result = result.replace(roman.toRegex(), targetChar)
         }
         
         return result
@@ -87,7 +80,7 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         var result = scriptText
         
         mapping.forEach { (scriptChar, brahmiChar) ->
-            result = result.replace(scriptChar, brahmiChar)
+            result = result.replace(scriptChar.toRegex(), brahmiChar)
         }
         
         return result
@@ -99,7 +92,7 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         var result = brahmiText
         
         reverseMapping.forEach { (brahmiChar, scriptChar) ->
-            result = result.replace(brahmiChar, scriptChar)
+            result = result.replace(brahmiChar.toRegex(), scriptChar)
         }
         
         return result
