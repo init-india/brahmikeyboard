@@ -1,8 +1,14 @@
 package com.brahmikeyboard.data
 
-import android.content.res.AssetManager
-import kotlinx.serialization.json.Json
-import java.io.InputStream
+import android.content.Context
+import android.view.inputmethod.InputConnection  // FIXED: Add inputmethod
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.LinearLayout
+import com.brahmikeyboard.engine.BrahmiEngine
+import com.brahmikeyboard.engine.KeyboardMode
+import com.brahmikeyboard.data.PreferencesManager
+import com.brahmikeyboard.ime.foss.R 
 
 class ScriptMappingLoader(private val assets: AssetManager) {
     
