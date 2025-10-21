@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-googleplay:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Build Google Play
+      run: |
+        cd android-googleplay
+        chmod +x ./gradlew
+        ./gradlew assembleDebug --stacktrace --no-daemon
+        
+    - name: Upload Google Play APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: googleplay-apk
+        path: android-googleplay/app/build/outputs/apk/debug/
+        retention-days: 7
+
+  build-fdroid:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Build F-Droid
+      run: |
+        cd android-fdroid
+        chmod +x ./gradlew
+        ./gradlew assembleDebug --stacktrace --no-daemon
+        
+    - name: Upload F-Droid APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: fdroid-apk
+        path: android-fdroid/app/build/outputs/apk/debug/
+        retention-days: 7
