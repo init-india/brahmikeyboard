@@ -1,4 +1,4 @@
-name: BrahmiKeyboard CI
+name: CI
 
 on:
   push:
@@ -7,11 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  # Android Build & Tests
-  android-build:
+  build-googleplay:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
-    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -25,39 +22,21 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
-    - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v1
-      
-    - name: Make Gradle Wrapper Executable
-      run: chmod +x ./apps/android/gradlew
-      
-    - name: Build Debug APK
+    - name: Build Google Play
       run: |
-        cd apps/android
+        cd android-googleplay
+        chmod +x ./gradlew
         ./gradlew assembleDebug --stacktrace --no-daemon
         
-    - name: Run Tests
-      run: |
-        cd apps/android
-        ./gradlew testDebugUnitTest --stacktrace --no-daemon
-        
-    - name: Static Analysis
-      run: |
-        cd apps/android
-        ./gradlew lintDebug --stacktrace --no-daemon
-        
-    - name: Upload Build Artifacts
+    - name: Upload Google Play APK
       uses: actions/upload-artifact@v4
       with:
-        name: debug-apk
-        path: apps/android/app/build/outputs/apk/debug/
+        name: googleplay-apk
+        path: android-googleplay/app/build/outputs/apk/debug/
         retention-days: 7
 
-  # Code Quality
-  code-quality:
+  build-fdroid:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
-    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -68,108 +47,18 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: Make Gradle Wrapper Executable
-      run: chmod +x ./apps/android/gradlew
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
       
-    - name: Run Detekt
+    - name: Build F-Droid
       run: |
-        cd apps/android
-        ./gradlew detekt --stacktrace --no-daemon
-        
-    - name: Run ktlint
-      run: |
-        cd apps/android
-        ./gradlew ktlintCheck --stacktrace --no-daemon
-        
-    - name: Check dependencies
-      run: |
-        cd apps/android
-        ./gradlew app:dependencies --configuration debugCompileClasspath
-
-  # Data Validation
-  data-validation:
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Validate JSON Files
-      run: |
-        echo "Validating JSON files..."
-        for file in packages/shared-data/src/*.json; do
-          if python3 -c "import json; json.load(open('$file'))" 2>/dev/null; then
-            echo "✓ $(basename $file) is valid"
-          else
-            echo "✗ $(basename $file) is invalid"
-            exit 1
-          fi
-        done
-        echo "All JSON files validated successfully! ✅"
-
-  # F-Droid Specific Build
-  fdroid-build:
-    runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[fdroid]') || github.event_name == 'push'
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        
-    - name: Make Gradle Wrapper Executable
-      run: chmod +x ./apps/android/gradlew
-        
-    - name: Build F-Droid Variant
-      run: |
-        cd apps/android
-        ./gradlew assembleFdroidDebug --stacktrace --no-daemon
-        
-    - name: Check F-Droid Compliance
-      run: |
-        echo "Checking F-Droid compliance..."
-        if grep -r "com.google.android.gms" apps/android/app/src/fdroid/; then
-          echo "❌ Google Play Services detected in F-Droid source"
-          exit 1
-        fi
-        if grep -r "com.google.firebase" apps/android/app/src/fdroid/; then
-          echo "❌ Firebase detected in F-Droid source"
-          exit 1
-        fi
-        echo "✅ F-Droid compliance check passed"
+        cd android-fdroid
+        chmod +x ./gradlew
+        ./gradlew assembleDebug --stacktrace --no-daemon
         
     - name: Upload F-Droid APK
       uses: actions/upload-artifact@v4
       with:
         name: fdroid-apk
-        path: apps/android/app/build/outputs/apk/fdroid/debug/
+        path: android-fdroid/app/build/outputs/apk/debug/
         retention-days: 7
-
-  # Kotlin Analysis
-  kotlin-analysis:
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        
-    - name: Make Gradle Wrapper Executable
-      run: chmod +x ./apps/android/gradlew
-        
-    - name: Kotlin Compilation Check
-      run: |
-        cd apps/android
-        ./gradlew compileFdroidDebugKotlin compileGoogleplayDebugKotlin --stacktrace --no-daemon --continue

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BrahmiKeyboard</string>
+    <string name="keyboard_subtype_label">Brahmi Keyboard</string>
+    <string name="settings_title">Brahmi Keyboard Settings</string>
+    <string name="preview_hint">Type to see Brahmi conversion</string>
+    <string name="mode_english">English Mode</string>
+    <string name="mode_brahmi">Brahmi Mode</string>
+    <string name="mode_pure_brahmi">Pure Brahmi Mode</string>
+    
+    <string name="settings_category_general">General Settings</string>
+    <string name="settings_category_typing">Typing Settings</string>
+    <string name="settings_category_advanced">Advanced Settings</string>
+</resources>

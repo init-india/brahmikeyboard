@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_category_general">
+        
+        <ListPreference
+            android:key="reference_script"
+            android:title="Reference Script"
+            android:summary="Choose your reference Indian script"
+            android:entries="@array/reference_scripts_entries"
+            android:entryValues="@array/reference_scripts_values"
+            android:defaultValue="devanagari" />
+            
+        <ListPreference
+            android:key="default_mode"
+            android:title="Default Keyboard Mode"
+            android:summary="Choose default mode when keyboard starts"
+            android:entries="@array/keyboard_modes_entries"
+            android:entryValues="@array/keyboard_modes_values"
+            android:defaultValue="brahmi" />
+            
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_category_typing">
+        
+        <ListPreference
+            android:key="commit_delay"
+            android:title="Commit Delay"
+            android:summary="Time before text is committed"
+            android:entries="@array/commit_delay_entries"
+            android:entryValues="@array/commit_delay_values"
+            android:defaultValue="1000" />
+            
+    </PreferenceCategory>
+
+</PreferenceScreen>
