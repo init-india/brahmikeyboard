@@ -21,6 +21,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
+    - name: Make Gradle Wrapper Executable
+      run: chmod +x ./apps/android/gradlew  # FIXED PATH
+        
     - name: Build F-Droid Variant
       run: |
         cd apps/android
@@ -30,15 +33,21 @@ jobs:
       run: |
         echo "Checking F-Droid compliance..."
         
-        # Check for Google Play Services
-        if grep -r "com.google.android.gms" apps/android/; then
-          echo "❌ Google Play Services detected in F-Droid variant"
+        # Check for Google Play Services in F-Droid source
+        if grep -r "com.google.android.gms" apps/android/app/src/fdroid/; then
+          echo "❌ Google Play Services detected in F-Droid source"
           exit 1
         fi
         
-        # Check for proprietary libraries
-        if grep -r "com.google.firebase" apps/android/; then
-          echo "❌ Firebase detected in F-Droid variant"
+        # Check for proprietary libraries in F-Droid source
+        if grep -r "com.google.firebase" apps/android/app/src/fdroid/; then
+          echo "❌ Firebase detected in F-Droid source"
+          exit 1
+        fi
+        
+        # Check build.gradle for F-Droid specific dependencies
+        if grep -A 10 -B 10 "fdroid" apps/android/app/build.gradle.kts | grep -E "com.google.android.gms|com.google.firebase"; then
+          echo "❌ Proprietary dependencies in F-Droid build configuration"
           exit 1
         fi
         

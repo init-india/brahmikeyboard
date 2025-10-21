@@ -20,6 +20,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
+    - name: Make Gradle Wrapper Executable
+      run: chmod +x ./apps/android/gradlew  # FIXED PATH
+      
     - name: Run Detekt
       run: |
         cd apps/android
@@ -38,6 +41,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
+    - name: Make Gradle Wrapper Executable
+      run: chmod +x ./apps/android/gradlew  # FIXED PATH
+        
     - name: Run ktlint
       run: |
         cd apps/android
@@ -55,6 +61,9 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        
+    - name: Make Gradle Wrapper Executable
+      run: chmod +x ./apps/android/gradlew  # FIXED PATH
         
     - name: Check dependencies
       run: |
