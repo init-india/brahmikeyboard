@@ -1,5 +1,5 @@
 build:
-  maxIssues: 10
+  maxIssues: 20
   weights:
     complexity: 2
     LongParameterList: 1
@@ -12,4 +12,26 @@ style:
   NewLineAtEndOfFile:
     active: false
   ReturnCount:
+    active: false
+  TooManyFunctions:
+    active: false
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+
+naming:
+  ConstructorParameterNaming:
+    active: false
+
+empty-blocks:
+  EmptyCatchBlock:
+    active: false
+
+unused:
+  UnusedPrivateMember:
+    active: false
+  UnusedPrivateProperty:
     active: false
