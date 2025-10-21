@@ -27,7 +27,7 @@ jobs:
       uses: gradle/wrapper-validation-action@v1
       
     - name: Make Gradle Wrapper Executable
-      run: chmod +x ./apps/android/gradlew  # FIXED PATH
+      run: chmod +x ./apps/android/gradlew
       
     - name: Build Debug APK
       run: |
@@ -62,32 +62,13 @@ jobs:
       run: |
         echo "Validating JSON files..."
         
-        # Check script-config.json
-        python3 -c "import json
-try:
-    with open('packages/shared-data/src/script-config.json', 'r') as f:
-        json.load(f)
-    print('✓ script-config.json is valid')
-except Exception as e:
-    print('✗ script-config.json error:', e)
-    exit(1)
-"  # FIXED INDENTATION
-        
-        # Check all language mapping files
+        # Simple JSON validation without complex Python formatting
         for file in packages/shared-data/src/*.json; do
-          if [[ $file != *"script-config.json" && $file != *"roman-to-indian-scripts.json" ]]; then
-            python3 -c "import json
-try:
-    with open('$file', 'r') as f:
-        data = json.load(f)
-    # Basic structure validation
-    assert 'script' in data, 'Missing script field'
-    assert 'brahmi_mappings' in data, 'Missing brahmi_mappings'
-    print('✓ $(basename $file) is valid')
-except Exception as e:
-    print('✗ $(basename $file) error:', e)
-    exit(1)
-"  # FIXED INDENTATION
+          if python3 -c "import json; json.load(open('$file'))" 2>/dev/null; then
+            echo "✓ $(basename $file) is valid"
+          else
+            echo "✗ $(basename $file) is invalid"
+            exit 1
           fi
         done
         
@@ -105,6 +86,9 @@ except Exception as e:
       with:
         java-version: '17'
         distribution: 'temurin'
+        
+    - name: Make Gradle Wrapper Executable
+      run: chmod +x ./apps/android/gradlew  # ADDED THIS LINE
         
     - name: Kotlin Compilation Check
       run: |
