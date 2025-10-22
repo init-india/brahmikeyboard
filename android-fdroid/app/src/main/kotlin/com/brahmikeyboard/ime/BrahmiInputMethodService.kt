@@ -16,17 +16,7 @@ class BrahmiInputMethodService : InputMethodService() {
         super.onCreate()
         brahmiEngine = BrahmiEngine(assets)
         preferences = PreferencesManager(this)
-        
-        // Use Android's built-in Notification (no extra dependency needed)
-        val notification = android.app.Notification.Builder(this)
-            .setContentTitle("Brahmi Keyboard")
-            .setContentText("Input method service is active")
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setPriority(android.app.Notification.PRIORITY_LOW)
-            .setOngoing(true)
-            .build()
-        
-        startForeground(1, notification)
+        // 🚨 NO FOREGROUND SERVICE - IME services don't need it
     }
     
     override fun onEvaluateInputViewShown(): Boolean {

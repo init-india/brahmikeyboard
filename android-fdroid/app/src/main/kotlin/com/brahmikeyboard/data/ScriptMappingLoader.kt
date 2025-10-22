@@ -6,16 +6,18 @@ import java.io.InputStream
 
 class ScriptMappingLoader(private val assets: AssetManager) {
     
-    private val romanMappings = loadRomanMappings()
     private val scriptMappings = mutableMapOf<String, Map<String, String>>()
+    private val romanToScriptMappings = mutableMapOf<String, Map<String, String>>()
     
-    private fun loadRomanMappings(): Map<String, Map<String, Map<String, String>>> {
-        return try {
-            val inputStream: InputStream = assets.open("script-mappings/roman-to-indian-scripts.json")
-            val jsonString = inputStream.bufferedReader().use { it.readText() }
-            Json.decodeFromString<RomanMappings>(jsonString).mappings
-        } catch (e: Exception) {
-            emptyMap()
+    private fun loadRomanToScriptMappings(): Map<String, Map<String, String>> {
+        return romanToScriptMappings.getOrPut("roman") {
+            try {
+                val inputStream: InputStream = assets.open("script-mappings/roman-to-indian-scripts.json")
+                val jsonString = inputStream.bufferedReader().use { it.readText() }
+                Json.decodeFromString<Map<String, Map<String, String>>>(jsonString)
+            } catch (e: Exception) {
+                emptyMap()
+            }
         }
     }
     
@@ -35,72 +37,83 @@ class ScriptMappingLoader(private val assets: AssetManager) {
     private fun createFullMapping(data: ScriptMappingData): Map<String, String> {
         val fullMap = mutableMapOf<String, String>()
         
-        data.brahmi_mappings.vowels?.forEach { (key, value) ->
-            fullMap[key] = value
-        }
-        
-        data.brahmi_mappings.consonants?.forEach { (key, value) ->
-            fullMap[key] = value
-        }
-        
-        data.brahmi_mappings.vowel_marks?.forEach { (key, value) ->
-            fullMap[key] = value
-        }
-        
-        data.brahmi_mappings.special_marks?.forEach { (key, value) ->
-            fullMap[key] = value
-        }
-        
-        data.brahmi_mappings.numerals?.forEach { (key, value) ->
-            fullMap[key] = value
-        }
+        // Combine all mapping types into one lookup map
+        data.brahmi_mappings.vowels?.forEach { (key, value) -> fullMap[key] = value }
+        data.brahmi_mappings.consonants?.forEach { (key, value) -> fullMap[key] = value }
+        data.brahmi_mappings.vowel_marks?.forEach { (key, value) -> fullMap[key] = value }
+        data.brahmi_mappings.special_marks?.forEach { (key, value) -> fullMap[key] = value }
+        data.brahmi_mappings.numerals?.forEach { (key, value) -> fullMap[key] = value }
         
         return fullMap
     }
     
     fun romanToScript(romanText: String, targetScript: String): String {
-        var result = romanText
-        val mappings = romanMappings
+        val mappings = loadRomanToScriptMappings()
+        var result = StringBuilder()
+        var i = 0
         
-        mappings["consonants"]?.forEach { (roman, scriptMap) ->
-            val targetChar = scriptMap[targetScript] ?: return@forEach
-            result = result.replace(roman.toRegex(), targetChar)
+        while (i < romanText.length) {
+            var matched = false
+            
+            // Try 3-character sequences (like "th", "sh", "nga")
+            if (i + 2 <= romanText.length) {
+                val triple = romanText.substring(i, i + 3).lowercase()
+                val mapping = mappings[triple]?.get(targetScript)
+                if (mapping != null) {
+                    result.append(mapping)
+                    i += 3
+                    matched = true
+                }
+            }
+            
+            // Try 2-character sequences
+            if (!matched && i + 1 <= romanText.length) {
+                val double = romanText.substring(i, i + 2).lowercase()
+                val mapping = mappings[double]?.get(targetScript)
+                if (mapping != null) {
+                    result.append(mapping)
+                    i += 2
+                    matched = true
+                }
+            }
+            
+            // Try single character
+            if (!matched) {
+                val single = romanText.substring(i, i + 1).lowercase()
+                val mapping = mappings[single]?.get(targetScript) ?: single
+                result.append(mapping)
+                i += 1
+            }
         }
         
-        mappings["vowels"]?.forEach { (roman, scriptMap) ->
-            val targetChar = scriptMap[targetScript] ?: return@forEach
-            result = result.replace(roman.toRegex(), targetChar)
-        }
-        
-        return result
+        return result.toString()
     }
     
     fun scriptToBrahmi(scriptText: String, sourceScript: String): String {
         val mapping = loadScriptMapping(sourceScript)
-        var result = scriptText
+        var result = StringBuilder()
         
-        mapping.forEach { (scriptChar, brahmiChar) ->
-            result = result.replace(scriptChar.toRegex(), brahmiChar)
+        for (char in scriptText) {
+            val brahmiChar = mapping[char.toString()] ?: char.toString()
+            result.append(brahmiChar)
         }
         
-        return result
+        return result.toString()
     }
     
     fun brahmiToScript(brahmiText: String, targetScript: String): String {
         val mapping = loadScriptMapping(targetScript)
         val reverseMapping = mapping.entries.associate { (k, v) -> v to k }
-        var result = brahmiText
+        var result = StringBuilder()
         
-        reverseMapping.forEach { (brahmiChar, scriptChar) ->
-            result = result.replace(brahmiChar.toRegex(), scriptChar)
+        for (char in brahmiText) {
+            val scriptChar = reverseMapping[char.toString()] ?: char.toString()
+            result.append(scriptChar)
         }
         
-        return result
+        return result.toString()
     }
 }
-
-@kotlinx.serialization.Serializable
-data class RomanMappings(val mappings: Map<String, Map<String, Map<String, String>>>)
 
 @kotlinx.serialization.Serializable
 data class ScriptMappingData(
