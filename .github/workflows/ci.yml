@@ -28,6 +28,16 @@ jobs:
         chmod +x ./gradlew
         ./gradlew assembleDebug --stacktrace --no-daemon
         
+    - name: Run Google Play Tests
+      run: |
+        cd android-googleplay
+        ./gradlew testDebugUnitTest --stacktrace --no-daemon
+        
+    - name: Lint Google Play
+      run: |
+        cd android-googleplay
+        ./gradlew lintDebug --stacktrace --no-daemon || echo "Lint completed with warnings"
+        
     - name: Upload Google Play APK
       uses: actions/upload-artifact@v4
       with:
@@ -56,9 +66,121 @@ jobs:
         chmod +x ./gradlew
         ./gradlew assembleDebug --stacktrace --no-daemon
         
+    - name: Run F-Droid Tests
+      run: |
+        cd android-fdroid
+        ./gradlew testDebugUnitTest --stacktrace --no-daemon
+        
+    - name: Lint F-Droid
+      run: |
+        cd android-fdroid
+        ./gradlew lintDebug --stacktrace --no-daemon || echo "Lint completed with warnings"
+        
     - name: Upload F-Droid APK
       uses: actions/upload-artifact@v4
       with:
         name: fdroid-apk
         path: android-fdroid/app/build/outputs/apk/debug/
+        retention-days: 7
+
+  static-analysis:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Validate AndroidManifest
+      run: |
+        echo "🔍 Validating AndroidManifest files..."
+        
+        # Check F-Droid manifest
+        if ! xmllint --noout android-fdroid/app/src/main/AndroidManifest.xml 2>/dev/null; then
+          echo "❌ F-Droid AndroidManifest.xml has XML errors"
+          exit 1
+        fi
+        
+        # Check Google Play manifest  
+        if ! xmllint --noout android-googleplay/app/src/main/AndroidManifest.xml 2>/dev/null; then
+          echo "❌ Google Play AndroidManifest.xml has XML errors"
+          exit 1
+        fi
+        
+        # Check for duplicate launcher activities
+        if grep -c 'android.intent.category.LAUNCHER' android-fdroid/app/src/main/AndroidManifest.xml | grep -q 2; then
+          echo "❌ F-Droid has multiple LAUNCHER activities"
+          exit 1
+        fi
+        
+        if grep -c 'android.intent.category.LAUNCHER' android-googleplay/app/src/main/AndroidManifest.xml | grep -q 2; then
+          echo "❌ Google Play has multiple LAUNCHER activities"  
+          exit 1
+        fi
+        
+        echo "✅ AndroidManifest files are valid"
+
+    - name: Check IME Configuration
+      run: |
+        echo "🔍 Checking IME service configuration..."
+        
+        # Verify IME service exists in manifests
+        if ! grep -q "BrahmiInputMethodService" android-fdroid/app/src/main/AndroidManifest.xml; then
+          echo "❌ F-Droid missing BrahmiInputMethodService"
+          exit 1
+        fi
+        
+        if ! grep -q "BrahmiInputMethodService" android-googleplay/app/src/main/AndroidManifest.xml; then
+          echo "❌ Google Play missing BrahmiInputMethodService"
+          exit 1
+        fi
+        
+        # Verify method.xml exists
+        if [ ! -f "android-fdroid/app/src/main/res/xml/method.xml" ]; then
+          echo "❌ F-Droid missing method.xml"
+          exit 1
+        fi
+        
+        if [ ! -f "android-googleplay/app/src/main/res/xml/method.xml" ]; then
+          echo "❌ Google Play missing method.xml"  
+          exit 1
+        fi
+        
+        echo "✅ IME configuration looks good"
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Check dependencies
+      run: |
+        echo "📦 Checking project dependencies..."
+        
+        cd android-fdroid
+        ./gradlew app:dependencies --configuration debugCompileClasspath > fdroid-dependencies.txt
+        echo "✅ F-Droid dependencies exported"
+        
+        cd ../android-googleplay
+        ./gradlew app:dependencies --configuration debugCompileClasspath > googleplay-dependencies.txt
+        echo "✅ Google Play dependencies exported"
+        
+    - name: Upload Dependency Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-reports
+        path: |
+          android-fdroid/fdroid-dependencies.txt
+          android-googleplay/googleplay-dependencies.txt
         retention-days: 7
