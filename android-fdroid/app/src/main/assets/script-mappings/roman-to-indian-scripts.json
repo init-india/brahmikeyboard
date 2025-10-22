@@ -1,0 +1,52 @@
+{
+  "a": {"devanagari": "अ", "kannada": "ಅ", "tamil": "அ", "bengali": "অ", "gujarati": "અ", "telugu": "అ", "malayalam": "അ", "odia": "ଅ", "punjabi": "ਅ", "assamese": "অ"},
+  "aa": {"devanagari": "आ", "kannada": "ಆ", "tamil": "ஆ", "bengali": "আ", "gujarati": "આ", "telugu": "ఆ", "malayalam": "ആ", "odia": "ଆ", "punjabi": "ਆ", "assamese": "আ"},
+  "i": {"devanagari": "इ", "kannada": "ಇ", "tamil": "இ", "bengali": "ই", "gujarati": "ઇ", "telugu": "ఇ", "malayalam": "ഇ", "odia": "ଇ", "punjabi": "ਇ", "assamese": "ই"},
+  "ee": {"devanagari": "ई", "kannada": "ಈ", "tamil": "ஈ", "bengali": "ঈ", "gujarati": "ઈ", "telugu": "ఈ", "malayalam": "ഈ", "odia": "ଈ", "punjabi": "ਈ", "assamese": "ঈ"},
+  "u": {"devanagari": "उ", "kannada": "ಉ", "tamil": "உ", "bengali": "উ", "gujarati": "ઉ", "telugu": "ఉ", "malayalam": "ഉ", "odia": "ଉ", "punjabi": "ਉ", "assamese": "উ"},
+  "uu": {"devanagari": "ऊ", "kannada": "ಊ", "tamil": "ஊ", "bengali": "ঊ", "gujarati": "ઊ", "telugu": "ఊ", "malayalam": "ഊ", "odia": "ଊ", "punjabi": "ਊ", "assamese": "ঊ"},
+  "e": {"devanagari": "ए", "kannada": "ಏ", "tamil": "ஏ", "bengali": "এ", "gujarati": "એ", "telugu": "ఏ", "malayalam": "ഏ", "odia": "ଏ", "punjabi": "ਏ", "assamese": "এ"},
+  "ei": {"devanagari": "ऐ", "kannada": "ಐ", "tamil": "ஐ", "bengali": "ঐ", "gujarati": "ઐ", "telugu": "ఐ", "malayalam": "ഐ", "odia": "ଐ", "punjabi": "ਐ", "assamese": "ঐ"},
+  "o": {"devanagari": "ओ", "kannada": "ಓ", "tamil": "ஓ", "bengali": "ও", "gujarati": "ઓ", "telugu": "ఓ", "malayalam": "ഓ", "odia": "ଓ", "punjabi": "ਓ", "assamese": "ও"},
+  "ou": {"devanagari": "औ", "kannada": "ಔ", "tamil": "ஔ", "bengali": "ঔ", "gujarati": "ઔ", "telugu": "ఔ", "malayalam": "ഔ", "odia": "ଔ", "punjabi": "ਔ", "assamese": "ঔ"},
+  
+  "k": {"devanagari": "क", "kannada": "ಕ", "tamil": "க", "bengali": "ক", "gujarati": "ક", "telugu": "క", "malayalam": "ക", "odia": "କ", "punjabi": "ਕ", "assamese": "ক"},
+  "kh": {"devanagari": "ख", "kannada": "ಖ", "tamil": "க", "bengali": "খ", "gujarati": "ખ", "telugu": "ఖ", "malayalam": "ഖ", "odia": "ଖ", "punjabi": "ਖ", "assamese": "খ"},
+  "g": {"devanagari": "ग", "kannada": "ಗ", "tamil": "க", "bengali": "গ", "gujarati": "ગ", "telugu": "గ", "malayalam": "ഗ", "odia": "ଗ", "punjabi": "ਗ", "assamese": "গ"},
+  "gh": {"devanagari": "घ", "kannada": "ಘ", "tamil": "க", "bengali": "ঘ", "gujarati": "ઘ", "telugu": "ఘ", "malayalam": "ഘ", "odia": "ଘ", "punjabi": "ਘ", "assamese": "ঘ"},
+  "nga": {"devanagari": "ङ", "kannada": "ಙ", "tamil": "ங", "bengali": "ঙ", "gujarati": "ઙ", "telugu": "ఙ", "malayalam": "ങ", "odia": "ଙ", "punjabi": "ਙ", "assamese": "ঙ"},
+  
+  "c": {"devanagari": "च", "kannada": "ಚ", "tamil": "ச", "bengali": "চ", "gujarati": "ચ", "telugu": "చ", "malayalam": "ച", "odia": "ଚ", "punjabi": "ਚ", "assamese": "চ"},
+  "ch": {"devanagari": "छ", "kannada": "ಛ", "tamil": "ச", "bengali": "ছ", "gujarati": "છ", "telugu": "ఛ", "malayalam": "ഛ", "odia": "ଛ", "punjabi": "ਛ", "assamese": "ছ"},
+  "j": {"devanagari": "ज", "kannada": "ಜ", "tamil": "ஜ", "bengali": "জ", "gujarati": "જ", "telugu": "జ", "malayalam": "ജ", "odia": "ଜ", "punjabi": "ਜ", "assamese": "জ"},
+  "jh": {"devanagari": "झ", "kannada": "ಝ", "tamil": "ஜ", "bengali": "ঝ", "gujarati": "ઝ", "telugu": "ఝ", "malayalam": "ഝ", "odia": "ଝ", "punjabi": "ਝ", "assamese": "ঝ"},
+  "yn": {"devanagari": "ञ", "kannada": "ಞ", "tamil": "ஞ", "bengali": "ঞ", "gujarati": "ઞ", "telugu": "ఞ", "malayalam": "ഞ", "odia": "ଞ", "punjabi": "ਞ", "assamese": "ঞ"},
+  
+  "T": {"devanagari": "ट", "kannada": "ಟ", "tamil": "ட", "bengali": "ট", "gujarati": "ટ", "telugu": "ట", "malayalam": "ട", "odia": "ଟ", "punjabi": "ਟ", "assamese": "ট"},
+  "Th": {"devanagari": "ठ", "kannada": "ಠ", "tamil": "ட", "bengali": "ঠ", "gujarati": "ઠ", "telugu": "ఠ", "malayalam": "ഠ", "odia": "ଠ", "punjabi": "ਠ", "assamese": "ঠ"},
+  "D": {"devanagari": "ड", "kannada": "ಡ", "tamil": "ட", "bengali": "ড", "gujarati": "ડ", "telugu": "డ", "malayalam": "ഡ", "odia": "ଡ", "punjabi": "ਡ", "assamese": "ড"},
+  "Dh": {"devanagari": "ढ", "kannada": "ಢ", "tamil": "ட", "bengali": "ঢ", "gujarati": "ઢ", "telugu": "ఢ", "malayalam": "ഢ", "odia": "ଢ", "punjabi": "ਢ", "assamese": "ঢ"},
+  "N": {"devanagari": "ण", "kannada": "ಣ", "tamil": "ண", "bengali": "ণ", "gujarati": "ણ", "telugu": "ణ", "malayalam": "ണ", "odia": "ଣ", "punjabi": "ਣ", "assamese": "ণ"},
+  
+  "t": {"devanagari": "त", "kannada": "ತ", "tamil": "த", "bengali": "ত", "gujarati": "ત", "telugu": "త", "malayalam": "ത", "odia": "ତ", "punjabi": "ਤ", "assamese": "ত"},
+  "th": {"devanagari": "थ", "kannada": "ಥ", "tamil": "த", "bengali": "থ", "gujarati": "થ", "telugu": "థ", "malayalam": "ഥ", "odia": "ଥ", "punjabi": "ਥ", "assamese": "থ"},
+  "d": {"devanagari": "द", "kannada": "ದ", "tamil": "த", "bengali": "দ", "gujarati": "દ", "telugu": "ద", "malayalam": "ദ", "odia": "ଦ", "punjabi": "ਦ", "assamese": "দ"},
+  "dh": {"devanagari": "ध", "kannada": "ಧ", "tamil": "த", "bengali": "ধ", "gujarati": "ધ", "telugu": "ధ", "malayalam": "ധ", "odia": "ଧ", "punjabi": "ਧ", "assamese": "ধ"},
+  "n": {"devanagari": "न", "kannada": "ನ", "tamil": "ந", "bengali": "ন", "gujarati": "ન", "telugu": "న", "malayalam": "ന", "odia": "ନ", "punjabi": "ਨ", "assamese": "ন"},
+  
+  "p": {"devanagari": "प", "kannada": "ಪ", "tamil": "ப", "bengali": "প", "gujarati": "પ", "telugu": "ప", "malayalam": "പ", "odia": "ପ", "punjabi": "ਪ", "assamese": "প"},
+  "ph": {"devanagari": "फ", "kannada": "ಫ", "tamil": "ப", "bengali": "ফ", "gujarati": "ફ", "telugu": "ఫ", "malayalam": "ഫ", "odia": "ଫ", "punjabi": "ਫ", "assamese": "ফ"},
+  "b": {"devanagari": "ब", "kannada": "ಬ", "tamil": "ப", "bengali": "ব", "gujarati": "બ", "telugu": "బ", "malayalam": "ബ", "odia": "ବ", "punjabi": "ਬ", "assamese": "ব"},
+  "bh": {"devanagari": "भ", "kannada": "ಭ", "tamil": "ப", "bengali": "ভ", "gujarati": "ભ", "telugu": "భ", "malayalam": "ഭ", "odia": "ଭ", "punjabi": "ਭ", "assamese": "ভ"},
+  "m": {"devanagari": "म", "kannada": "ಮ", "tamil": "ம", "bengali": "ম", "gujarati": "મ", "telugu": "మ", "malayalam": "മ", "odia": "ମ", "punjabi": "ਮ", "assamese": "ম"},
+  
+  "y": {"devanagari": "य", "kannada": "ಯ", "tamil": "ய", "bengali": "য", "gujarati": "ય", "telugu": "య", "malayalam": "യ", "odia": "ଯ", "punjabi": "ਯ", "assamese": "য"},
+  "r": {"devanagari": "र", "kannada": "ರ", "tamil": "ர", "bengali": "র", "gujarati": "ર", "telugu": "ర", "malayalam": "ര", "odia": "ର", "punjabi": "ਰ", "assamese": "ৰ"},
+  "l": {"devanagari": "ल", "kannada": "ಲ", "tamil": "ல", "bengali": "ল", "gujarati": "લ", "telugu": "ల", "malayalam": "ല", "odia": "ଲ", "punjabi": "ਲ", "assamese": "ল"},
+  "v": {"devanagari": "व", "kannada": "ವ", "tamil": "வ", "bengali": "ব", "gujarati": "વ", "telugu": "వ", "malayalam": "വ", "odia": "ଵ", "punjabi": "ਵ", "assamese": "ৱ"},
+  "s": {"devanagari": "स", "kannada": "ಸ", "tamil": "ஸ", "bengali": "স", "gujarati": "સ", "telugu": "స", "malayalam": "സ", "odia": "ସ", "punjabi": "ਸ", "assamese": "স"},
+  "h": {"devanagari": "ह", "kannada": "ಹ", "tamil": "ஹ", "bengali": "হ", "gujarati": "હ", "telugu": "హ", "malayalam": "ഹ", "odia": "ହ", "punjabi": "ਹ", "assamese": "হ"},
+  "L": {"devanagari": "ळ", "kannada": "ಳ", "tamil": "ள", "bengali": "ল", "gujarati": "ળ", "telugu": "ళ", "malayalam": "ള", "odia": "ଳ", "punjabi": "ਲ", "assamese": "ল"},
+  
+  "^": {"devanagari": "ं", "kannada": "ಂ", "tamil": "ம்", "bengali": "ং", "gujarati": "ં", "telugu": "ం", "malayalam": "ം", "odia": "ଂ", "punjabi": "ਂ", "assamese": "ং"}
+}
