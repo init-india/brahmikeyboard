@@ -22,4 +22,12 @@ class PreferencesManager(context: Context) {
     fun setCommitDelay(delay: Long) {
         prefs.edit().putLong("commit_delay", delay).apply()
     }
+    
+    fun getReferenceLanguage(): String {
+        return getReferenceScript()
+    }
+    
+    fun setReferenceLanguage(language: String) {
+        setReferenceScript(language)
+    }
 }

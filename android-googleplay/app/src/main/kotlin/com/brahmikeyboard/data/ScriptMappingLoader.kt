@@ -37,7 +37,6 @@ class ScriptMappingLoader(private val assets: AssetManager) {
     private fun createFullMapping(data: ScriptMappingData): Map<String, String> {
         val fullMap = mutableMapOf<String, String>()
         
-        // Combine all mapping types into one lookup map
         data.brahmi_mappings.vowels?.forEach { (key, value) -> fullMap[key] = value }
         data.brahmi_mappings.consonants?.forEach { (key, value) -> fullMap[key] = value }
         data.brahmi_mappings.vowel_marks?.forEach { (key, value) -> fullMap[key] = value }
@@ -55,29 +54,30 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         while (i < romanText.length) {
             var matched = false
             
-            // Try 3-character sequences (like "th", "sh", "nga")
-            if (i + 2 <= romanText.length) {
+            if (i + 3 <= romanText.length) {
                 val triple = romanText.substring(i, i + 3).lowercase()
-                val mapping = mappings[triple]?.get(targetScript)
-                if (mapping != null) {
-                    result.append(mapping)
-                    i += 3
-                    matched = true
+                if (mappings.containsKey(triple)) {
+                    val mapping = mappings[triple]?.get(targetScript)
+                    if (mapping != null) {
+                        result.append(mapping)
+                        i += 3
+                        matched = true
+                    }
                 }
             }
             
-            // Try 2-character sequences
-            if (!matched && i + 1 <= romanText.length) {
+            if (!matched && i + 2 <= romanText.length) {
                 val double = romanText.substring(i, i + 2).lowercase()
-                val mapping = mappings[double]?.get(targetScript)
-                if (mapping != null) {
-                    result.append(mapping)
-                    i += 2
-                    matched = true
+                if (mappings.containsKey(double)) {
+                    val mapping = mappings[double]?.get(targetScript)
+                    if (mapping != null) {
+                        result.append(mapping)
+                        i += 2
+                        matched = true
+                    }
                 }
             }
             
-            // Try single character
             if (!matched) {
                 val single = romanText.substring(i, i + 1).lowercase()
                 val mapping = mappings[single]?.get(targetScript) ?: single
