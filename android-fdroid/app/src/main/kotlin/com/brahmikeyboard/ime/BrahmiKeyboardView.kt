@@ -14,6 +14,8 @@ import com.brahmikeyboard.data.PreferencesManager
 import java.util.Timer
 import java.util.TimerTask
 import com.brahmikeyboard.ui.SettingsActivity
+import com.brahmikeyboard.ime.foss
+
 
 class BrahmiKeyboardView(
     context: Context,
