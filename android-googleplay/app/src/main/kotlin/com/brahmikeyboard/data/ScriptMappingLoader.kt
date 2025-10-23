@@ -10,16 +10,14 @@ class ScriptMappingLoader(private val assets: AssetManager) {
     private val romanToScriptMappings = mutableMapOf<String, Map<String, String>>()
     
     private fun loadRomanToScriptMappings(): Map<String, Map<String, String>> {
-        return romanToScriptMappings.getOrPut("roman") {
-            try {
-                val inputStream: InputStream = assets.open("script-mappings/roman-to-indian-scripts.json")
-                val jsonString = inputStream.bufferedReader().use { it.readText() }
-                Json.decodeFromString<Map<String, Map<String, String>>>(jsonString)
-            } catch (e: Exception) {
-                emptyMap()
-            }
-        }
+    return try {
+        val inputStream: InputStream = assets.open("script-mappings/roman-to-indian-scripts.json")
+        val jsonString = inputStream.bufferedReader().use { it.readText() }
+        Json.decodeFromString<Map<String, Map<String, String>>>(jsonString)
+    } catch (e: Exception) {
+        emptyMap()
     }
+}
     
     private fun loadScriptMapping(script: String): Map<String, String> {
         return scriptMappings.getOrPut(script) {
