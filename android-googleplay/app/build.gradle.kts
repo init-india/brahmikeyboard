@@ -16,17 +16,7 @@ android {
         versionName = "1.0"
     }
 
-    // ADD SIGNING CONFIG
-    signingConfigs {
-        create("debug") {
-            storeFile = file("debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
-    }
-
-    buildTypes {
+ buildTypes {
         debug {
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
