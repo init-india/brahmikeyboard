@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"  // ADD THIS
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -16,8 +16,23 @@ android {
         versionName = "1.0"
     }
 
+    // ADD SIGNING CONFIG
+    signingConfigs {
+        create("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+        }
         release {
+            signingConfig = signingConfigs.getByName("debug") // Use debug for now
             isMinifyEnabled = false
         }
     }
@@ -31,7 +46,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    // ADD THIS BUILD FEATURES SECTION
     buildFeatures {
         viewBinding = true
     }
@@ -42,8 +56,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
-    
-    // ADD THESE DEPENDENCIES
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.8.2")
