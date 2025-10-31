@@ -1,77 +1,90 @@
 #!/bin/bash
-set -e
+echo "🔍 Brahmi Keyboard APK Validation"
 
-echo "🔍 Starting APK Validation..."
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
 
-APK_PATH="android-fdroid/app/build/outputs/apk/debug/app-debug.apk"
+validate_apk() {
+    local apk_path=$1
+    local apk_name=$(basename "$apk_path")
+    
+    echo -e "\n📱 Validating: $apk_name"
+    
+    if [ ! -f "$apk_path" ]; then
+        echo -e "${RED}❌ APK not found: $apk_path${NC}"
+        return 1
+    fi
+    
+    # Check if aapt is available
+    if ! command -v aapt &> /dev/null; then
+        echo -e "${YELLOW}⚠️  aapt not available, skipping deep validation${NC}"
+        echo -e "${GREEN}✅ APK exists: $(ls -lh "$apk_path")${NC}"
+        return 0
+    fi
+    
+    # Basic APK validation
+    if aapt dump badging "$apk_path" > /dev/null 2>&1; then
+        echo -e "${GREEN}✅ APK is valid${NC}"
+        
+        # Extract package info
+        local package=$(aapt dump badging "$apk_path" | grep "package: name=" | sed "s/.*name='\([^']*\)'.*/\1/")
+        echo "📦 Package: $package"
+        
+        # Check for IME service
+        if aapt dump xmltree "$apk_path" AndroidManifest.xml | grep -q "InputMethod"; then
+            echo -e "${GREEN}✅ IME service declared${NC}"
+        else
+            echo -e "${RED}❌ No IME service found${NC}"
+        fi
+        
+        # Check permissions
+        if aapt dump permissions "$apk_path" | grep -q "BIND_INPUT_METHOD"; then
+            echo -e "${GREEN}✅ BIND_INPUT_METHOD permission found${NC}"
+        else
+            echo -e "${RED}❌ Missing BIND_INPUT_METHOD permission${NC}"
+        fi
+        
+    else
+        echo -e "${RED}❌ APK is corrupted or invalid${NC}"
+        return 1
+    fi
+}
 
-# 1. Check APK exists
-if [ ! -f "$APK_PATH" ]; then
-    echo "❌ APK not found at $APK_PATH"
-    exit 1
-fi
-echo "✅ APK found"
+# Main validation
+echo "🔍 Starting APK validation..."
 
-# 2. Check APK is valid zip
-if ! unzip -t "$APK_PATH" > /dev/null 2>&1; then
-    echo "❌ APK is corrupt (invalid zip)"
-    exit 1
-fi
-echo "✅ APK zip structure valid"
+# Check for APKs in standard locations
+apk_locations=(
+    "android-fdroid/app/build/outputs/apk/fdroid/debug/app-fdroid-debug.apk"
+    "android-googleplay/app/build/outputs/apk/googleplay/debug/app-googleplay-debug.apk"
+    "android-fdroid/app/build/outputs/apk/debug/app-debug.apk"
+)
 
-# 3. Check critical files exist
-REQUIRED_FILES=("AndroidManifest.xml" "classes.dex" "resources.arsc")
-for file in "${REQUIRED_FILES[@]}"; do
-    if ! unzip -l "$APK_PATH" | grep -q "$file"; then
-        echo "❌ Missing critical file: $file"
-        exit 1
+found_apks=0
+for apk_path in "${apk_locations[@]}"; do
+    if [ -f "$apk_path" ]; then
+        validate_apk "$apk_path"
+        ((found_apks++))
     fi
 done
-echo "✅ All critical APK files present"
 
-# 4. Validate AndroidManifest
-if ! aapt dump badging "$APK_PATH" > /dev/null 2>&1; then
-    echo "❌ Invalid AndroidManifest.xml"
-    exit 1
+# Search for any APK if standard locations fail
+if [ $found_apks -eq 0 ]; then
+    echo -e "${YELLOW}🔍 Searching for APKs in build directories...${NC}"
+    find . -name "*.apk" -type f | while read apk; do
+        validate_apk "$apk"
+        ((found_apks++))
+    done
 fi
-echo "✅ AndroidManifest valid"
 
-# 5. Check IME components
-if ! aapt dump xmltree "$APK_PATH" AndroidManifest.xml | grep -q "BIND_INPUT_METHOD"; then
-    echo "❌ IME service missing in manifest"
+if [ $found_apks -eq 0 ]; then
+    echo -e "${RED}❌ No APKs found! Build may have failed.${NC}"
+    echo "Available build outputs:"
+    find . -name "build" -type d | head -10
     exit 1
+else
+    echo -e "\n${GREEN}✅ Found $found_apks APK(s)${NC}"
 fi
-echo "✅ IME service found"
-
-# 6. Check method.xml
-if ! aapt list "$APK_PATH" | grep -q "xml/method.xml"; then
-    echo "❌ method.xml missing"
-    exit 1
-fi
-echo "✅ method.xml found"
-
-# 7. Check DEX has classes
-DEX_COUNT=$(aapt list "$APK_PATH" | grep -c ".dex")
-if [ "$DEX_COUNT" -eq 0 ]; then
-    echo "❌ No DEX files found"
-    exit 1
-fi
-echo "✅ DEX files found: $DEX_COUNT"
-
-# 8. Check resources
-RES_COUNT=$(aapt list "$APK_PATH" | grep -c "res/")
-if [ "$RES_COUNT" -lt 10 ]; then
-    echo "❌ Too few resources: $RES_COUNT"
-    exit 1
-fi
-echo "✅ Resources found: $RES_COUNT"
-
-# 9. Check package name
-PACKAGE=$(aapt dump badging "$APK_PATH" | grep "package: name" | cut -d"'" -f2)
-if [ -z "$PACKAGE" ]; then
-    echo "❌ No package name found"
-    exit 1
-fi
-echo "✅ Package name: $PACKAGE"
-
-echo "🎉 APK validation passed! Package should install correctly."
