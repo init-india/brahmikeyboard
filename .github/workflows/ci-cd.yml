@@ -96,6 +96,29 @@ jobs:
         path: ${{ matrix.project }}/app/build/outputs/apk/
         retention-days: 7
 
+
+    - name: Debug Build Outputs
+      run: |
+        cd ${{ matrix.project }}
+        echo "🔍 Debugging build outputs for ${{ matrix.project }}..."
+        
+        # Check if build directory exists
+        echo "📁 Build directory exists: $(if [ -d "app/build" ]; then echo "YES"; else echo "NO"; fi)"
+        
+        # List all files in build directory
+        echo "📋 Build directory contents:"
+        find app/build -type f -name "*.apk" -o -name "*.aab" -o -name "outputs" 2>/dev/null | head -20 || echo "No build outputs found"
+        
+        # Check Gradle build results
+        echo "📊 Gradle build results:"
+        ./gradlew build --dry-run 2>&1 | grep -E "(assemble|package)" | head -10 || echo "No build tasks found"
+        
+        # Check APK task specifically
+        echo "🎯 APK tasks:"
+        ./gradlew tasks --all | grep -i "apk" | head -10 || echo "No APK tasks found"
+
+
+
   # STAGE 3: Final Summary
   summary:
     name: CI/CD Summary
