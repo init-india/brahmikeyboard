@@ -84,7 +84,7 @@ testImplementation("junit:junit:4.13.2")
     implementation("com.pinterest:ktlint:0.48.2")
     
     // Security scanning
-    implementation("org.owasp.dependencycheck:dependency-check-gradle:8.2.1")
+   // implementation("org.owasp.dependencycheck:dependency-check-gradle:8.2.1")
 
 
 
