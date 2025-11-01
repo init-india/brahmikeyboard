@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -38,6 +39,22 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+}
+
+ktlint {
+    version.set("0.50.0")
+    debug.set(true)
+    verbose.set(true)
+    android.set(true)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
+    ignoreFailures.set(false)
+    enableExperimentalRules.set(true)
+    
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
     }
 }
 

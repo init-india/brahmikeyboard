@@ -10,6 +10,7 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform") version "1.9.22" apply false
     id("com.android.application") version "8.2.2" apply false
     id("com.android.library") version "8.2.2" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1" apply false
 }
 
 allprojects {
