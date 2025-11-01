@@ -49,4 +49,25 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.8.2")
+
+testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.3.1")
+    testImplementation("io.mockk:mockk:1.13.4")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    
+    // Android Test dependencies
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    
+    // Code quality
+    implementation("com.pinterest:ktlint:0.48.2")
+    
+    // Security scanning
+    implementation("org.owasp.dependencycheck:dependency-check-gradle:8.2.1"
+
+
+
 }
