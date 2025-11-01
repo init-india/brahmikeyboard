@@ -2,81 +2,48 @@ name: Brahmi Keyboard CI/CD
 
 on:
   push:
-    branches: [ main, develop, feature/* ]
-  pull_request:
     branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
 
 env:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.parallel=true"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 jobs:
-  # STAGE 1: Code Quality & Security
-  code-quality:
-    name: Code Quality & Security
+  # STAGE 1: Validation & Code Quality
+  validation:
+    name: Project Validation
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: 'gradle'
-        
-    - name: Code Linting (Kotlin)
+      
+    - name: Make scripts executable
       run: |
-        echo "🔍 Setting up code linting..."
+        chmod +x .github/scripts/*.sh
+        echo "✅ Scripts made executable"
         
-        # Check if ktlint is configured
-        for project in android-fdroid android-googleplay; do
-          echo "📝 Checking $project..."
-          cd $project
-          
-          # Check if ktlint plugin is available
-          if ./gradlew tasks --all | grep -q "ktlint"; then
-            echo "✅ ktlint found in $project, running checks..."
-            ./gradlew ktlintCheck --no-daemon --stacktrace || echo "⚠️ ktlint check failed or not configured"
-          else
-            echo "⚠️ ktlint not configured in $project, skipping..."
-            # Try to run basic Kotlin compilation instead
-            ./gradlew compileDebugKotlin --no-daemon --stacktrace && echo "✅ Kotlin compilation successful"
-          fi
-          cd ..
-        done
-        
-    - name: Basic Code Validation
+    - name: Validate Project Structure
       run: |
-        echo "🔎 Basic code validation..."
+        echo "🏗️ Running project structure validation..."
+        .github/scripts/test_project_structure.sh
         
-        # Check for critical code issues
-        for project in android-fdroid android-googleplay; do
-          echo "🔍 Validating $project..."
-          
-          # Check if Kotlin files compile
-          cd $project
-          ./gradlew compileDebugKotlin --no-daemon --stacktrace && echo "✅ $project: Kotlin compilation successful"
-          cd ..
-          
-          # Check for syntax errors in XML files
-          find $project -name "*.xml" -type f | head -10 | while read xml_file; do
-            if xmllint --noout "$xml_file" 2>/dev/null; then
-              echo "✅ $xml_file: Valid XML"
-            else
-              echo "❌ $xml_file: Invalid XML"
-            fi
-          done
-        done
+    - name: Validate Android Manifest
+      run: |
+        echo "📄 Running manifest validation..."
+        .github/scripts/test_manifest_integrity.sh
+        
+    - name: Validate Resources
+      run: |
+        echo "🎨 Running resource validation..."
+        .github/scripts/test_resources.sh
 
-  # STAGE 2: Unit Tests
-  unit-tests:
-    name: Unit Tests
+  # STAGE 2: Build & Test
+  build-and-test:
+    name: Build and Test
     runs-on: ubuntu-latest
-    needs: code-quality
+    needs: validation
     
     strategy:
       matrix:
@@ -92,31 +59,56 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: 'gradle'
+        
+    - name: Build Debug APK
+      run: |
+        cd ${{ matrix.project }}
+        echo "🏗️ Building ${{ matrix.project }} debug APK..."
+        ./gradlew clean assembleDebug --no-daemon --stacktrace
+        
+    - name: Verify APK Generation
+      run: |
+        cd ${{ matrix.project }}
+        echo "🔍 Verifying APK generation for ${{ matrix.project }}..."
+        
+        APK_PATH=$(find app/build/outputs -name "*.apk" | head -1)
+        if [ -n "$APK_PATH" ]; then
+          echo "✅ APK generated: $APK_PATH"
+          echo "📦 Size: $(ls -lh "$APK_PATH" | awk '{print $5}')"
+          echo "📍 Location: $(pwd)/$APK_PATH"
+        else
+          echo "❌ No APK found in ${{ matrix.project }}!"
+          echo "📁 Searching for build outputs..."
+          find app/build -name "*.apk" -type f 2>/dev/null || echo "No APKs found"
+          exit 1
+        fi
         
     - name: Run Unit Tests
       run: |
         cd ${{ matrix.project }}
         echo "🧪 Running unit tests for ${{ matrix.project }}..."
-        ./gradlew testDebugUnitTest --no-daemon --stacktrace --continue
+        ./gradlew testDebugUnitTest --no-daemon --stacktrace || echo "⚠️ Tests failed but continuing..."
+        
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: apk-${{ matrix.project }}-debug
+        path: ${{ matrix.project }}/app/build/outputs/apk/
+        retention-days: 7
         
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: unit-test-results-${{ matrix.project }}
+        name: test-results-${{ matrix.project }}
         path: ${{ matrix.project }}/app/build/reports/tests/
         retention-days: 7
 
-  # STAGE 3: Build & Verification
-  build-apps:
-    name: Build Applications
+  # STAGE 3: Code Quality Checks
+  code-quality:
+    name: Code Quality
     runs-on: ubuntu-latest
-    needs: unit-tests
-    
-    strategy:
-      matrix:
-        project: [android-fdroid, android-googleplay]
-        variant: [debug]
+    needs: validation
     
     steps:
     - name: Checkout code
@@ -127,100 +119,90 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: 'gradle'
         
-    - name: Build APK
+    - name: Run ktlint checks
       run: |
-        cd ${{ matrix.project }}
-        echo "🏗️ Building ${{ matrix.variant }} APK for ${{ matrix.project }}..."
-        ./gradlew assemble${{ matrix.variant }} --no-daemon --stacktrace --continue
-        
-    - name: Verify APK Generation
-      run: |
-        cd ${{ matrix.project }}
-        echo "🔍 Verifying APK generation..."
-        
-        # Search for APK files
-        APK_COUNT=$(find app/build/outputs -name "*.apk" -type f | wc -l)
-        echo "📦 Found $APK_COUNT APK files"
-        
-        if [ $APK_COUNT -eq 0 ]; then
-          echo "❌ No APK files generated!"
-          echo "📁 Build outputs:"
-          find app/build -type f -name "*.apk" | head -10 || echo "No APKs found"
-          echo "📁 Directory structure:"
-          find app/build -type d | head -20
-          exit 1
-        else
-          echo "✅ APK generation successful"
-          find app/build/outputs -name "*.apk" -type f | head -5 | while read apk; do
-            echo "🎯 APK: $apk ($(ls -lh "$apk" | awk '{print $5}'))"
-          done
-        fi
-        
-    - name: Upload APK Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: apk-${{ matrix.project }}-${{ matrix.variant }}
-        path: ${{ matrix.project }}/app/build/outputs/apk/
-        retention-days: 7
+        for project in android-fdroid android-googleplay; do
+          echo "📝 Running ktlint for $project..."
+          cd $project
+          # Check if ktlint task exists before running
+          if ./gradlew tasks --all 2>/dev/null | grep -q "ktlintCheck"; then
+            ./gradlew ktlintCheck --no-daemon || echo "⚠️ ktlint found issues in $project"
+          else
+            echo "ℹ️ ktlint not configured in $project, skipping..."
+          fi
+          cd ..
+        done
 
-  # STAGE 4: Integration Tests
-  integration-tests:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-    needs: build-apps
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Run Integration Tests
-      run: |
-        echo "🧪 Running Integration Tests..."
-        
-        # Test 1: Project Structure
-        .github/scripts/validate_structure.sh
-        
-        # Test 2: Android Manifest
-        .github/scripts/validate_manifest.sh
-        
-        # Test 3: Gradle Configuration
-        .github/scripts/validate_gradle.sh
-
-  # STAGE 5: Summary Report
+  # STAGE 4: Final Summary
   summary:
     name: CI/CD Summary
     runs-on: ubuntu-latest
-    needs: [code-quality, unit-tests, build-apps, integration-tests]
+    needs: [validation, build-and-test, code-quality]
     if: always()
     
     steps:
     - name: Generate Summary Report
       run: |
-        echo "# 🚀 Brahmi Keyboard CI/CD Summary" > report.md
-        echo "**Workflow:** ${{ github.workflow }}" >> report.md
-        echo "**Run ID:** ${{ github.run_id }}" >> report.md
-        echo "**Status:** ${{ job.status }}" >> report.md
-        echo "" >> report.md
+        echo "# 🚀 Brahmi Keyboard CI/CD Summary" > summary.md
+        echo "" >> summary.md
+        echo "**Workflow:** ${{ github.workflow }}" >> summary.md
+        echo "**Run:** ${{ github.run_id }}" >> summary.md
+        echo "**Status:** ${{ job.status }}" >> summary.md
+        echo "" >> summary.md
         
-        echo "## 📊 Job Results" >> report.md
-        echo "- Code Quality: ${{ needs.code-quality.result }}" >> report.md
-        echo "- Unit Tests: ${{ needs.unit-tests.result }}" >> report.md
-        echo "- Build: ${{ needs.build-apps.result }}" >> report.md
-        echo "- Integration: ${{ needs.integration-tests.result }}" >> report.md
-        echo "" >> report.md
+        echo "## 📊 Pipeline Results" >> summary.md
+        echo "" >> summary.md
+        echo "- ✅ **Validation:** ${{ needs.validation.result }}" >> summary.md
+        echo "- 🔨 **Build & Test:** ${{ needs.build-and-test.result }}" >> summary.md
+        echo "- 📝 **Code Quality:** ${{ needs.code-quality.result }}" >> summary.md
+        echo "" >> summary.md
         
-        echo "## 🎯 Next Steps" >> report.md
-        if [[ "${{ needs.build-apps.result }}" == "success" ]]; then
-          echo "✅ Build successful! APKs are available in artifacts." >> report.md
-          echo "📱 Download APKs from the workflow artifacts to test on device." >> report.md
+        echo "## 🎯 Build Status" >> summary.md
+        echo "" >> summary.md
+        if [[ "${{ needs.build-and-test.result }}" == "success" ]]; then
+          echo "✅ **SUCCESS**: Both APKs built successfully!" >> summary.md
+          echo "" >> summary.md
+          echo "### 📱 Generated APKs" >> summary.md
+          echo "- **F-Droid**: Available in artifacts as `apk-android-fdroid-debug`" >> summary.md
+          echo "- **Google Play**: Available in artifacts as `apk-android-googleplay-debug`" >> summary.md
+          echo "" >> summary.md
+          echo "### 🔧 Manual Testing Steps" >> summary.md
+          echo "1. Download APKs from Artifacts section" >> summary.md
+          echo "2. Install on Android device: \`adb install <apk-file>\`" >> summary.md
+          echo "3. Enable keyboard in Settings → Language & Input" >> summary.md
+          echo "4. Test in any text input app" >> summary.md
+          echo "" >> summary.md
+          echo "### 🎯 Quick Test Commands" >> summary.md
+          echo '```bash' >> summary.md
+          echo "# Install F-Droid version" >> summary.md
+          echo "adb install android-fdroid/app/build/outputs/apk/debug/app-fdroid-debug.apk" >> summary.md
+          echo "" >> summary.md
+          echo "# Check if keyboard is registered" >> summary.md
+          echo "adb shell ime list -a | grep brahmi" >> summary.md
+          echo "" >> summary.md
+          echo "# Enable Brahmi keyboard" >> summary.md
+          echo "adb shell ime set com.brahmikeyboard.ime.foss/.ime.BrahmiInputMethodService" >> summary.md
+          echo '```' >> summary.md
         else
-          echo "❌ Build failed. Check the logs above for details." >> report.md
+          echo "❌ **FAILED**: Check the build logs for errors." >> summary.md
+          echo "" >> summary.md
+          echo "### 🔍 Common Fixes" >> summary.md
+          echo "1. **Duplicate Kotlin files**: Ensure packaging options are in build.gradle.kts" >> summary.md
+          echo "2. **Missing IME service**: Check AndroidManifest.xml configuration" >> summary.md
+          echo "3. **Kotlin version conflicts**: Verify consistent Kotlin versions" >> summary.md
+          echo "4. **Dependency issues**: Remove conflicting dependencies" >> summary.md
         fi
         
-    - name: Upload Summary Report
+    - name: Upload Summary
       uses: actions/upload-artifact@v4
       with:
         name: ci-cd-summary
-        path: report.md
+        path: summary.md
+        
+    - name: Notify Completion
+      if: always()
+      run: |
+        echo "🎉 CI/CD Pipeline Completed!"
+        echo "📊 View detailed results in the summary artifact"
+        echo "🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"

@@ -17,13 +17,13 @@ android {
         versionName = "1.0"
     }
 
- buildTypes {
-        debug {
+    buildTypes {
+        getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
         }
-        release {
-            signingConfig = signingConfigs.getByName("debug") // Use debug for now
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
         }
     }
@@ -40,28 +40,29 @@ android {
     buildFeatures {
         viewBinding = true
     }
-}
 
-
-
-ktlint {
-    version.set("0.50.0")
-    debug.set(true)
-    verbose.set(true)
-    android.set(true)
-    outputToConsole.set(true)
-    outputColorName.set("RED")
-    ignoreFailures.set(false)
-    enableExperimentalRules.set(true)
-    
-    filter {
-        exclude("**/generated/**")
-        include("**/kotlin/**")
+    // ADD PACKAGING OPTIONS
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/*.version"
+            excludes += "**/*.kotlin_builtins"
+            excludes += "**/*.kotlin_metadata"
+            excludes += "**/kotlin/**"
+            excludes += "**/kotlin-tooling-metadata.json"
+            pickFirsts += listOf(
+                "**/*.kotlin_builtins",
+                "**/kotlin/internal/internal.kotlin_builtins"
+            )
+        }
     }
 }
 
-
-
+ktlint {
+    version.set("0.50.0")
+    android.set(true)
+    ignoreFailures.set(false)
+}
 
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
@@ -72,24 +73,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.8.2")
 
-testImplementation("junit:junit:4.13.2")
+    testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.3.1")
-    testImplementation("io.mockk:mockk:1.13.4")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     
-    // Android Test dependencies
-    androidTestImplementation("androidx.test:runner:1.5.2")
-    androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    
-    // Code quality
-    implementation("com.pinterest:ktlint:0.48.2")
-    
-    // Security scanning
-   // implementation("org.owasp.dependencycheck:dependency-check-gradle:8.2.1")
-
-
-
 }
