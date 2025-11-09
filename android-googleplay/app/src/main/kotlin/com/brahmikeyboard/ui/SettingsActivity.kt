@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.brahmikeyboard.data.PreferencesManager
-import com.brahmikeyboard.R // Changed from .ime.foss.R
+import com.brahmikeyboard.ime.premium.R  // Correct for Google Play
 
 class SettingsActivity : AppCompatActivity() {
     
