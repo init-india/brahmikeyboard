@@ -3,10 +3,9 @@ package com.brahmikeyboard.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.ListPreference
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.brahmikeyboard.data.PreferencesManager
-import com.brahmikeyboard.ime.foss.R
+import com.brahmikeyboard.R // Make sure this is correct for F-Droid too
 
 class SettingsActivity : AppCompatActivity() {
     
