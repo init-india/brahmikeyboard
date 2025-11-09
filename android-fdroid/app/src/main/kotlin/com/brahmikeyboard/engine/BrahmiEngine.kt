@@ -1,4 +1,4 @@
-package com.brahmikeyboard.foss.engine
+package com.brahmikeyboard.engine
 
 import android.content.res.AssetManager
 import com.brahmikeyboard.data.ScriptMappingLoader
