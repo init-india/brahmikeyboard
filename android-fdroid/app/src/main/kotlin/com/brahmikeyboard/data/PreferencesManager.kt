@@ -1,4 +1,4 @@
-package com.brahmikeyboard.data
+package com.brahmikeyboard.foss.data
 
 import android.content.Context
 import android.content.SharedPreferences

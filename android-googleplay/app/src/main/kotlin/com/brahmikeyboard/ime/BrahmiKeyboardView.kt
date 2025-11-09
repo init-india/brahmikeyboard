@@ -14,7 +14,7 @@ import com.brahmikeyboard.data.PreferencesManager
 import java.util.Timer
 import java.util.TimerTask
 import com.brahmikeyboard.ui.SettingsActivity
-import com.brahmikeyboard.ime.premium.R
+import com.brahmikeyboard.ime.R
 
 class BrahmiKeyboardView(
     context: Context,

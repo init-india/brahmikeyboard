@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.brahmikeyboard.foss"
+    namespace = "com.brahmikeyboard"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.brahmikeyboard.foss"
+        applicationId = "com.brahmikeyboard"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

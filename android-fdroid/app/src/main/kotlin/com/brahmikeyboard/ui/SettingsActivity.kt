@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.brahmikeyboard.data.PreferencesManager
-import com.brahmikeyboard.ime.foss.R  // Correct for F-Droid
+import com.brahmikeyboard.R  // Correct for F-Droid
 
 class SettingsActivity : AppCompatActivity() {
     
