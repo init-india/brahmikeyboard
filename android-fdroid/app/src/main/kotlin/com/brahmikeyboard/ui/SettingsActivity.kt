@@ -2,6 +2,8 @@ package com.brahmikeyboard.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.brahmikeyboard.data.PreferencesManager
 import com.brahmikeyboard.ime.foss.R
@@ -42,21 +44,24 @@ class SettingsActivity : AppCompatActivity() {
         
         private fun setupPreferenceListeners() {
             // Reference Script preference
-            findPreference("reference_script")?.setOnPreferenceChangeListener { preference, newValue ->
+            val scriptPreference = findPreference<ListPreference>("reference_script")
+            scriptPreference?.setOnPreferenceChangeListener { preference, newValue ->
                 preferencesManager?.setReferenceScript(newValue as String)
                 updatePreferenceSummaries()
                 true
             }
             
             // Default Mode preference
-            findPreference("default_mode")?.setOnPreferenceChangeListener { preference, newValue ->
+            val modePreference = findPreference<ListPreference>("default_mode")
+            modePreference?.setOnPreferenceChangeListener { preference, newValue ->
                 preferencesManager?.setDefaultMode(newValue as String)
                 updatePreferenceSummaries()
                 true
             }
             
             // Commit Delay preference
-            findPreference("commit_delay")?.setOnPreferenceChangeListener { preference, newValue ->
+            val delayPreference = findPreference<ListPreference>("commit_delay")
+            delayPreference?.setOnPreferenceChangeListener { preference, newValue ->
                 try {
                     val delay = (newValue as String).toLong()
                     preferencesManager?.setCommitDelay(delay)
@@ -76,16 +81,16 @@ class SettingsActivity : AppCompatActivity() {
         private fun updatePreferenceSummaries() {
             preferencesManager?.let { prefs ->
                 // Update reference script summary to show current selection
-                findPreference("reference_script")?.summary = 
-                    "Current: ${getScriptDisplayName(prefs.getReferenceScript())}"
+                val scriptPreference = findPreference<ListPreference>("reference_script")
+                scriptPreference?.summary = "Current: ${getScriptDisplayName(prefs.getReferenceScript())}"
                 
                 // Update commit delay summary  
-                findPreference("commit_delay")?.summary = 
-                    "Current: ${prefs.getCommitDelay()}ms"
+                val delayPreference = findPreference<ListPreference>("commit_delay")
+                delayPreference?.summary = "Current: ${prefs.getCommitDelay()}ms"
                 
                 // Update default mode summary
-                findPreference("default_mode")?.summary = 
-                    "Current: ${getModeDisplayName(prefs.getDefaultMode() ?: "brahmi")}"
+                val modePreference = findPreference<ListPreference>("default_mode")
+                modePreference?.summary = "Current: ${getModeDisplayName(prefs.getDefaultMode() ?: "brahmi")}"
             }
         }
         
