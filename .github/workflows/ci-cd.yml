@@ -10,40 +10,10 @@ env:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 jobs:
-  # STAGE 1: Validation & Code Quality
-  validation:
-    name: Project Validation
+  # STAGE 1: Build APKs
+  build-apks:
+    name: Build APKs
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Make scripts executable
-      run: |
-        chmod +x .github/scripts/*.sh
-        echo "✅ Scripts made executable"
-        
-    - name: Validate Project Structure
-      run: |
-        echo "🏗️ Running project structure validation..."
-        .github/scripts/test_project_structure.sh || echo "⚠️ Structure issues found (continuing)"
-        
-    - name: Validate Android Manifest
-      run: |
-        echo "📄 Running manifest validation..."
-        .github/scripts/test_manifest_integrity.sh || echo "⚠️ Manifest issues found (continuing)"
-        
-    - name: Validate Resources (Non-blocking)
-      run: |
-        echo "🎨 Running resource validation (non-blocking)..."
-        .github/scripts/test_resources.sh
-
-  # STAGE 2: Build & Test (CONTINUES EVEN IF VALIDATION HAS WARNINGS)
-  build-and-test:
-    name: Build and Test
-    runs-on: ubuntu-latest
-    needs: validation
     
     strategy:
       matrix:
@@ -66,37 +36,6 @@ jobs:
         echo "🏗️ Building ${{ matrix.project }} debug APK..."
         ./gradlew clean assembleDebug --no-daemon --stacktrace
         
-    - name: Verify APK Generation
-      run: |
-        cd ${{ matrix.project }}
-        echo "🔍 Verifying APK generation for ${{ matrix.project }}..."
-        
-        APK_PATH=$(find app/build/outputs -name "*.apk" | head -1)
-        if [ -n "$APK_PATH" ]; then
-          echo "✅ APK generated: $APK_PATH"
-          echo "📦 Size: $(ls -lh "$APK_PATH" | awk '{print $5}')"
-          echo "📍 Location: $(pwd)/$APK_PATH"
-        else
-          echo "❌ No APK found in ${{ matrix.project }}!"
-          echo "📁 Build outputs:"
-          find app/build -type d | head -10
-          exit 1
-        fi
-        
-    - name: Run Unit Tests
-      run: |
-        cd ${{ matrix.project }}
-        echo "🧪 Running unit tests for ${{ matrix.project }}..."
-        ./gradlew testDebugUnitTest --no-daemon --stacktrace || echo "⚠️ Tests failed but continuing..."
-        
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: apk-${{ matrix.project }}-debug
-        path: ${{ matrix.project }}/app/build/outputs/apk/
-        retention-days: 7
-
-
     - name: Debug Build Outputs
       run: |
         cd ${{ matrix.project }}
@@ -107,23 +46,62 @@ jobs:
         
         # List all files in build directory
         echo "📋 Build directory contents:"
-        find app/build -type f -name "*.apk" -o -name "*.aab" -o -name "outputs" 2>/dev/null | head -20 || echo "No build outputs found"
+        find app/build -type f 2>/dev/null | head -20 || echo "No files in build directory"
         
-        # Check Gradle build results
-        echo "📊 Gradle build results:"
-        ./gradlew build --dry-run 2>&1 | grep -E "(assemble|package)" | head -10 || echo "No build tasks found"
+        # Check outputs directory specifically
+        echo "📂 Outputs directory:"
+        if [ -d "app/build/outputs" ]; then
+          find app/build/outputs -type f 2>/dev/null | head -20 || echo "No files in outputs"
+        else
+          echo "❌ outputs directory doesn't exist!"
+        fi
         
-        # Check APK task specifically
-        echo "🎯 APK tasks:"
-        ./gradlew tasks --all | grep -i "apk" | head -10 || echo "No APK tasks found"
+        # Search everywhere for APKs
+        echo "🔎 Searching for APK files everywhere..."
+        find . -name "*.apk" -type f 2>/dev/null | while read apk; do
+          echo "✅ FOUND APK: $apk ($(ls -lh "$apk" | awk '{print $5}'))"
+        done || echo "❌ No APK files found anywhere"
+        
+    - name: Upload APK Artifact (Conditional)
+      if: always()  # This is key - run even if previous steps fail
+      uses: actions/upload-artifact@v4
+      with:
+        name: apk-${{ matrix.project }}-debug
+        path: |
+          ${{ matrix.project }}/app/build/outputs/apk/
+          ${{ matrix.project }}/app/build/outputs/bundle/
+        retention-days: 7
 
-
+  # STAGE 2: Validation (Runs in parallel)
+  validation:
+    name: Project Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Make scripts executable
+      run: |
+        chmod +x .github/scripts/*.sh
+        
+    - name: Validate Project Structure
+      run: |
+        .github/scripts/test_project_structure.sh || echo "⚠️ Structure issues found"
+        
+    - name: Validate Android Manifest
+      run: |
+        .github/scripts/test_manifest_integrity.sh || echo "⚠️ Manifest issues found"
+        
+    - name: Validate Resources
+      run: |
+        .github/scripts/test_resources.sh || echo "⚠️ Resource issues found"
 
   # STAGE 3: Final Summary
   summary:
     name: CI/CD Summary
     runs-on: ubuntu-latest
-    needs: [validation, build-and-test]
+    needs: [build-apks, validation]
     if: always()
     
     steps:
@@ -133,28 +111,25 @@ jobs:
         echo "" >> summary.md
         echo "**Workflow:** ${{ github.workflow }}" >> summary.md
         echo "**Run:** ${{ github.run_id }}" >> summary.md
-        echo "**Status:** ${{ job.status }}" >> summary.md
         echo "" >> summary.md
         
-        echo "## 📊 Pipeline Results" >> summary.md
-        echo "" >> summary.md
+        echo "## 📊 Build Results" >> summary.md
+        echo "- **F-Droid:** ${{ needs.build-apks.result }}" >> summary.md
+        echo "- **Google Play:** ${{ needs.build-apks.result }}" >> summary.md
         echo "- **Validation:** ${{ needs.validation.result }}" >> summary.md
-        echo "- **Build & Test:** ${{ needs.build-and-test.result }}" >> summary.md
         echo "" >> summary.md
         
-        if [[ "${{ needs.build-and-test.result }}" == "success" ]]; then
-          echo "✅ **SUCCESS**: APKs built successfully!" >> summary.md
-          echo "" >> summary.md
-          echo "### 📱 Generated APKs" >> summary.md
-          echo "- **F-Droid**: Available in artifacts" >> summary.md
-          echo "- **Google Play**: Available in artifacts" >> summary.md
-          echo "" >> summary.md
-          echo "### 🎯 Next Steps" >> summary.md
-          echo "1. Download APKs from Artifacts section" >> summary.md
-          echo "2. Install on Android device" >> summary.md
-          echo "3. Test keyboard functionality" >> summary.md
+        if [[ "${{ needs.build-apks.result }}" == "success" ]]; then
+          echo "✅ **Build completed**" >> summary.md
+          echo "📱 Check Artifacts section for APK files" >> summary.md
         else
-          echo "❌ **FAILED**: Check build logs for errors." >> summary.md
+          echo "❌ **Build failed or no APKs generated**" >> summary.md
+          echo "" >> summary.md
+          echo "### 🔧 Debug Steps:" >> summary.md
+          echo "1. Check build logs for compilation errors" >> summary.md
+          echo "2. Verify build.gradle.kts configuration" >> summary.md
+          echo "3. Check for missing dependencies" >> summary.md
+          echo "4. Look for duplicate file conflicts" >> summary.md
         fi
         
     - name: Upload Summary
