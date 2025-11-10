@@ -16,7 +16,6 @@ class BrahmiInputMethodService : InputMethodService() {
         super.onCreate()
         brahmiEngine = BrahmiEngine(assets)
         preferences = PreferencesManager(this)
-        // 🚨 NO FOREGROUND SERVICE - IME services don't need it
     }
     
     override fun onEvaluateInputViewShown(): Boolean {
@@ -30,11 +29,17 @@ class BrahmiInputMethodService : InputMethodService() {
     
     override fun onStartInput(editorInfo: EditorInfo?, restarting: Boolean) {
         super.onStartInput(editorInfo, restarting)
-        keyboardView.setInputConnection(currentInputConnection)
+        // ADD NULL SAFETY CHECK
+        if (::keyboardView.isInitialized) {
+            keyboardView.setInputConnection(currentInputConnection)
+        }
     }
     
     override fun onFinishInput() {
         super.onFinishInput()
-        keyboardView.clearPreview()
+        // ADD NULL SAFETY CHECK
+        if (::keyboardView.isInitialized) {
+            keyboardView.clearPreview()
+        }
     }
 }
