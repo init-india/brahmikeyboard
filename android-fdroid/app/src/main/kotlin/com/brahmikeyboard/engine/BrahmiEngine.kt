@@ -2,13 +2,13 @@ package com.brahmikeyboard.engine
 
 import android.content.res.AssetManager
 import com.brahmikeyboard.data.ScriptMappingLoader
-import kotlinx.serialization.json.Json
 
 data class ConversionResult(
     val previewText: String,
     val outputText: String,
     val referenceScript: String,
-    val brahmiText: String
+    val brahmiText: String,
+    val warnings: List<String> = emptyList() // ADD THIS LINE
 )
 
 class BrahmiEngine(private val assets: AssetManager) {
@@ -38,15 +38,29 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertBrahmi(romanInput: String): ConversionResult {
-        val referenceText = scriptLoader.romanToScriptWithJointWords(romanInput, currentReferenceScript)
-        val brahmiText = scriptLoader.scriptToBrahmi(referenceText, currentReferenceScript)
+        // This now returns ConversionResult with warnings
+        val conversion = scriptLoader.romanToScriptWithJointWords(romanInput, currentReferenceScript)
+        val brahmiText = scriptLoader.scriptToBrahmi(conversion.outputText, currentReferenceScript)
+        
+        // Build preview with warning indicator
+        val preview = buildPreviewWithWarnings(conversion.outputText, brahmiText, conversion.warnings)
         
         return ConversionResult(
-            previewText = "$referenceText = $brahmiText",
+            previewText = preview,
             outputText = brahmiText,
             referenceScript = currentReferenceScript,
-            brahmiText = brahmiText
+            brahmiText = brahmiText,
+            warnings = conversion.warnings // Pass warnings through
         )
+    }
+    
+    private fun buildPreviewWithWarnings(referenceText: String, brahmiText: String, warnings: List<String>): String {
+        val basePreview = "$referenceText = $brahmiText"
+        return if (warnings.isNotEmpty()) {
+            "$basePreview ⚠️" // Add warning indicator to preview
+        } else {
+            basePreview
+        }
     }
     
     private fun convertPureBrahmi(brahmiInput: String): ConversionResult {

@@ -63,7 +63,7 @@ class BrahmiKeyboardView(
         brahmiEngine.setReferenceScript(preferences.getReferenceScript())
         setupKeyListeners()
         updateAllIndicators()
-        updateLayout() // Initialize layout visibility
+        updateLayout()
     }
     
     private fun setupKeyListeners() {
@@ -158,10 +158,8 @@ class BrahmiKeyboardView(
     
     private fun handleEnter() {
         if (currentBuffer.isNotEmpty()) {
-            // Commit current buffer first
             commitCurrentBuffer()
         }
-        // Always add newline
         inputConnection?.commitText("\n", 1)
     }
     
@@ -216,7 +214,6 @@ class BrahmiKeyboardView(
     }
     
     private fun updateLayout() {
-        // Show/hide appropriate keyboard layers
         val alphabetLayout = findViewById<View>(R.id.layout_alphabet)
         val numpadLayout = findViewById<View>(R.id.layout_numpad)
         val symbolsLayout = findViewById<View>(R.id.layout_symbols)
@@ -233,6 +230,13 @@ class BrahmiKeyboardView(
         if (currentBuffer.isNotEmpty()) {
             val conversion = brahmiEngine.convertToBrahmi(currentBuffer, currentMode)
             previewBar.text = conversion.previewText
+            
+            // Log warnings if any
+            if (conversion.warnings.isNotEmpty()) {
+                conversion.warnings.forEach { warning ->
+                    android.util.Log.d("BrahmiKeyboard", "Warning: $warning")
+                }
+            }
         } else {
             updatePreviewBar()
         }
@@ -323,7 +327,6 @@ class BrahmiKeyboardView(
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         } catch (e: Exception) {
-            // Fallback: Show a toast or log error
             android.widget.Toast.makeText(context, "Settings not available", android.widget.Toast.LENGTH_SHORT).show()
         }
     }
