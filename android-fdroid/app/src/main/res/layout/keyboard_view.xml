@@ -247,7 +247,7 @@
             <Button android:id="@+id/key_slash" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="/" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_backslash" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="\" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_pipe" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="|" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_lt" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="<" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_lt" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="&lt" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_gt" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text=">" android:layout_margin="1dp"/>
             
         </LinearLayout>
