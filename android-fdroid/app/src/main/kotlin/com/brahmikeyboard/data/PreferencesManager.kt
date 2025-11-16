@@ -2,12 +2,32 @@ package com.brahmikeyboard.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.brahmikeyboard.engine.KeyboardMode
 
 class PreferencesManager(context: Context) {
     
     private val prefs: SharedPreferences = context.getSharedPreferences("brahmi_prefs", Context.MODE_PRIVATE)
     
-    // Core functionality matching your XML preferences
+    // Mode management
+    fun getCurrentMode(): KeyboardMode {
+        val modeString = prefs.getString("current_mode", "BRAHMI") ?: "BRAHMI"
+        return when (modeString) {
+            "ENGLISH" -> KeyboardMode.ENGLISH
+            "PURE_BRAHMI" -> KeyboardMode.PURE_BRAHMI
+            else -> KeyboardMode.BRAHMI
+        }
+    }
+    
+    fun setCurrentMode(mode: KeyboardMode) {
+        val modeString = when (mode) {
+            KeyboardMode.ENGLISH -> "ENGLISH"
+            KeyboardMode.BRAHMI -> "BRAHMI"
+            KeyboardMode.PURE_BRAHMI -> "PURE_BRAHMI"
+        }
+        prefs.edit().putString("current_mode", modeString).apply()
+    }
+    
+    // Reference language
     fun getReferenceScript(): String {
         return prefs.getString("reference_script", "devanagari") ?: "devanagari"
     }
@@ -16,23 +36,24 @@ class PreferencesManager(context: Context) {
         prefs.edit().putString("reference_script", script).apply()
     }
     
-    fun getCommitDelay(): Long {
-        return prefs.getLong("commit_delay", 1000L)
+    // Keyboard layout state
+    fun isNumpadActive(): Boolean {
+        return prefs.getBoolean("numpad_active", false)
     }
     
-    fun setCommitDelay(delay: Long) {
-        prefs.edit().putLong("commit_delay", delay).apply()
+    fun setNumpadActive(active: Boolean) {
+        prefs.edit().putBoolean("numpad_active", active).apply()
     }
     
-    fun getDefaultMode(): String? {
-        return prefs.getString("default_mode", "brahmi")
+    fun isSymbolsActive(): Boolean {
+        return prefs.getBoolean("symbols_active", false)
     }
     
-    fun setDefaultMode(mode: String) {
-        prefs.edit().putString("default_mode", mode).apply()
+    fun setSymbolsActive(active: Boolean) {
+        prefs.edit().putBoolean("symbols_active", active).apply()
     }
     
-    // F-Droid specific: No analytics or cloud sync by default
+    // Utility methods
     fun getReferenceLanguage(): String {
         return getReferenceScript()
     }
@@ -41,16 +62,6 @@ class PreferencesManager(context: Context) {
         setReferenceScript(language)
     }
     
-    // Utility methods
-    fun getLastUsedScript(): String {
-        return prefs.getString("last_used_script", getReferenceScript()) ?: getReferenceScript()
-    }
-    
-    fun setLastUsedScript(script: String) {
-        prefs.edit().putString("last_used_script", script).apply()
-    }
-    
-    // F-Droid: Simple reset without cloud considerations
     fun resetToDefaults() {
         prefs.edit().clear().apply()
     }

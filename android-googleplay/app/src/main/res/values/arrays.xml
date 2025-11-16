@@ -27,6 +27,7 @@
         <item>assamese</item>
     </string-array>
     
+    <!-- FIXED: Match enum values -->
     <string-array name="keyboard_modes_entries">
         <item>English Mode</item>
         <item>Brahmi Mode</item>
@@ -36,19 +37,9 @@
     <string-array name="keyboard_modes_values">
         <item>english</item>
         <item>brahmi</item>
-        <item>pure_brahmi</item>
+        <item>pure_brahmi</item> <!-- CHANGED from "direct" -->
     </string-array>
     
-    <string-array name="commit_delay_entries">
-        <item>Fast (0.5 seconds)</item>
-        <item>Normal (1 second)</item>
-        <item>Slow (1.5 seconds)</item>
-    </string-array>
-    
-    <string-array name="commit_delay_values">
-        <item>500</item>
-        <item>1000</item>
-        <item>1500</item>
-    </string-array>
+    <!-- REMOVED commit delay arrays since we removed timer -->
     
 </resources>

@@ -22,16 +22,6 @@
             
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/settings_category_typing">
-        
-        <ListPreference
-            android:key="commit_delay"
-            android:title="Commit Delay"
-            android:summary="Time before text is committed"
-            android:entries="@array/commit_delay_entries"
-            android:entryValues="@array/commit_delay_values"
-            android:defaultValue="1000" />
-            
-    </PreferenceCategory>
+    <!-- REMOVED commit delay preference since we removed timer -->
 
 </PreferenceScreen>

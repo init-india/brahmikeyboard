@@ -29,7 +29,6 @@ class BrahmiInputMethodService : InputMethodService() {
     
     override fun onStartInput(editorInfo: EditorInfo?, restarting: Boolean) {
         super.onStartInput(editorInfo, restarting)
-        // ADD NULL SAFETY CHECK
         if (::keyboardView.isInitialized) {
             keyboardView.setInputConnection(currentInputConnection)
         }
@@ -37,7 +36,6 @@ class BrahmiInputMethodService : InputMethodService() {
     
     override fun onFinishInput() {
         super.onFinishInput()
-        // ADD NULL SAFETY CHECK
         if (::keyboardView.isInitialized) {
             keyboardView.clearPreview()
         }

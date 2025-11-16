@@ -20,11 +20,11 @@ class BrahmiEngine(private val assets: AssetManager) {
         currentReferenceScript = script
     }
     
-    fun convertToBrahmi(romanInput: String, mode: KeyboardMode): ConversionResult {
+    fun convertToBrahmi(input: String, mode: KeyboardMode): ConversionResult {
         return when (mode) {
-            KeyboardMode.ENGLISH -> convertEnglish(romanInput)
-            KeyboardMode.BRAHMI -> convertBrahmi(romanInput)
-            KeyboardMode.PURE_BRAHMI -> convertPureBrahmi(romanInput)
+            KeyboardMode.ENGLISH -> convertEnglish(input)
+            KeyboardMode.BRAHMI -> convertBrahmi(input)
+            KeyboardMode.PURE_BRAHMI -> convertPureBrahmi(input)
         }
     }
     
@@ -38,7 +38,7 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertBrahmi(romanInput: String): ConversionResult {
-        val referenceText = scriptLoader.romanToScript(romanInput, currentReferenceScript)
+        val referenceText = scriptLoader.romanToScriptWithJointWords(romanInput, currentReferenceScript)
         val brahmiText = scriptLoader.scriptToBrahmi(referenceText, currentReferenceScript)
         
         return ConversionResult(
