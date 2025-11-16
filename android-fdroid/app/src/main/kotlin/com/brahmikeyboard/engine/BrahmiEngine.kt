@@ -8,7 +8,7 @@ data class ConversionResult(
     val outputText: String,
     val referenceScript: String,
     val brahmiText: String,
-    val warnings: List<String> = emptyList() // ADD THIS LINE
+    val warnings: List<String> = emptyList()
 )
 
 class BrahmiEngine(private val assets: AssetManager) {
@@ -50,20 +50,21 @@ class BrahmiEngine(private val assets: AssetManager) {
             outputText = brahmiText,
             referenceScript = currentReferenceScript,
             brahmiText = brahmiText,
-            warnings = conversion.warnings // Pass warnings through
+            warnings = conversion.warnings
         )
     }
     
     private fun buildPreviewWithWarnings(referenceText: String, brahmiText: String, warnings: List<String>): String {
         val basePreview = "$referenceText = $brahmiText"
         return if (warnings.isNotEmpty()) {
-            "$basePreview ⚠️" // Add warning indicator to preview
+            "$basePreview ⚠️"
         } else {
             basePreview
         }
     }
     
     private fun convertPureBrahmi(brahmiInput: String): ConversionResult {
+        // For pure Brahmi mode, we need to convert Brahmi back to reference script for preview
         val referenceText = scriptLoader.brahmiToScript(brahmiInput, currentReferenceScript)
         
         return ConversionResult(

@@ -22,6 +22,4 @@
             
     </PreferenceCategory>
 
-    <!-- REMOVED commit delay preference since we removed timer -->
-
 </PreferenceScreen>

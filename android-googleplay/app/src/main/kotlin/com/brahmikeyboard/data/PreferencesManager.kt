@@ -62,6 +62,14 @@ class PreferencesManager(context: Context) {
         setReferenceScript(language)
     }
     
+    fun getDefaultMode(): String? {
+        return prefs.getString("default_mode", "brahmi")
+    }
+    
+    fun setDefaultMode(mode: String) {
+        prefs.edit().putString("default_mode", mode).apply()
+    }
+    
     fun resetToDefaults() {
         prefs.edit().clear().apply()
     }

@@ -1,251 +1,271 @@
-BrahmiKeyboard - User Guide
-🏛️ BrahmiKeyboard
+Brahmi Keyboard - Android Input Method
 
-A sophisticated Android keyboard that lets you type ancient Brahmi script using modern Indian languages as reference.
-🎯 Features
+A sophisticated Android keyboard that enables typing in ancient Brahmi script with modern Indian language references.
+🚀 Features
 
-    Three Keyboard Modes: English, Brahmi, Pure Brahmi
+    Three Keyboard Modes:
 
-    Multi-Language Support: 25+ Indian language references
+        English Mode: Standard English typing
 
-    Real-time Preview: See conversions before committing
+        Brahmi Mode: Roman input → Reference language preview → Brahmi output
 
-    Smart Auto-completion: Automatic vowel and half-letter handling
+        Pure Brahmi Mode: Direct Brahmi keys → Reference language preview → Brahmi output
 
-    Historical Accuracy: Authentic Brahmi script output
+    Multi-Language Support: 24+ Indian languages as reference
 
-⌨️ Keyboard Modes
-1. English Mode
+    Password Security: Automatic "******" preview for secure fields
 
-    Purpose: Standard English typing
+    Smart Typing: Automatic joint word and vowel-consonant combination handling
 
-    Input: Direct English keys
+    Complete Layouts: Alphabet, numbers, symbols with consistent Enter key
 
-    Output: English text
+📱 Installation
+For Users:
 
-    Preview: English word suggestions
+    Download from Google Play Store or F-Droid
 
-    Use Case: Daily communication, quick typing
+    Go to Settings → System → Languages & input → Virtual keyboard
 
-2. Brahmi Mode
+    Enable "Brahmi Keyboard"
 
-    Purpose: Learn and type Brahmi using Roman input
+    Go to any text field, tap input method selector, choose "Brahmi Keyboard"
 
-    Input: Roman characters (English keyboard)
+🎯 Use Cases
+1. Academic Research
 
-    Output: Brahmi script
+Scenario: Sanskrit scholar documenting ancient inscriptions
+text
 
-    Preview: [Reference Script] = [Brahmi Script]
+Input: "gachati"
+Preview: "गचती = 𑀕𑀘𑀢𑀻"
+Output: "𑀕𑀘𑀢𑀻"
 
-    Use Case: Learning Brahmi, casual Brahmi typing
+2. Cultural Preservation
 
-3. Pure Brahmi Mode
+Scenario: Creating educational content about Brahmi script
+text
 
-    Purpose: Direct Brahmi typing for experts
+Input: "bharat"
+Preview: "भारत = 𑀪𑀸𑀭𑀢"
+Output: "𑀪𑀸𑀭𑀢"
 
-    Input: Direct Brahmi characters
+3. Linguistic Studies
 
-    Output: Brahmi script
+Scenario: Comparing Brahmi with modern Indian scripts
+text
 
-    Preview: [Reference Script] = [Brahmi Script]
+Reference: Kannada
+Input: "namaskara" 
+Preview: "ನಮಸ್ಕಾರ = 𑀦𑀫𑀲𑁆𑀓𑀸𑀭"
+Output: "𑀦𑀫𑀲𑁆𑀓𑀸𑀭"
 
-    Use Case: Advanced users, academic work
+4. Secure Communication
 
-🌐 Reference Language Selection
-Available Reference Languages:
+Scenario: Typing passwords securely
+text
 
-    Devanagari (Hindi, Marathi, Sanskrit, Nepali)
+Field: Password input
+Input: "mysecret123"
+Preview: "******"
+Output: Direct characters (secure)
 
-    Kannada
+⌨️ How to Use
+Basic Typing:
 
-    Tamil
+    Select Mode:
 
-    Telugu
+        Tap MODE button to cycle: ENG → BRM → PBR
 
-    Malayalam
+        ENG: English, BRM: Brahmi, PBR: Pure Brahmi
 
-    Bengali
+    Choose Reference Language:
 
-    Gujarati
+        Tap 🌐 button to cycle through languages
 
-    Punjabi (Gurmukhi)
+        Preview shows: [reference_script] = [brahmi_script]
 
-    Odia
+    Type Text:
 
-    Assamese
+        Brahmi Mode: Type Roman letters (k, kh, g, etc.)
 
-    And 15+ more Indian languages
+        Pure Brahmi Mode: Tap Brahmi characters directly
 
-How to Select Reference Language:
+Special Characters:
 
-    Open Settings:
+    Shift Key (⇧): Access special consonants (ट, ठ, ड, ढ, ण, ळ)
 
-        Go to Android Settings → Language & Input → BrahmiKeyboard → Settings
+    123: Switch to number pad
 
-        Or tap the app icon "BrahmiKeyboard Settings"
+    #+=: Switch to symbols
 
-    Choose Reference Script:
+    ABC: Return to alphabet
 
-        Tap "Reference Script"
+Commit Text:
 
-        Select your preferred Indian script
+    ENTER (⏎): Commit buffer content + newline
 
-        This becomes your learning bridge to Brahmi
+    SPACE: Insert space (doesn't commit buffer)
 
-    Example:
+    BACKSPACE (⌫): Delete characters
 
-        If you select Kannada, preview shows: "ರಾಮ = 𑀭𑀸𑀫"
-
-        If you select Tamil, preview shows: "ராம = 𑀭𑀸𑀫"
-
-🔄 Mode Switching
-Quick Switch:
-
-    Tap the Globe (🌐) key on keyboard
-
-    Cycles through: English → Brahmi → Pure Brahmi → English
-
-Default Mode:
-
-    Set your preferred default mode in Settings
-
-    Keyboard remembers last used mode
-
-⌨️ Typing Guide
-Brahmi Mode Typing Rules:
+🔧 Character Mapping
 Vowels:
 text
 
-Short: a, i, u, e, o
-Long:  aa, ee, uu, ei, ou
+a = अ (𑀅)    aa = आ (𑀆)    i = इ (𑀇)    ee = ई (𑀈)
+u = उ (𑀉)    uu = ऊ (𑀊)    e = ए (𑀏)    ei = ऐ (𑀐)
+o = ओ (𑀑)    ou = औ (𑀒)
 
-Examples:
-"rama" = रम = 𑀭𑀫
-"raama" = राम = 𑀭𑀸𑀫
-"devee" = देवी = 𑀤𑁂𑀯𑀻
-
-Anusvara (ं):
+Consonants:
 text
 
-Use: consonant + ^
-Examples:
-"ram^" = रं = 𑀭𑀁
-"ganga^" = गंगा = 𑀕𑀁𑀕𑀸
-
-Special Characters:
-text
-
-Capital T = ट (retroflex)
-Capital D = ड (retroflex) 
-Capital N = ण (retroflex)
-Capital L = ळ (Brahmi-specific)
-
-Automatic Features:
-
-    Ending consonants get automatic "a" vowel
-
-    Internal consonants without vowels become half-letters
-
-    Smart word boundary detection
-
-Examples:
-text
-
-"rama"    → राम = 𑀭𑀸𑀫
-"gacchati" → गच्छति = 𑀕𑀘𑀢𑀻
-"karisma" → करिस्मा = 𑀓𑀭𑀺𑀲𑁆𑀫𑀸
-"buddha"  → बुद्ध = 𑀩𑀼𑀤𑁆𑀥
+k = क (𑀓)    kh = ख (𑀔)    g = ग (𑀕)    gh = घ (𑀖)
+T = ट (𑀝)    Th = ठ (𑀞)    D = ड (𑀟)    Dh = ढ (𑀠)
+t = त (𑀢)    th = थ (𑀣)    d = द (𑀤)    dh = ध (𑀥)
+L = ळ (𑀴)    ... and many more
 
 ⚙️ Settings
+
+Access via Settings button (⚙):
 General Settings:
 
-    Reference Script: Choose your bridge language
+    Reference Script: Choose preview language (Devanagari, Kannada, Tamil, etc.)
 
     Default Mode: Set startup keyboard mode
 
-    Commit Delay: Adjust auto-commit timing (0.5s - 1.5s)
+🛡️ Security Features
 
-Typing Settings:
+    Password Fields: Automatic "******" preview
 
-    Vibration Feedback: Enable/disable key vibration
+    No Buffer Storage in secure fields
 
-    Sound Feedback: Enable/disable key sounds
+    Direct Input for sensitive data
 
-    Auto-capitalization: Smart sentence capitalization
+    System Compliance with Android security standards
 
-🔧 Advanced Features
-Pure Brahmi Mode:
+🔄 Brahmi Compliance
 
-    Direct access to Brahmi character keys
+The keyboard follows authentic Brahmi script rules:
+Supported:
 
-    Perfect for memorized Brahmi layout
+    Basic vowels and consonants
 
-    Same preview system for verification
+    Joint letter combinations
 
-Preview Bar:
+    Anusvara (using ^ symbol)
 
-    Real-time conversion display
+    Modern punctuation
 
-    Shows: [Your Script] = [Brahmi Script]
+Not Supported (with approximations):
+text
 
-    Tap to commit immediately
+sha/श → sa/स
+aum/ॐ → om/ओम्  
+ru/ऋ → ri/रि
+ksha/क्ष → ksa/क्स
 
-    Visual feedback for accuracy
+Warnings appear in preview when approximations are used.
+📋 Typing Examples
+Example 1: Simple Word
+text
 
-Error Handling:
+Input: "namaste"
+Brahmi Mode: "नमस्ते = 𑀦𑀫𑀲𑁆𑀢𑁂"
+Pure Brahmi: Tap 𑀦𑀫𑀲𑁆𑀢𑁂 directly
 
-    Invalid combinations show in preview
+Example 2: With Special Characters
+text
 
-    Backspace works intuitively
+Input: "Tika"
+Use: Shift + t → T → i → k → a
+Output: "𑀝𑀺𑀓" (टिक)
 
-    No committed text until confirmation
+Example 3: Joint Letters
+text
 
-🚀 Getting Started
+Input: "swagat"
+Output: "𑀲𑁆𑀯𑀕𑀢" (स्वगत)
 
-    Install BrahmiKeyboard from F-Droid/Play Store
+🎨 Keyboard Layouts
+Alphabet Layout:
+text
 
-    Enable in Android Settings → Language & Input
+[Vowels]    [Consonants]    [Controls]
+[𑀅𑀆𑀇𑀈]  [𑀓𑀔𑀕𑀖]    [⌫⏎⚙]
 
-    Select as default keyboard (optional)
+Numpad Layout:
+text
 
-    Choose your reference language in Settings
+[1 2 3 4 5] [⌫]
+[6 7 8 9 0] [⏎]
+[+ - * / .] [= %]
 
-    Start typing in any app!
+Symbols Layout:
+text
 
-💡 Tips for Beginners
+[! @ # $ %] [⌫]
+[& * ( ) _] [⏎]
+[+ = { } |] [\/ \]
 
-    Start with Brahmi Mode using your native script reference
+🐛 Troubleshooting
+Common Issues:
 
-    Use the preview bar to learn character mappings
+    Keyboard not showing:
 
-    Practice common words first (names, greetings)
+        Enable in Android Settings
 
-    Switch to Pure Brahmi once comfortable
+        Select from input method chooser
 
-    Experiment with different reference languages
+    Characters not converting:
 
-🆘 Troubleshooting
+        Check keyboard mode (should be BRM or PBR)
 
-Keyboard not showing?
+        Verify reference language selection
 
-    Enable in Settings → Language & Input
+    Special consonants not available:
 
-    Select BrahmiKeyboard as current keyboard
+        Use Shift key in Brahmi Mode
 
-Preview not working?
+        Use dedicated keys in Pure Brahmi Mode
 
-    Check reference language selection
+    Password field issues:
 
-    Ensure you're in Brahmi or Pure Brahmi mode
+        "******" preview is normal security feature
 
-Characters not converting?
+        Characters are input directly
 
-    Verify Roman spelling matches supported patterns
+🤝 Contributing
 
-    Check for special character requirements (^ for anusvara)
+We welcome contributions! Areas needing help:
 
+    Additional language mappings
+
+    Brahmi font improvements
+
+    UI/UX enhancements
+
+    Documentation
+
+📄 License
+
+[Add your license information here]
 📞 Support
 
-For issues and feature requests, visit our GitHub repository or contact support through the app.
+For issues and feature requests:
 
-Enjoy exploring ancient Indian scripts with modern technology! 🎉
+    GitHub Issues: [repository-url]/issues
+
+    Email: [support-email]
+
+🌟 Pro Tips
+
+    Long Press: Some keys offer additional options on long press
+
+    Quick Switch: Use mode button to quickly toggle between English and Brahmi
+
+    Language Learning: Use Pure Brahmi mode to learn Brahmi characters
+
+    Academic Use: Combine with reference language for script comparison
+
+Experience the ancient Brahmi script with modern convenience! 🎉
+
