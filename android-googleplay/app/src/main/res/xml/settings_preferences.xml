@@ -22,7 +22,7 @@
             
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Theme & Appearance">
+    <PreferenceCategory android:title="Theme &amp; Appearance">
         
         <ListPreference
             android:key="theme_mode"
@@ -50,7 +50,7 @@
             
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Size & Dimensions">
+    <PreferenceCategory android:title="Size &amp; Dimensions">
         
         <SeekBarPreference
             android:key="font_size"
@@ -94,7 +94,7 @@
             
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Colors & Styling">
+    <PreferenceCategory android:title="Colors &amp; Styling">
         
         <Preference
             android:key="key_background_color"
@@ -166,7 +166,7 @@
             
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Reset & About">
+    <PreferenceCategory android:title="Reset &amp; About">
         
         <Preference
             android:key="reset_settings"
