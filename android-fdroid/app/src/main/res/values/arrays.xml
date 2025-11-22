@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+    <!-- Reference Scripts -->
     <string-array name="reference_scripts_entries">
         <item>Devanagari (Hindi, Marathi, Sanskrit)</item>
+        <item>Bengali (Bangla)</item>
+        <item>Gujarati</item>
         <item>Kannada</item>
+        <item>Malayalam</item>
+        <item>Odia (Oriya)</item>
+        <item>Punjabi (Gurmukhi)</item>
         <item>Tamil</item>
         <item>Telugu</item>
-        <item>Malayalam</item>
-        <item>Bengali</item>
-        <item>Gujarati</item>
-        <item>Punjabi</item>
-        <item>Odia</item>
         <item>Assamese</item>
     </string-array>
     
     <string-array name="reference_scripts_values">
         <item>devanagari</item>
-        <item>kannada</item>
-        <item>tamil</item>
-        <item>telugu</item>
-        <item>malayalam</item>
         <item>bengali</item>
         <item>gujarati</item>
-        <item>punjabi</item>
+        <item>kannada</item>
+        <item>malayalam</item>
         <item>odia</item>
+        <item>punjabi</item>
+        <item>tamil</item>
+        <item>telugu</item>
         <item>assamese</item>
     </string-array>
     
+    <!-- Keyboard Modes -->
     <string-array name="keyboard_modes_entries">
         <item>English Mode</item>
-        <item>Brahmi Mode</item>
+        <item>Brahmi Mode (Roman Input)</item>
         <item>Pure Brahmi Mode</item>
     </string-array>
     
@@ -39,4 +40,64 @@
         <item>pure_brahmi</item>
     </string-array>
     
+    <!-- Theme Options -->
+    <string-array name="theme_entries">
+        <item>Light Theme</item>
+        <item>Dark Theme</item>
+        <item>Auto (System)</item>
+        <item>High Contrast</item>
+        <item>Sepia</item>
+    </string-array>
+    
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>auto</item>
+        <item>high_contrast</item>
+        <item>sepia</item>
+    </string-array>
+    
+    <!-- Key Shapes -->
+    <string-array name="key_shape_entries">
+        <item>Square</item>
+        <item>Rounded Square</item>
+        <item>Circle</item>
+        <item>Pill Shape</item>
+        <item>Antique Typewriter</item>
+        <item>Hexagonal</item>
+        <item>Beveled</item>
+    </string-array>
+    
+    <string-array name="key_shape_values">
+        <item>square</item>
+        <item>rounded_square</item>
+        <item>circle</item>
+        <item>pill</item>
+        <item>antique</item>
+        <item>hexagonal</item>
+        <item>beveled</item>
+    </string-array>
+    
+    <!-- Font Families -->
+    <string-array name="font_family_entries">
+        <item>Default System Font</item>
+        <item>Roboto</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Serif Font</item>
+        <item>Monospace</item>
+        <item>Brahmi Ancient</item>
+        <item>Devanagari Modern</item>
+    </string-array>
+    
+    <string-array name="font_family_values">
+        <item>default</item>
+        <item>roboto</item>
+        <item>open_sans</item>
+        <item>noto_sans</item>
+        <item>serif</item>
+        <item>monospace</item>
+        <item>brahmi_ancient</item>
+        <item>devanagari_modern</item>
+    </string-array>
 </resources>
