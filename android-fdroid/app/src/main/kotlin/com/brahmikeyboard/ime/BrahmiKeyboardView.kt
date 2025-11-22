@@ -39,6 +39,24 @@ class BrahmiKeyboardView(
     private var isSymbolsActive = false
     private var isShiftActive = false
     
+    // Brahmi character mapping for PURE BRAHMI mode
+    private val brahmiCharacterMap = mapOf(
+        // Vowels
+        "a" to "𑀅", "aa" to "𑀆", "i" to "𑀇", "ee" to "𑀈", 
+        "u" to "𑀉", "uu" to "𑀊", "e" to "𑀏", "ei" to "𑀐",
+        "o" to "𑀑", "ou" to "𑀒",
+        
+        // Consonants
+        "k" to "𑀓", "kh" to "𑀔", "g" to "𑀕", "gh" to "𑀖", 
+        "nga" to "𑀗", "c" to "𑀘", "ch" to "𑀙", "j" to "𑀚", 
+        "jh" to "𑀛", "yn" to "𑀜", "T" to "𑀝", "Th" to "𑀞",
+        "D" to "𑀟", "Dh" to "𑀠", "N" to "𑀡", "t" to "𑀢",
+        "th" to "𑀣", "d" to "𑀤", "dh" to "𑀥", "n" to "𑀦",
+        "p" to "𑀧", "ph" to "𑀨", "b" to "𑀩", "bh" to "𑀪",
+        "m" to "𑀫", "y" to "𑀬", "r" to "𑀭", "l" to "𑀮",
+        "v" to "𑀯", "s" to "𑀰", "h" to "𑀳", "L" to "𑀴"
+    )
+    
     init {
         orientation = VERTICAL
         LayoutInflater.from(context).inflate(R.layout.keyboard_view, this, true)
@@ -76,7 +94,8 @@ class BrahmiKeyboardView(
     private fun setupKeyListeners() {
         setupEnglishAlphabetKeys()
         setupBrahmiKeys()
-        setupFunctionKeys()
+        setupEnglishFunctionKeys()
+        setupBrahmiFunctionKeys()  // ADDED THIS LINE - CRITICAL FIX
         setupNumpadListeners()
         setupSymbolsListeners()
     }
@@ -96,7 +115,7 @@ class BrahmiKeyboardView(
             findViewById<Button>(keyId)?.setOnClickListener { onBrahmiKeyPress(vowel) }
         }
         
-        // Brahmi consonant keys - add all consonants from your specification
+        // Brahmi consonant keys
         listOf("k", "kh", "g", "gh", "nga", "c", "ch", "j", "jh", "yn",
                "T", "Th", "D", "Dh", "N", "t", "th", "d", "dh", "n",
                "p", "ph", "b", "bh", "m", "y", "r", "l", "v", "s", "h", "L").forEach { consonant ->
@@ -105,25 +124,55 @@ class BrahmiKeyboardView(
         }
     }
     
-    private fun setupFunctionKeys() {
+    private fun setupEnglishFunctionKeys() {
         findViewById<Button>(R.id.key_backspace)?.setOnClickListener { onKeyPress("BACKSPACE") }
         findViewById<Button>(R.id.key_space)?.setOnClickListener { onKeyPress(" ") }
         findViewById<Button>(R.id.key_enter)?.setOnClickListener { onKeyPress("ENTER") }
-        findViewById<Button>(R.id.key_mode)?.setOnClickListener { onKeyPress("MODE_SWITCH") }
+        findViewById<Button>(R.id.key_mode)?.setOnClickListener { switchMode() }
         findViewById<Button>(R.id.key_settings)?.setOnClickListener { openSettings() }
         findViewById<Button>(R.id.key_lang)?.setOnClickListener { switchReferenceLanguage() }
         findViewById<Button>(R.id.key_numpad)?.setOnClickListener { toggleNumpad() }
         findViewById<Button>(R.id.key_symbols)?.setOnClickListener { toggleSymbols() }
         findViewById<Button>(R.id.key_shift)?.setOnClickListener { toggleShift() }
+    }
+    
+    // ADDED THIS ENTIRE METHOD - CRITICAL FIX
+    private fun setupBrahmiFunctionKeys() {
+        // Brahmi layout number pad toggle
+        findViewById<Button>(R.id.key_brahmi_123)?.setOnClickListener { toggleNumpad() }
         
-        // Brahmi layout function keys
-        findViewById<Button>(R.id.key_brahmi_backspace)?.setOnClickListener { onKeyPress("BACKSPACE") }
+        // Brahmi layout symbols toggle  
+        findViewById<Button>(R.id.key_brahmi_symbols)?.setOnClickListener { toggleSymbols() }
+        
+        // Brahmi layout mode switch
+        findViewById<Button>(R.id.key_brahmi_mode)?.setOnClickListener { switchMode() }
+        
+        // Brahmi layout space
         findViewById<Button>(R.id.key_brahmi_space)?.setOnClickListener { onKeyPress(" ") }
+        
+        // Brahmi layout language switch
+        findViewById<Button>(R.id.key_brahmi_lang)?.setOnClickListener { switchReferenceLanguage() }
+        
+        // Brahmi layout settings
+        findViewById<Button>(R.id.key_brahmi_settings)?.setOnClickListener { openSettings() }
+        
+        // Brahmi layout backspace
+        findViewById<Button>(R.id.key_brahmi_backspace)?.setOnClickListener { onKeyPress("BACKSPACE") }
+        
+        // Brahmi layout enter
         findViewById<Button>(R.id.key_brahmi_enter)?.setOnClickListener { onKeyPress("ENTER") }
+        
+        // Brahmi layout special characters
+        findViewById<Button>(R.id.key_brahmi_dot)?.setOnClickListener { onKeyPress(".") }
+        findViewById<Button>(R.id.key_brahmi_comma1)?.setOnClickListener { onKeyPress(",") }
+        findViewById<Button>(R.id.key_brahmi_comma2)?.setOnClickListener { onKeyPress(",") }
+        findViewById<Button>(R.id.key_brahmi_comma3)?.setOnClickListener { onKeyPress(",") }
+        findViewById<Button>(R.id.key_brahmi_question)?.setOnClickListener { onKeyPress("?") }
+        findViewById<Button>(R.id.key_brahmi_at)?.setOnClickListener { onKeyPress("@") }
+        findViewById<Button>(R.id.key_brahmi_anusvara)?.setOnClickListener { onKeyPress("^") }
     }
     
     private fun setupNumpadListeners() {
-        // ... keep your existing numpad listeners unchanged
         (1..9).forEach { num ->
             val keyId = resources.getIdentifier("key_$num", "id", context.packageName)
             findViewById<Button>(keyId)?.setOnClickListener { onKeyPress(num.toString()) }
@@ -142,7 +191,6 @@ class BrahmiKeyboardView(
     }
     
     private fun setupSymbolsListeners() {
-        // ... keep your existing symbols listeners unchanged
         findViewById<Button>(R.id.key_excl)?.setOnClickListener { onKeyPress("!") }
         findViewById<Button>(R.id.key_at)?.setOnClickListener { onKeyPress("@") }
         findViewById<Button>(R.id.key_hash)?.setOnClickListener { onKeyPress("#") }
@@ -180,13 +228,14 @@ class BrahmiKeyboardView(
         }
     }
     
-    private fun onBrahmiKeyPress(brahmiChar: String) {
+    private fun onBrahmiKeyPress(brahmiKey: String) {
         if (currentMode == KeyboardMode.PURE_BRAHMI) {
-            // In PURE BRAHMI mode, treat as direct Brahmi input
-            handleCharacter(brahmiChar)
+            // In PURE BRAHMI mode, get the actual Brahmi character
+            val actualChar = brahmiCharacterMap[brahmiKey] ?: brahmiKey
+            handleCharacter(actualChar)
         } else {
-            // In other modes, treat as normal character
-            handleCharacter(brahmiChar)
+            // In BRAHMI mode, treat as Roman input
+            handleCharacter(brahmiKey)
         }
     }
     
@@ -210,7 +259,6 @@ class BrahmiKeyboardView(
                 inputConnection?.commitText(conversion.outputText, 1)
             }
             KeyboardMode.PURE_BRAHMI -> {
-                // In PURE BRAHMI mode with password, use the character directly
                 inputConnection?.commitText(actualChar, 1)
             }
         }
@@ -406,6 +454,7 @@ class BrahmiKeyboardView(
             KeyboardMode.PURE_BRAHMI -> "PBR"
         }
         findViewById<Button>(R.id.key_mode)?.text = modeText
+        findViewById<Button>(R.id.key_brahmi_mode)?.text = modeText
     }
     
     private fun updateLanguageIndicator() {
@@ -438,14 +487,17 @@ class BrahmiKeyboardView(
             else -> "DEV"
         }
         findViewById<Button>(R.id.key_lang)?.text = langCode
+        findViewById<Button>(R.id.key_brahmi_lang)?.text = langCode
     }
     
     private fun updateNumpadIndicator() {
         findViewById<Button>(R.id.key_numpad)?.text = if (isNumpadActive) "ABC" else "123"
+        findViewById<Button>(R.id.key_brahmi_123)?.text = if (isNumpadActive) "ABC" else "123"
     }
     
     private fun updateSymbolsIndicator() {
         findViewById<Button>(R.id.key_symbols)?.text = if (isSymbolsActive) "ABC" else "#+="
+        findViewById<Button>(R.id.key_brahmi_symbols)?.text = if (isSymbolsActive) "ABC" else "#+="
     }
     
     private fun updateShiftIndicator() {
