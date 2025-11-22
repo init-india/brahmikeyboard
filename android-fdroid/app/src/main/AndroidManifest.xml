@@ -24,11 +24,10 @@
 
         <!-- Settings activity -->
         <activity
-               android:name=".ui.SettingsActivity"
-               android:label="@string/settings_title"
-               android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-               android:exported="false" />
-        </activity>
+            android:name=".ui.SettingsActivity"
+            android:label="@string/settings_title"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:exported="false" />
 
         <!-- Boot receiver -->
         <receiver
