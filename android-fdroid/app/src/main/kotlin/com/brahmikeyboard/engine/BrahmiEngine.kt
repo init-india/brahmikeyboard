@@ -37,13 +37,23 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertBrahmi(romanInput: String): ConversionResult {
+        // DEBUG: Add this temporary logging
+        println("DEBUG convertBrahmi: input='$romanInput'")
+        println("DEBUG convertBrahmi: currentReferenceScript='$currentReferenceScript'")
+        
         // Convert Roman to Indian script first
         val indianScript = scriptLoader.romanToIndianScript(romanInput, currentReferenceScript)
+        println("DEBUG convertBrahmi: indianScript='$indianScript'")
+        
         // Then convert Indian script to Brahmi
         val brahmiText = scriptLoader.scriptToBrahmi(indianScript, currentReferenceScript)
+        println("DEBUG convertBrahmi: brahmiText='$brahmiText'")
+        
+        val preview = "$indianScript = $brahmiText"
+        println("DEBUG convertBrahmi: final preview='$preview'")
         
         return ConversionResult(
-            previewText = "$indianScript = $brahmiText",
+            previewText = preview,
             outputText = brahmiText,
             referenceScript = currentReferenceScript,
             brahmiText = brahmiText

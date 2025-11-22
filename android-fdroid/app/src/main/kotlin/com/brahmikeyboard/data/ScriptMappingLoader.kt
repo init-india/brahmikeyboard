@@ -9,13 +9,19 @@ class ScriptMappingLoader(private val assets: AssetManager) {
     private val scriptMappings = mutableMapOf<String, Map<String, String>>()
     private val romanToIndianMappings = mutableMapOf<String, Map<String, String>>()
     
-    // Simple vowel and consonant definitions
-    private val multiCharSequences = listOf(
-        "aa", "ee", "uu", "ei", "ou",
+    // Brahmi-specific combinations (EXACTLY as you specified)
+    private val brahmiVowels = listOf(
+        "aa", "ee", "uu", "ei", "ou"
+    )
+    
+    private val brahmiConsonants = listOf(
         "kh", "gh", "nga", "ch", "jh", "yn",
         "Th", "Dh", "N", "th", "dh", "ph", "bh", "L"
     )
     
+    // All Brahmi combinations sorted by length (longest first)
+    private val allBrahmiCombinations = (brahmiVowels + brahmiConsonants).sortedByDescending { it.length }
+
     private fun loadRomanToIndianMappings(): Map<String, Map<String, String>> {
         return try {
             val inputStream: InputStream = assets.open("script-mappings/roman-to-indian-scripts.json")
@@ -51,7 +57,7 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         return fullMap
     }
     
-    // Simple Google Indic-style transliteration
+    // Brahmi-specific transliteration (following your exact specification)
     fun romanToIndianScript(romanText: String, targetScript: String): String {
         val mappings = loadRomanToIndianMappings()
         var result = StringBuilder()
@@ -60,15 +66,16 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         while (i < romanText.length) {
             var matched = false
             
-            // Check multi-character sequences first (longest match)
-            for (seq in multiCharSequences) {
-                if (i + seq.length <= romanText.length) {
-                    val test = romanText.substring(i, i + seq.length).lowercase()
-                    if (test == seq) {
+            // Check for Brahmi combinations first (longest match)
+            for (combination in allBrahmiCombinations) {
+                if (i + combination.length <= romanText.length) {
+                    val test = romanText.substring(i, i + combination.length).lowercase()
+                    if (test == combination) {
                         val mapping = mappings[test]?.get(targetScript) ?: test
                         result.append(mapping)
-                        i += seq.length
+                        i += combination.length
                         matched = true
+                        println("BRAHMI_MAPPING: '$test' -> '$mapping'")
                         break
                     }
                 }
@@ -79,6 +86,7 @@ class ScriptMappingLoader(private val assets: AssetManager) {
                 val char = romanText[i].toString()
                 val mapping = mappings[char.lowercase()]?.get(targetScript) ?: char
                 result.append(mapping)
+                println("BRAHMI_MAPPING: '$char' -> '$mapping'")
                 i += 1
             }
         }
