@@ -39,34 +39,6 @@ class BrahmiKeyboardView(
     private var isSymbolsActive = false
     private var isShiftActive = false
     
-    // Brahmi letters mapping for Pure Brahmi mode
-    private val brahmiKeyMapping = mapOf(
-        // Vowels
-        "a" to "𑀅", "aa" to "𑀆", "i" to "𑀇", "ii" to "𑀈", 
-        "u" to "𑀉", "uu" to "𑀊", "e" to "𑀏", "ee" to "𑀐",
-        "o" to "𑀑", "ou" to "𑀒",
-        
-        // Consonants
-        "k" to "𑀓", "kh" to "𑀔", "g" to "𑀕", "gh" to "𑀖", 
-        "c" to "𑀘", "ch" to "𑀙", "j" to "𑀚", "jh" to "𑀛",
-        "T" to "𑀝", "Th" to "𑀞", "D" to "𑀟", "Dh" to "𑀠",
-        "t" to "𑀢", "th" to "𑀣", "d" to "𑀤", "dh" to "𑀥",
-        "p" to "𑀧", "ph" to "𑀨", "b" to "𑀩", "bh" to "𑀪",
-        
-        // Other consonants
-        "n" to "𑀦", "m" to "𑀫", "y" to "𑀬", "r" to "𑀭", 
-        "l" to "𑀮", "v" to "𑀯", "s" to "𑀰", "h" to "𑀳",
-        "L" to "𑀴",
-        
-        // Special consonants (multi-character)
-        "nga" to "𑀗", "yn" to "𑀜", "N" to "𑀡"
-    )
-    
-    // Shift mapping for special characters
-    private val shiftMapping = mapOf(
-        "t" to "T", "th" to "Th", "d" to "D", "dh" to "Dh", "n" to "N", "l" to "L"
-    )
-    
     init {
         orientation = VERTICAL
         LayoutInflater.from(context).inflate(R.layout.keyboard_view, this, true)
@@ -99,21 +71,37 @@ class BrahmiKeyboardView(
         setupKeyListeners()
         updateAllIndicators()
         updateLayout()
-        updateKeyboardLabels()
     }
     
     private fun setupKeyListeners() {
-        setupAlphabetKeys()
+        setupEnglishAlphabetKeys()
+        setupBrahmiKeys()
         setupFunctionKeys()
         setupNumpadListeners()
         setupSymbolsListeners()
     }
     
-    private fun setupAlphabetKeys() {
+    private fun setupEnglishAlphabetKeys() {
         listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z").forEach { char ->
             val keyId = resources.getIdentifier("key_$char", "id", context.packageName)
             findViewById<Button>(keyId)?.setOnClickListener { onKeyPress(char) }
+        }
+    }
+    
+    private fun setupBrahmiKeys() {
+        // Brahmi vowel keys
+        listOf("a", "aa", "i", "ee", "u", "uu", "e", "ei", "o", "ou").forEach { vowel ->
+            val keyId = resources.getIdentifier("key_brahmi_$vowel", "id", context.packageName)
+            findViewById<Button>(keyId)?.setOnClickListener { onBrahmiKeyPress(vowel) }
+        }
+        
+        // Brahmi consonant keys - add all consonants from your specification
+        listOf("k", "kh", "g", "gh", "nga", "c", "ch", "j", "jh", "yn",
+               "T", "Th", "D", "Dh", "N", "t", "th", "d", "dh", "n",
+               "p", "ph", "b", "bh", "m", "y", "r", "l", "v", "s", "h", "L").forEach { consonant ->
+            val keyId = resources.getIdentifier("key_brahmi_$consonant", "id", context.packageName)
+            findViewById<Button>(keyId)?.setOnClickListener { onBrahmiKeyPress(consonant) }
         }
     }
     
@@ -127,16 +115,20 @@ class BrahmiKeyboardView(
         findViewById<Button>(R.id.key_numpad)?.setOnClickListener { toggleNumpad() }
         findViewById<Button>(R.id.key_symbols)?.setOnClickListener { toggleSymbols() }
         findViewById<Button>(R.id.key_shift)?.setOnClickListener { toggleShift() }
+        
+        // Brahmi layout function keys
+        findViewById<Button>(R.id.key_brahmi_backspace)?.setOnClickListener { onKeyPress("BACKSPACE") }
+        findViewById<Button>(R.id.key_brahmi_space)?.setOnClickListener { onKeyPress(" ") }
+        findViewById<Button>(R.id.key_brahmi_enter)?.setOnClickListener { onKeyPress("ENTER") }
     }
     
     private fun setupNumpadListeners() {
-        // Numpad number keys
+        // ... keep your existing numpad listeners unchanged
         (1..9).forEach { num ->
             val keyId = resources.getIdentifier("key_$num", "id", context.packageName)
             findViewById<Button>(keyId)?.setOnClickListener { onKeyPress(num.toString()) }
         }
         
-        // Numpad special keys
         findViewById<Button>(R.id.key_0)?.setOnClickListener { onKeyPress("0") }
         findViewById<Button>(R.id.key_plus)?.setOnClickListener { onKeyPress("+") }
         findViewById<Button>(R.id.key_minus)?.setOnClickListener { onKeyPress("-") }
@@ -150,6 +142,7 @@ class BrahmiKeyboardView(
     }
     
     private fun setupSymbolsListeners() {
+        // ... keep your existing symbols listeners unchanged
         findViewById<Button>(R.id.key_excl)?.setOnClickListener { onKeyPress("!") }
         findViewById<Button>(R.id.key_at)?.setOnClickListener { onKeyPress("@") }
         findViewById<Button>(R.id.key_hash)?.setOnClickListener { onKeyPress("#") }
@@ -187,18 +180,26 @@ class BrahmiKeyboardView(
         }
     }
     
+    private fun onBrahmiKeyPress(brahmiChar: String) {
+        if (currentMode == KeyboardMode.PURE_BRAHMI) {
+            // In PURE BRAHMI mode, treat as direct Brahmi input
+            handleCharacter(brahmiChar)
+        } else {
+            // In other modes, treat as normal character
+            handleCharacter(brahmiChar)
+        }
+    }
+    
     private fun handleCharacter(char: String) {
         if (isPasswordField) {
-            // Direct input for password fields
             handleCharacterInPassword(char)
         } else {
-            // Normal buffer system for other fields
             handleCharacterInNormal(char)
         }
     }
     
     private fun handleCharacterInPassword(char: String) {
-        val actualChar = if (isShiftActive) shiftMapping[char] ?: char.uppercase() else char
+        val actualChar = if (isShiftActive) char.uppercase() else char
         
         when (currentMode) {
             KeyboardMode.ENGLISH -> {
@@ -209,37 +210,33 @@ class BrahmiKeyboardView(
                 inputConnection?.commitText(conversion.outputText, 1)
             }
             KeyboardMode.PURE_BRAHMI -> {
-                val brahmiChar = brahmiKeyMapping[actualChar] ?: actualChar
-                inputConnection?.commitText(brahmiChar, 1)
+                // In PURE BRAHMI mode with password, use the character directly
+                inputConnection?.commitText(actualChar, 1)
             }
         }
         
-        // Auto-disable shift after one character in password fields
         if (isShiftActive) {
             isShiftActive = false
-            updateKeyboardLabels()
+            updateLayout()
         }
     }
     
     private fun handleCharacterInNormal(char: String) {
-        val actualChar = if (isShiftActive) shiftMapping[char] ?: char.uppercase() else char
+        val actualChar = if (isShiftActive) char.uppercase() else char
         
         currentBuffer += actualChar
         updatePreview()
         
-        // Auto-disable shift after one character
         if (isShiftActive) {
             isShiftActive = false
-            updateKeyboardLabels()
+            updateLayout()
         }
     }
     
     private fun handleBackspace() {
         if (isPasswordField) {
-            // Direct deletion for password fields
             inputConnection?.deleteSurroundingText(1, 0)
         } else {
-            // Buffer management for normal fields
             if (currentBuffer.isNotEmpty()) {
                 currentBuffer = currentBuffer.dropLast(1)
                 updatePreview()
@@ -251,10 +248,8 @@ class BrahmiKeyboardView(
     
     private fun handleEnter() {
         if (isPasswordField) {
-            // For password fields, just commit newline
             inputConnection?.commitText("\n", 1)
         } else {
-            // For normal fields, commit buffer + newline
             if (currentBuffer.isNotEmpty()) {
                 commitCurrentBuffer()
             }
@@ -264,10 +259,8 @@ class BrahmiKeyboardView(
     
     private fun handleSpace() {
         if (isPasswordField) {
-            // Direct space for password fields
             inputConnection?.commitText(" ", 1)
         } else {
-            // For normal fields, commit buffer + space
             if (currentBuffer.isNotEmpty()) {
                 commitCurrentBuffer()
             }
@@ -292,7 +285,7 @@ class BrahmiKeyboardView(
         preferences.setCurrentMode(currentMode)
         clearPreview()
         updateAllIndicators()
-        updateKeyboardLabels()
+        updateLayout()
     }
     
     private fun switchReferenceLanguage() {
@@ -318,7 +311,6 @@ class BrahmiKeyboardView(
         preferences.setNumpadActive(isNumpadActive)
         preferences.setSymbolsActive(false)
         updateLayout()
-        updateKeyboardLabels()
     }
     
     private fun toggleSymbols() {
@@ -328,7 +320,6 @@ class BrahmiKeyboardView(
         preferences.setSymbolsActive(isSymbolsActive)
         preferences.setNumpadActive(false)
         updateLayout()
-        updateKeyboardLabels()
     }
     
     private fun toggleShift() {
@@ -338,64 +329,32 @@ class BrahmiKeyboardView(
         preferences.setNumpadActive(false)
         preferences.setSymbolsActive(false)
         updateLayout()
-        updateKeyboardLabels()
-        updateShiftIndicator()
     }
     
     private fun updateLayout() {
-        val alphabetLayout = findViewById<View>(R.id.layout_alphabet)
+        val englishLayout = findViewById<View>(R.id.layout_english)
+        val brahmiLayout = findViewById<View>(R.id.layout_brahmi)
         val numpadLayout = findViewById<View>(R.id.layout_numpad)
         val symbolsLayout = findViewById<View>(R.id.layout_symbols)
         
-        alphabetLayout?.visibility = if (!isNumpadActive && !isSymbolsActive && !isShiftActive) View.VISIBLE else View.GONE
+        // Show appropriate main layout based on mode
+        when (currentMode) {
+            KeyboardMode.ENGLISH, KeyboardMode.BRAHMI -> {
+                englishLayout?.visibility = if (!isNumpadActive && !isSymbolsActive && !isShiftActive) View.VISIBLE else View.GONE
+                brahmiLayout?.visibility = View.GONE
+            }
+            KeyboardMode.PURE_BRAHMI -> {
+                englishLayout?.visibility = View.GONE
+                brahmiLayout?.visibility = if (!isNumpadActive && !isSymbolsActive && !isShiftActive) View.VISIBLE else View.GONE
+            }
+        }
+        
         numpadLayout?.visibility = if (isNumpadActive) View.VISIBLE else View.GONE
         symbolsLayout?.visibility = if (isSymbolsActive) View.VISIBLE else View.GONE
         
         updateNumpadIndicator()
         updateSymbolsIndicator()
         updateShiftIndicator()
-    }
-    
-    private fun updateKeyboardLabels() {
-        if (isPasswordField) {
-            // For password fields, show generic preview
-            previewBar.text = context.getString(R.string.password_indicator)
-            return
-        }
-        
-        when {
-            isShiftActive -> {
-                // Show shifted characters
-                updateKeyLabel("t", "T")
-                updateKeyLabel("th", "Th")
-                updateKeyLabel("d", "D")
-                updateKeyLabel("dh", "Dh")
-                updateKeyLabel("n", "N")
-                updateKeyLabel("l", "L")
-                // Keep other keys as they are
-                listOf("a", "b", "c", "e", "f", "g", "h", "i", "j", "k", "m", "o", "p", "q", "r", "s", "u", "v", "w", "x", "y", "z").forEach { char ->
-                    updateKeyLabel(char, char.uppercase())
-                }
-            }
-            currentMode == KeyboardMode.PURE_BRAHMI -> {
-                // Show Brahmi characters on keys
-                brahmiKeyMapping.forEach { (english, brahmi) ->
-                    updateKeyLabel(english, brahmi)
-                }
-            }
-            else -> {
-                // Show English characters for other modes
-                listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
-                       "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z").forEach { char ->
-                    updateKeyLabel(char, char)
-                }
-            }
-        }
-    }
-    
-    private fun updateKeyLabel(englishChar: String, displayChar: String) {
-        val keyId = resources.getIdentifier("key_$englishChar", "id", context.packageName)
-        findViewById<Button>(keyId)?.text = displayChar
     }
     
     private fun updatePreview() {
@@ -407,13 +366,6 @@ class BrahmiKeyboardView(
         if (currentBuffer.isNotEmpty()) {
             val conversion = brahmiEngine.convertToBrahmi(currentBuffer, currentMode)
             previewBar.text = conversion.previewText
-            
-            // Log warnings if any
-            if (conversion.warnings.isNotEmpty()) {
-                conversion.warnings.forEach { warning ->
-                    android.util.Log.d("BrahmiKeyboard", "Warning: $warning")
-                }
-            }
         } else {
             updatePreviewBar()
         }

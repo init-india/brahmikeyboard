@@ -7,8 +7,7 @@ data class ConversionResult(
     val previewText: String,
     val outputText: String,
     val referenceScript: String,
-    val brahmiText: String,
-    val warnings: List<String> = emptyList()
+    val brahmiText: String
 )
 
 class BrahmiEngine(private val assets: AssetManager) {
@@ -38,37 +37,25 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertBrahmi(romanInput: String): ConversionResult {
-        // This now returns ConversionResult with warnings
-        val conversion = scriptLoader.romanToScriptWithJointWords(romanInput, currentReferenceScript)
-        val brahmiText = scriptLoader.scriptToBrahmi(conversion.outputText, currentReferenceScript)
-        
-        // Build preview with warning indicator
-        val preview = buildPreviewWithWarnings(conversion.outputText, brahmiText, conversion.warnings)
+        // Convert Roman to Indian script first
+        val indianScript = scriptLoader.romanToIndianScript(romanInput, currentReferenceScript)
+        // Then convert Indian script to Brahmi
+        val brahmiText = scriptLoader.scriptToBrahmi(indianScript, currentReferenceScript)
         
         return ConversionResult(
-            previewText = preview,
+            previewText = "$indianScript = $brahmiText",
             outputText = brahmiText,
             referenceScript = currentReferenceScript,
-            brahmiText = brahmiText,
-            warnings = conversion.warnings
+            brahmiText = brahmiText
         )
     }
     
-    private fun buildPreviewWithWarnings(referenceText: String, brahmiText: String, warnings: List<String>): String {
-        val basePreview = "$referenceText = $brahmiText"
-        return if (warnings.isNotEmpty()) {
-            "$basePreview ⚠️"
-        } else {
-            basePreview
-        }
-    }
-    
     private fun convertPureBrahmi(brahmiInput: String): ConversionResult {
-        // For pure Brahmi mode, we need to convert Brahmi back to reference script for preview
-        val referenceText = scriptLoader.brahmiToScript(brahmiInput, currentReferenceScript)
+        // For pure Brahmi mode, convert Brahmi back to Indian script for preview only
+        val indianScript = scriptLoader.brahmiToScript(brahmiInput, currentReferenceScript)
         
         return ConversionResult(
-            previewText = "$referenceText = $brahmiInput",
+            previewText = "$indianScript = $brahmiInput",
             outputText = brahmiInput,
             referenceScript = currentReferenceScript,
             brahmiText = brahmiInput

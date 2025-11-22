@@ -23,11 +23,11 @@
         </service>
 
         <!-- Settings activity -->
-        <activity
+       <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/settings_title"
-            android:exported="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:exported="false" />
         </activity>
 
         <!-- Boot receiver -->

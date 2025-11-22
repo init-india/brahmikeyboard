@@ -17,9 +17,9 @@
         android:textSize="16sp"
         android:textColor="#333333" />
 
-    <!-- Main Alphabet Layout -->
+    <!-- ENGLISH & BRAHMI MODE LAYOUT (English QWERTY) -->
     <LinearLayout
-        android:id="@+id/layout_alphabet"
+        android:id="@+id/layout_english"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -94,16 +94,144 @@
 
             <Button android:id="@+id/key_numpad" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="123" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_symbols" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="#+=" android:layout_margin="1dp"/>
-	    <Button android:id="@+id/key_mode" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="Mode" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_mode" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="BRM" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_space" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="3" android:text="Space" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_lang" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="🌐" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_lang" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="DEV" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_settings" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⚙" android:layout_margin="1dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <!-- Numpad Layout -->
+    <!-- PURE BRAHMI MODE LAYOUT (Brahmi Script Keys) -->
+    <LinearLayout
+        android:id="@+id/layout_brahmi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="2dp"
+        android:visibility="gone">
+
+        <!-- Row 1: Vowels -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button android:id="@+id/key_brahmi_a" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀅" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_aa" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀆" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_i" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀇" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_ee" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀈" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_u" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀉" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_uu" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀊" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_e" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀏" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_ei" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀐" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_o" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀑" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_ou" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀒" android:layout_margin="1dp"/>
+
+        </LinearLayout>
+
+        <!-- Row 2: Consonants 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button android:id="@+id/key_brahmi_k" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀓" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_kh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀔" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_g" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀕" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_gh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀖" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_nga" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀗" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_c" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀘" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_ch" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀙" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_j" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀚" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_jh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀛" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_yn" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀜" android:layout_margin="1dp"/>
+
+        </LinearLayout>
+
+        <!-- Row 3: Consonants 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button android:id="@+id/key_brahmi_T" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀝" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_Th" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀞" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_D" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀟" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_Dh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀠" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_N" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀡" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_t" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀢" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_th" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀣" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_d" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀤" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_dh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀥" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_n" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀦" android:layout_margin="1dp"/>
+
+        </LinearLayout>
+
+        <!-- Row 4: Mixed -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button android:id="@+id/key_brahmi_123" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="123" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_p" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀧" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_ph" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀨" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_b" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀩" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_bh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀪" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_m" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀫" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_y" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀬" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_r" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀭" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_backspace" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⌫" android:layout_margin="1dp"/>
+
+        </LinearLayout>
+
+        <!-- Row 5: Consonants 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button android:id="@+id/key_brahmi_l" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀮" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_v" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀯" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_s" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀰" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_h" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀳" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_L" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀴" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_dot" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="." android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_comma1" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_comma2" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_anusvara" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀁" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_enter" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⏎" android:layout_margin="1dp"/>
+
+        </LinearLayout>
+
+        <!-- Row 6: Function -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button android:id="@+id/key_brahmi_symbols" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="#+=" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_mode" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="PBR" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_space" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="3" android:text="Space" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_comma3" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_question" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="?" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_at" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="@" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_lang" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="DEV" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_settings" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⚙" android:layout_margin="1dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Numpad Layout (Keep your existing numpad layout) -->
     <LinearLayout
         android:id="@+id/layout_numpad"
         android:layout_width="match_parent"
@@ -184,7 +312,7 @@
 
     </LinearLayout>
 
-    <!-- Symbols Layout -->
+    <!-- Symbols Layout (Keep your existing symbols layout) -->
     <LinearLayout
         android:id="@+id/layout_symbols"
         android:layout_width="match_parent"
