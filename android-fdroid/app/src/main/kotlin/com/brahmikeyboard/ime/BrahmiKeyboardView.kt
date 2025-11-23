@@ -45,7 +45,7 @@ class BrahmiKeyboardView(
         "a" to "𑀅", "aa" to "𑀆", "i" to "𑀇", "ee" to "𑀈", 
         "u" to "𑀉", "uu" to "𑀊", "e" to "𑀏", "ei" to "𑀐",
         "o" to "𑀑", "ou" to "𑀒",
-        
+    
         // Consonants
         "k" to "𑀓", "kh" to "𑀔", "g" to "𑀕", "gh" to "𑀖", 
         "nga" to "𑀗", "c" to "𑀘", "ch" to "𑀙", "j" to "𑀚", 
@@ -54,7 +54,11 @@ class BrahmiKeyboardView(
         "th" to "𑀣", "d" to "𑀤", "dh" to "𑀥", "n" to "𑀦",
         "p" to "𑀧", "ph" to "𑀨", "b" to "𑀩", "bh" to "𑀪",
         "m" to "𑀫", "y" to "𑀬", "r" to "𑀭", "l" to "𑀮",
-        "v" to "𑀯", "s" to "𑀰", "h" to "𑀳", "L" to "𑀴"
+        "v" to "𑀯", "sh" to "𑀰", "Sh" to "𑀱", "s" to "𑀲", 
+        "h" to "𑀳", "L" to "𑀴",
+    
+        // Special keys
+        "halant" to "𑁆"
     )
     
     init {
@@ -95,7 +99,7 @@ class BrahmiKeyboardView(
         setupEnglishAlphabetKeys()
         setupBrahmiKeys()
         setupEnglishFunctionKeys()
-        setupBrahmiFunctionKeys()  // ADDED THIS LINE - CRITICAL FIX
+        setupBrahmiFunctionKeys()
         setupNumpadListeners()
         setupSymbolsListeners()
     }
@@ -118,7 +122,7 @@ class BrahmiKeyboardView(
         // Brahmi consonant keys
         listOf("k", "kh", "g", "gh", "nga", "c", "ch", "j", "jh", "yn",
                "T", "Th", "D", "Dh", "N", "t", "th", "d", "dh", "n",
-               "p", "ph", "b", "bh", "m", "y", "r", "l", "v", "s", "h", "L").forEach { consonant ->
+               "p", "ph", "b", "bh", "m", "y", "r", "l", "v", "sh", "Sh", "s", "h", "L").forEach { consonant ->
             val keyId = resources.getIdentifier("key_brahmi_$consonant", "id", context.packageName)
             findViewById<Button>(keyId)?.setOnClickListener { onBrahmiKeyPress(consonant) }
         }
@@ -134,9 +138,12 @@ class BrahmiKeyboardView(
         findViewById<Button>(R.id.key_numpad)?.setOnClickListener { toggleNumpad() }
         findViewById<Button>(R.id.key_symbols)?.setOnClickListener { toggleSymbols() }
         findViewById<Button>(R.id.key_shift)?.setOnClickListener { toggleShift() }
+        findViewById<Button>(R.id.key_question_eng)?.setOnClickListener { onKeyPress("?") }
+        findViewById<Button>(R.id.key_dot_eng)?.setOnClickListener { onKeyPress(".") }
+        findViewById<Button>(R.id.key_comma_eng)?.setOnClickListener { onKeyPress(",") }
+        findViewById<Button>(R.id.key_at)?.setOnClickListener { onKeyPress("@") }
     }
     
-    // ADDED THIS ENTIRE METHOD - CRITICAL FIX
     private fun setupBrahmiFunctionKeys() {
         // Brahmi layout number pad toggle
         findViewById<Button>(R.id.key_brahmi_123)?.setOnClickListener { toggleNumpad() }
@@ -169,7 +176,7 @@ class BrahmiKeyboardView(
         findViewById<Button>(R.id.key_brahmi_comma3)?.setOnClickListener { onKeyPress(",") }
         findViewById<Button>(R.id.key_brahmi_question)?.setOnClickListener { onKeyPress("?") }
         findViewById<Button>(R.id.key_brahmi_at)?.setOnClickListener { onKeyPress("@") }
-        findViewById<Button>(R.id.key_brahmi_anusvara)?.setOnClickListener { onKeyPress("^") }
+        findViewById<Button>(R.id.key_brahmi_halant)?.setOnClickListener { onBrahmiKeyPress("halant") }
     }
     
     private fun setupNumpadListeners() {
@@ -188,6 +195,8 @@ class BrahmiKeyboardView(
         findViewById<Button>(R.id.key_abc_num)?.setOnClickListener { toggleNumpad() }
         findViewById<Button>(R.id.key_equals)?.setOnClickListener { onKeyPress("=") }
         findViewById<Button>(R.id.key_percent_num)?.setOnClickListener { onKeyPress("%") }
+        findViewById<Button>(R.id.key_dot_num)?.setOnClickListener { onKeyPress(".") }
+        findViewById<Button>(R.id.key_comma_num)?.setOnClickListener { onKeyPress(",") }
     }
     
     private fun setupSymbolsListeners() {
@@ -216,12 +225,15 @@ class BrahmiKeyboardView(
         findViewById<Button>(R.id.key_space_sym)?.setOnClickListener { onKeyPress(" ") }
         findViewById<Button>(R.id.key_dot_sym)?.setOnClickListener { onKeyPress(".") }
         findViewById<Button>(R.id.key_comma_sym)?.setOnClickListener { onKeyPress(",") }
+        findViewById<Button>(R.id.key_at_sym)?.setOnClickListener { onKeyPress("@") }
+        findViewById<Button>(R.id.key_percent_sym)?.setOnClickListener { onKeyPress("%") }
+        findViewById<Button>(R.id.key_dot_sym)?.setOnClickListener { onKeyPress(".") }
+        findViewById<Button>(R.id.key_comma_sym)?.setOnClickListener { onKeyPress(",") }
     }
     
     private fun onKeyPress(key: String) {
         when {
             key == "BACKSPACE" -> handleBackspace()
-            key == "MODE_SWITCH" -> switchMode()
             key == "ENTER" -> handleEnter()
             key == " " -> handleSpace()
             key.length == 1 -> handleCharacter(key)
@@ -230,7 +242,6 @@ class BrahmiKeyboardView(
     
     private fun onBrahmiKeyPress(brahmiKey: String) {
         if (currentMode == KeyboardMode.PURE_BRAHMI) {
-            // In PURE BRAHMI mode, get the actual Brahmi character
             val actualChar = brahmiCharacterMap[brahmiKey] ?: brahmiKey
             handleCharacter(actualChar)
         } else {
@@ -407,7 +418,7 @@ class BrahmiKeyboardView(
     
     private fun updatePreview() {
         if (isPasswordField) {
-            previewBar.text = context.getString(R.string.password_indicator)
+            previewBar.text = "Brahmi: ****\nPassword: ****"
             return
         }
         
@@ -421,21 +432,21 @@ class BrahmiKeyboardView(
     
     private fun updatePreviewBar() {
         if (isPasswordField) {
-            previewBar.text = context.getString(R.string.password_indicator)
+            previewBar.text = "Brahmi: ****\nPassword: ****"
             return
         }
         
         val modeText = when (currentMode) {
-            KeyboardMode.ENGLISH -> "EN"
-            KeyboardMode.BRAHMI -> "BR" 
-            KeyboardMode.PURE_BRAHMI -> "PB"
+            KeyboardMode.ENGLISH -> "ENG"
+            KeyboardMode.BRAHMI -> "BRM" 
+            KeyboardMode.PURE_BRAHMI -> "PBR"
         }
         val lang = preferences.getReferenceLanguage()
         val langCode = when {
             lang.length >= 3 -> lang.take(3).uppercase()
             else -> lang.uppercase()
         }
-        previewBar.text = "[$modeText|$langCode] ${context.getString(R.string.preview_hint)}"
+        previewBar.text = "[$modeText|$langCode] Type to see preview..."
     }
     
     private fun updateAllIndicators() {

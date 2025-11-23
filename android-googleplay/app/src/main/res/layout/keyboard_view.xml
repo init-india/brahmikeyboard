@@ -9,13 +9,14 @@
     <TextView
         android:id="@+id/preview_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:background="#ffffff"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:text="@string/preview_hint"
-        android:textSize="16sp"
-        android:textColor="#333333" />
+        android:text="Brahmi: \nDevanagari: "
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:maxLines="2" />
 
     <!-- ENGLISH & BRAHMI MODE LAYOUT (English QWERTY) -->
     <LinearLayout
@@ -26,7 +27,7 @@
         android:padding="2dp"
         android:visibility="visible">
 
-        <!-- Row 1 -->
+        <!-- Row 1: q w e r t y u i o p -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +47,7 @@
 
         </LinearLayout>
 
-        <!-- Row 2 -->
+        <!-- Row 2: a s d f g h j k l backspace -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,14 +67,14 @@
 
         </LinearLayout>
 
-        <!-- Row 3 -->
+        <!-- Row 3: shift z x c v b n m ? . , enter -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
 
-            <Button android:id="@+id/key_shift" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1.5" android:text="⇧" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_shift" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1.2" android:text="⇧" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_z" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="z" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_x" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="x" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_c" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="c" android:layout_margin="1dp"/>
@@ -81,11 +82,14 @@
             <Button android:id="@+id/key_b" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="b" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_n" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="n" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_m" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="m" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_enter" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1.5" android:text="⏎" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_question_eng" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="?" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_dot_eng" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="." android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_comma_eng" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_enter" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1.2" android:text="⏎" android:layout_margin="1dp"/>
 
         </LinearLayout>
 
-        <!-- Row 4 -->
+        <!-- Row 4: numpad symbols mode space @ language settings -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,6 +100,7 @@
             <Button android:id="@+id/key_symbols" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="#+=" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_mode" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="BRM" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_space" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="3" android:text="Space" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_at" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="@" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_lang" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="DEV" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_settings" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⚙" android:layout_margin="1dp"/>
 
@@ -112,7 +117,7 @@
         android:padding="2dp"
         android:visibility="gone">
 
-        <!-- Row 1: Vowels -->
+        <!-- Row 1: अ,आ,इ,ई,उ,ऊ,ए,ऐ,ओ,औ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,7 +137,7 @@
 
         </LinearLayout>
 
-        <!-- Row 2: Consonants 1 -->
+        <!-- Row 2: क,ख,ग,घ,ङ,च,छ,ज,झ,ञ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -152,7 +157,7 @@
 
         </LinearLayout>
 
-        <!-- Row 3: Consonants 2 -->
+        <!-- Row 3: ट,ठ,ड,ढ,ण,त,थ,द,ध,न -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -172,7 +177,7 @@
 
         </LinearLayout>
 
-        <!-- Row 4: Mixed -->
+        <!-- Row 4: numad,प,फ,ब,भ,म,य,र,backspace -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -191,7 +196,7 @@
 
         </LinearLayout>
 
-        <!-- Row 5: Consonants 3 -->
+        <!-- Row 5: ल,व,श,ष,स,ह,ळ,?,.,,halant,enter -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -200,18 +205,20 @@
 
             <Button android:id="@+id/key_brahmi_l" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀮" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_v" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀯" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_brahmi_s" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀰" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_sh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀰" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_Sh" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀱" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_s" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀲" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_h" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀳" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_L" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀴" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_question" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="?" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_dot" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="." android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_brahmi_comma1" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_brahmi_comma2" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_brahmi_anusvara" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑀁" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_comma" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_brahmi_halant" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="𑁆" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_enter" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⏎" android:layout_margin="1dp"/>
 
         </LinearLayout>
 
-        <!-- Row 6: Function -->
+        <!-- Row 6: specialsymbols,mode,space,@,preferedlanguage,settings -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -221,8 +228,6 @@
             <Button android:id="@+id/key_brahmi_symbols" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="#+=" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_mode" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="PBR" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_space" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="3" android:text="Space" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_brahmi_comma3" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_brahmi_question" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="?" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_at" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="@" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_lang" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="DEV" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_brahmi_settings" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⚙" android:layout_margin="1dp"/>
@@ -231,7 +236,7 @@
 
     </LinearLayout>
 
-    <!-- Numpad Layout (Keep your existing numpad layout) -->
+    <!-- Numpad Layout -->
     <LinearLayout
         android:id="@+id/layout_numpad"
         android:layout_width="match_parent"
@@ -290,8 +295,8 @@
             android:gravity="center">
             
             <Button android:id="@+id/key_0" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="2" android:text="0" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_dot" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="." android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_comma" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_dot_num" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="." android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_comma_num" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="," android:layout_margin="1dp"/>
             <Button android:id="@+id/key_enter_num" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="⏎" android:layout_margin="1dp"/>
             
         </LinearLayout>
@@ -312,7 +317,7 @@
 
     </LinearLayout>
 
-    <!-- Symbols Layout (Keep your existing symbols layout) -->
+    <!-- Symbols Layout -->
     <LinearLayout
         android:id="@+id/layout_symbols"
         android:layout_width="match_parent"
@@ -329,10 +334,10 @@
             android:gravity="center">
             
             <Button android:id="@+id/key_excl" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="!" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_at" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="@" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_at_sym" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="@" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_hash" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="#" android:layout_margin="1dp"/>
             <Button android:id="@+id/key_dollar" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="$" android:layout_margin="1dp"/>
-            <Button android:id="@+id/key_percent" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="%" android:layout_margin="1dp"/>
+            <Button android:id="@+id/key_percent_sym" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="%" android:layout_margin="1dp"/>
             
         </LinearLayout>
 

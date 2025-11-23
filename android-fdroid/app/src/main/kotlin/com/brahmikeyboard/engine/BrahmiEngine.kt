@@ -29,7 +29,7 @@ class BrahmiEngine(private val assets: AssetManager) {
     
     private fun convertEnglish(input: String): ConversionResult {
         return ConversionResult(
-            previewText = input,
+            previewText = "Brahmi: $input\nEnglish: $input",
             outputText = input,
             referenceScript = "english",
             brahmiText = input
@@ -37,20 +37,15 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertBrahmi(romanInput: String): ConversionResult {
-        // DEBUG: Add this temporary logging
-        println("DEBUG convertBrahmi: input='$romanInput'")
-        println("DEBUG convertBrahmi: currentReferenceScript='$currentReferenceScript'")
-        
-        // Convert Roman to Indian script first
+        // PARALLEL PROCESSING
+        // Path 1: Roman → Indian Script (for Line 2)
         val indianScript = scriptLoader.romanToIndianScript(romanInput, currentReferenceScript)
-        println("DEBUG convertBrahmi: indianScript='$indianScript'")
         
-        // Then convert Indian script to Brahmi
-        val brahmiText = scriptLoader.scriptToBrahmi(indianScript, currentReferenceScript)
-        println("DEBUG convertBrahmi: brahmiText='$brahmiText'")
+        // Path 2: Roman → Brahmi (for Line 1 and output)
+        val brahmiText = scriptLoader.romanToBrahmiScript(romanInput, currentReferenceScript)
         
-        val preview = "$indianScript = $brahmiText"
-        println("DEBUG convertBrahmi: final preview='$preview'")
+        val scriptName = getScriptDisplayName(currentReferenceScript)
+        val preview = "Brahmi: $brahmiText\n$scriptName: $indianScript"
         
         return ConversionResult(
             previewText = preview,
@@ -61,15 +56,33 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertPureBrahmi(brahmiInput: String): ConversionResult {
-        // For pure Brahmi mode, convert Brahmi back to Indian script for preview only
+        // Convert Brahmi to Indian script for Line 2 preview only
         val indianScript = scriptLoader.brahmiToScript(brahmiInput, currentReferenceScript)
+        val scriptName = getScriptDisplayName(currentReferenceScript)
+        val preview = "Brahmi: $brahmiInput\n$scriptName: $indianScript"
         
         return ConversionResult(
-            previewText = "$indianScript = $brahmiInput",
+            previewText = preview,
             outputText = brahmiInput,
             referenceScript = currentReferenceScript,
             brahmiText = brahmiInput
         )
+    }
+    
+    private fun getScriptDisplayName(script: String): String {
+        return when (script) {
+            "devanagari" -> "Devanagari"
+            "kannada" -> "Kannada"
+            "telugu" -> "Telugu"
+            "bengali" -> "Bengali"
+            "gujarati" -> "Gujarati"
+            "tamil" -> "Tamil"
+            "malayalam" -> "Malayalam"
+            "odia" -> "Odia"
+            "punjabi" -> "Punjabi"
+            "assamese" -> "Assamese"
+            else -> script.replaceFirstChar { it.uppercase() }
+        }
     }
 }
 
