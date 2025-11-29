@@ -62,7 +62,7 @@ class BrahmiEngine(private val assets: AssetManager) {
                     brahmiResult.append(segment.text)
                     indianResult.append(segment.text)
                 }
-                else -> {
+                SegmentType.TEXT -> {
                     brahmiResult.append(segment.text)
                     indianResult.append(segment.text)
                 }
@@ -82,20 +82,6 @@ class BrahmiEngine(private val assets: AssetManager) {
         )
     }
     
-        val scriptName = getScriptDisplayName(currentReferenceScript)
-    // Use proper string formatting
-        val preview = String.format("Brahmi: %s\n%s: %s", brahmiText, scriptName, indianText)
-    
-        return ConversionResult(
-            previewText = preview,
-            outputText = brahmiText,
-            referenceScript = currentReferenceScript,
-            brahmiText = brahmiText
-    )
-}
-
-
-
     private fun convertPureBrahmi(brahmiInput: String): ConversionResult {
         // For Pure Brahmi mode - Brahmi input, show Indian reference
         val segments = processTextWithWordBoundaries(brahmiInput)
@@ -113,7 +99,7 @@ class BrahmiEngine(private val assets: AssetManager) {
                 SegmentType.BOUNDARY -> {
                     indianResult.append(segment.text)
                 }
-                else -> {
+                SegmentType.TEXT -> {
                     indianResult.append(segment.text)
                 }
             }
@@ -131,25 +117,10 @@ class BrahmiEngine(private val assets: AssetManager) {
         )
     }
     
-        val scriptName = getScriptDisplayName(currentReferenceScript)
-    // Use proper string formatting
-        val preview = String.format("Brahmi: %s\n%s: %s", brahmiInput, scriptName, indianText)
-    
-        return ConversionResult(
-            previewText = preview,
-            outputText = brahmiInput,
-            referenceScript = currentReferenceScript,
-            brahmiText = brahmiInput
-        )
-    }
-
-
-
     // Word boundary processing
     private fun processTextWithWordBoundaries(text: String): List<TextSegment> {
         val segments = mutableListOf<TextSegment>()
         var currentWord = StringBuilder()
-        var currentType: SegmentType = SegmentType.TEXT
         
         for (char in text) {
             if (wordBoundaries.contains(char)) {
