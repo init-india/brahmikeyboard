@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="primary">#2196F3</color>
-    
-    <!-- Colors referenced in styles.xml -->
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
+    
+    <!-- Keyboard Colors -->
+    <color name="keyboard_background">#F0F0F0</color>
+    <color name="key_background">#FFFFFF</color>
+    <color name="key_text">#000000</color>
+    <color name="key_pressed">#E0E0E0</color>
+    <color name="preview_background">#FFFFFF</color>
+    <color name="preview_text">#333333</color>
+    <color name="preview_label">#666666</color>
+    
+    <!-- Theme Colors -->
+    <color name="theme_light_background">#F0F0F0</color>
+    <color name="theme_dark_background">#333333</color>
+    <color name="theme_high_contrast_background">#000000</color>
+    <color name="theme_sepia_background">#F4ECD8</color>
 </resources>
