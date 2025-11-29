@@ -7,8 +7,8 @@
     
     <!-- Preview bar default text -->
     <string name="preview_default">[BRM|DEV] Type to see preview…</string>
-    <string name="preview_brahmi">Brahmi: %s</string>
-    <string name="preview_indian">%s: %s</string>
+    <string name="preview_brahmi">Brahmi: %1$s</string>
+    <string name="preview_indian" formatted="false">%1$s: %2$s</string>
     <string name="preview_password">Brahmi: ****\nPassword: ****</string>
     
     <!-- Mode names -->
@@ -26,4 +26,16 @@
     <string name="button_shift">Shift</string>
     <string name="button_symbols">Symbols</string>
     <string name="button_numpad">Numbers</string>
+    
+    <!-- Script names -->
+    <string name="script_devanagari">Devanagari</string>
+    <string name="script_bengali">Bengali</string>
+    <string name="script_gujarati">Gujarati</string>
+    <string name="script_kannada">Kannada</string>
+    <string name="script_tamil">Tamil</string>
+    <string name="script_telugu">Telugu</string>
+    <string name="script_malayalam">Malayalam</string>
+    <string name="script_odia">Odia</string>
+    <string name="script_punjabi">Punjabi</string>
+    <string name="script_assamese">Assamese</string>
 </resources>
