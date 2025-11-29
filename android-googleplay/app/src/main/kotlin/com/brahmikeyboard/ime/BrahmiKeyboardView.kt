@@ -12,7 +12,7 @@ import com.brahmikeyboard.engine.BrahmiEngine
 import com.brahmikeyboard.engine.KeyboardMode
 import com.brahmikeyboard.data.PreferencesManager
 import com.brahmikeyboard.ui.SettingsActivity
-import com.brahmikeyboard.R 
+import com.brahmikeyboard.R
 
 class BrahmiKeyboardView(
     context: Context,
@@ -24,6 +24,10 @@ class BrahmiKeyboardView(
     private var currentMode: KeyboardMode = KeyboardMode.BRAHMI
     private var currentBuffer: String = ""
     private lateinit var previewBar: TextView
+    private lateinit var previewLine1: TextView
+    private lateinit var previewLine2: TextView
+    private lateinit var previewLabel1: TextView
+    private lateinit var previewLabel2: TextView
     private var isPasswordField: Boolean = false
     
     private val allIndianLanguages = listOf(
@@ -45,7 +49,7 @@ class BrahmiKeyboardView(
         "a" to "𑀅", "aa" to "𑀆", "i" to "𑀇", "ee" to "𑀈", 
         "u" to "𑀉", "uu" to "𑀊", "e" to "𑀏", "ei" to "𑀐",
         "o" to "𑀑", "ou" to "𑀒",
-    
+        
         // Consonants
         "k" to "𑀓", "kh" to "𑀔", "g" to "𑀕", "gh" to "𑀖", 
         "nga" to "𑀗", "c" to "𑀘", "ch" to "𑀙", "j" to "𑀚", 
@@ -56,9 +60,20 @@ class BrahmiKeyboardView(
         "m" to "𑀫", "y" to "𑀬", "r" to "𑀭", "l" to "𑀮",
         "v" to "𑀯", "sh" to "𑀰", "Sh" to "𑀱", "s" to "𑀲", 
         "h" to "𑀳", "L" to "𑀴",
-    
+        
         // Special keys
         "halant" to "𑁆"
+    )
+    
+    private val languageDisplayNames = mapOf(
+        "assamese" to "assamese", "awadhi" to "awadhi", "bengali" to "bengali",
+        "bhojpuri" to "bhojpuri", "chhattisgarhi" to "chhattisgarhi", "devanagari" to "devanagari",
+        "dogri" to "dogri", "gujarati" to "gujarati", "harayanvi" to "harayanvi",
+        "kannada" to "kannada", "kashmiri" to "kashmiri", "konkani" to "konkani",
+        "maithili" to "maithili", "malayalam" to "malayalam", "manipuri" to "manipuri",
+        "marathi" to "marathi", "nepali" to "nepali", "odia" to "odia",
+        "punjabi" to "punjabi", "rajasthani" to "rajasthani", "sanskrit" to "sanskrit",
+        "sindhi" to "sindhi", "tamil" to "tamil", "telugu" to "telugu"
     )
     
     init {
@@ -73,16 +88,39 @@ class BrahmiKeyboardView(
     
     fun setPasswordField(isPassword: Boolean) {
         isPasswordField = isPassword
-        updatePreviewBar()
+        updatePreviewDisplay()
     }
     
     fun clearPreview() {
         currentBuffer = ""
-        updatePreviewBar()
+        updatePreviewDisplay()
+    }
+    
+    fun updateFromPreferences() {
+        currentMode = preferences.getCurrentMode()
+        brahmiEngine.setReferenceScript(preferences.getReferenceScript())
+        updateAllIndicators()
+        updateLayout()
+        updatePreviewLabels()
+    }
+    
+    fun applyTheme(theme: String) {
+        // Apply theme to keyboard elements
+        when (theme) {
+            "dark" -> applyDarkTheme()
+            "light" -> applyLightTheme()
+            "high_contrast" -> applyHighContrastTheme()
+            "sepia" -> applySepiaTheme()
+            else -> applyLightTheme()
+        }
     }
     
     private fun setupKeyboard() {
         previewBar = findViewById(R.id.preview_bar)
+        previewLine1 = findViewById(R.id.preview_line1)
+        previewLine2 = findViewById(R.id.preview_line2)
+        previewLabel1 = findViewById(R.id.preview_label1)
+        previewLabel2 = findViewById(R.id.preview_label2)
         
         // Load saved states
         currentMode = preferences.getCurrentMode()
@@ -93,6 +131,7 @@ class BrahmiKeyboardView(
         setupKeyListeners()
         updateAllIndicators()
         updateLayout()
+        updatePreviewLabels()
     }
     
     private fun setupKeyListeners() {
@@ -276,13 +315,16 @@ class BrahmiKeyboardView(
     }
     
     private fun handleCharacterInPassword(char: String) {
-        // Direct output for passwords
+        // Direct output for passwords - no preview
         inputConnection?.commitText(char, 1)
         
         if (isShiftActive) {
             isShiftActive = false
             updateLayout()
         }
+        
+        // Show asterisks in preview for passwords
+        updatePreviewDisplay()
     }
     
     private fun handleCharacterInNormal(char: String) {
@@ -290,6 +332,7 @@ class BrahmiKeyboardView(
             KeyboardMode.ENGLISH -> {
                 // Direct output for English mode
                 inputConnection?.commitText(char, 1)
+                currentBuffer = "" // No buffering in English mode
             }
             KeyboardMode.BRAHMI, KeyboardMode.PURE_BRAHMI -> {
                 // Buffer for preview in Brahmi modes
@@ -362,7 +405,7 @@ class BrahmiKeyboardView(
     }
     
     private fun switchReferenceLanguage() {
-        val currentLang = preferences.getReferenceLanguage()
+        val currentLang = preferences.getReferenceScript()
         val currentIndex = allIndianLanguages.indexOf(currentLang)
         val nextIndex = if (currentIndex == -1 || currentIndex == allIndianLanguages.size - 1) {
             0
@@ -371,8 +414,9 @@ class BrahmiKeyboardView(
         }
         val nextLang = allIndianLanguages[nextIndex]
         
-        preferences.setReferenceLanguage(nextLang)
+        preferences.setReferenceScript(nextLang)
         brahmiEngine.setReferenceScript(nextLang)
+        updatePreviewLabels()
         updatePreview()
         updateLanguageIndicator()
     }
@@ -432,35 +476,49 @@ class BrahmiKeyboardView(
     
     private fun updatePreview() {
         if (isPasswordField) {
-            previewBar.text = "Brahmi: ****\nPassword: ****"
+            showPasswordPreview()
             return
         }
         
         if (currentBuffer.isNotEmpty()) {
             val conversion = brahmiEngine.convertToBrahmi(currentBuffer, currentMode)
-            previewBar.text = conversion.previewText
+            showConversionPreview(conversion)
         } else {
-            updatePreviewBar()
+            showEmptyPreview()
         }
     }
     
-    private fun updatePreviewBar() {
+    private fun updatePreviewDisplay() {
         if (isPasswordField) {
-            previewBar.text = "Brahmi: ****\nPassword: ****"
-            return
+            showPasswordPreview()
+        } else if (currentBuffer.isNotEmpty()) {
+            val conversion = brahmiEngine.convertToBrahmi(currentBuffer, currentMode)
+            showConversionPreview(conversion)
+        } else {
+            showEmptyPreview()
         }
-        
-        val modeText = when (currentMode) {
-            KeyboardMode.ENGLISH -> "ENG"
-            KeyboardMode.BRAHMI -> "BRM" 
-            KeyboardMode.PURE_BRAHMI -> "PBR"
-        }
-        val lang = preferences.getReferenceLanguage()
-        val langCode = when {
-            lang.length >= 3 -> lang.take(3).uppercase()
-            else -> lang.uppercase()
-        }
-        previewBar.text = "[$modeText|$langCode] Type to see preview..."
+    }
+    
+    private fun showConversionPreview(conversion: com.brahmikeyboard.engine.ConversionResult) {
+        previewLine1.text = conversion.brahmiText
+        previewLine2.text = conversion.indianScriptText
+    }
+    
+    private fun showPasswordPreview() {
+        previewLine1.text = "****"
+        previewLine2.text = "****"
+    }
+    
+    private fun showEmptyPreview() {
+        previewLine1.text = ""
+        previewLine2.text = ""
+    }
+    
+    private fun updatePreviewLabels() {
+        val currentScript = brahmiEngine.getCurrentReferenceScript()
+        val displayName = languageDisplayNames[currentScript] ?: currentScript
+        previewLabel2.text = "$displayName:"
+        previewLabel1.text = "brahmi:"
     }
     
     private fun updateAllIndicators() {
@@ -469,7 +527,7 @@ class BrahmiKeyboardView(
         updateNumpadIndicator()
         updateSymbolsIndicator()
         updateShiftIndicator()
-        updatePreviewBar()
+        updatePreviewLabels()
     }
     
     private fun updateModeIndicator() {
@@ -483,7 +541,7 @@ class BrahmiKeyboardView(
     }
     
     private fun updateLanguageIndicator() {
-        val currentLang = preferences.getReferenceLanguage()
+        val currentLang = preferences.getReferenceScript()
         val langCode = when (currentLang) {
             "assamese" -> "ASM"
             "awadhi" -> "AWA"
@@ -528,7 +586,6 @@ class BrahmiKeyboardView(
     private fun updateShiftIndicator() {
         val shiftButton = findViewById<Button>(R.id.key_shift)
         shiftButton?.isActivated = isShiftActive
-        shiftButton?.setBackgroundColor(if (isShiftActive) 0xFFCCCCCC.toInt() else 0xFFFFFFFF.toInt())
     }
     
     private fun openSettings() {
@@ -539,5 +596,26 @@ class BrahmiKeyboardView(
         } catch (e: Exception) {
             android.widget.Toast.makeText(context, "Settings not available", android.widget.Toast.LENGTH_SHORT).show()
         }
+    }
+    
+    // Theme application methods
+    private fun applyDarkTheme() {
+        setBackgroundColor(0xFF333333.toInt())
+        // Implement dark theme for all keyboard elements
+    }
+    
+    private fun applyLightTheme() {
+        setBackgroundColor(0xFFF0F0F0.toInt())
+        // Implement light theme for all keyboard elements
+    }
+    
+    private fun applyHighContrastTheme() {
+        setBackgroundColor(0xFF000000.toInt())
+        // Implement high contrast theme
+    }
+    
+    private fun applySepiaTheme() {
+        setBackgroundColor(0xFFF4ECD8.toInt())
+        // Implement sepia theme
     }
 }

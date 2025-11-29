@@ -12,6 +12,19 @@
         <item>Tamil</item>
         <item>Telugu</item>
         <item>Assamese</item>
+        <item>Awadhi</item>
+        <item>Bhojpuri</item>
+        <item>Chhattisgarhi</item>
+        <item>Dogri</item>
+        <item>Harayanvi</item>
+        <item>Kashmiri</item>
+        <item>Konkani</item>
+        <item>Maithili</item>
+        <item>Manipuri</item>
+        <item>Nepali</item>
+        <item>Rajasthani</item>
+        <item>Sanskrit</item>
+        <item>Sindhi</item>
     </string-array>
     
     <string-array name="reference_scripts_values">
@@ -25,6 +38,19 @@
         <item>tamil</item>
         <item>telugu</item>
         <item>assamese</item>
+        <item>awadhi</item>
+        <item>bhojpuri</item>
+        <item>chhattisgarhi</item>
+        <item>dogri</item>
+        <item>harayanvi</item>
+        <item>kashmiri</item>
+        <item>konkani</item>
+        <item>maithili</item>
+        <item>manipuri</item>
+        <item>nepali</item>
+        <item>rajasthani</item>
+        <item>sanskrit</item>
+        <item>sindhi</item>
     </string-array>
     
     <!-- Keyboard Modes -->
@@ -99,5 +125,35 @@
         <item>monospace</item>
         <item>brahmi_ancient</item>
         <item>devanagari_modern</item>
+    </string-array>
+    
+    <!-- Font Sizes -->
+    <string-array name="font_size_entries">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra Large</item>
+    </string-array>
+    
+    <string-array name="font_size_values">
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+    </string-array>
+    
+    <!-- Key Sizes -->
+    <string-array name="key_size_entries">
+        <item>Compact</item>
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Extra Large</item>
+    </string-array>
+    
+    <string-array name="key_size_values">
+        <item>40</item>
+        <item>48</item>
+        <item>56</item>
+        <item>64</item>
     </string-array>
 </resources>

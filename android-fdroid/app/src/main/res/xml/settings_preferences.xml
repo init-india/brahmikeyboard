@@ -2,182 +2,158 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/settings_category_general">
-        
+    <!-- General Settings Category -->
+    <PreferenceCategory
+        android:title="@string/preferences_category_general"
+        android:icon="@drawable/ic_settings_general">
+
         <ListPreference
-            android:key="reference_script"
-            android:title="Reference Script"
-            android:summary="Choose your reference Indian script"
+            android:key="pref_reference_script"
+            android:title="@string/pref_title_reference_script"
+            android:summary="@string/pref_summary_reference_script"
             android:entries="@array/reference_scripts_entries"
             android:entryValues="@array/reference_scripts_values"
-            android:defaultValue="devanagari" />
-            
+            android:defaultValue="devanagari"
+            app:useSimpleSummaryProvider="true" />
+
         <ListPreference
-            android:key="default_mode"
-            android:title="Default Keyboard Mode"
-            android:summary="Choose default mode when keyboard starts"
+            android:key="pref_default_mode"
+            android:title="@string/pref_title_default_mode"
+            android:summary="@string/pref_summary_default_mode"
             android:entries="@array/keyboard_modes_entries"
             android:entryValues="@array/keyboard_modes_values"
-            android:defaultValue="brahmi" />
-            
+            android:defaultValue="brahmi"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Theme &amp; Appearance">
-        
+    <!-- Appearance Settings Category -->
+    <PreferenceCategory
+        android:title="@string/preferences_category_appearance"
+        android:icon="@drawable/ic_settings_appearance">
+
         <ListPreference
-            android:key="theme_mode"
-            android:title="Theme Mode"
-            android:summary="Choose light or dark theme"
+            android:key="pref_theme"
+            android:title="@string/pref_title_theme"
+            android:summary="@string/pref_summary_theme"
             android:entries="@array/theme_entries"
             android:entryValues="@array/theme_values"
-            android:defaultValue="light" />
-            
+            android:defaultValue="light"
+            app:useSimpleSummaryProvider="true" />
+
         <ListPreference
-            android:key="key_shape"
-            android:title="Key Shape"
-            android:summary="Choose the shape of keyboard keys"
+            android:key="pref_key_shape"
+            android:title="@string/pref_title_key_shape"
+            android:summary="@string/pref_summary_key_shape"
             android:entries="@array/key_shape_entries"
             android:entryValues="@array/key_shape_values"
-            android:defaultValue="square" />
-            
+            android:defaultValue="square"
+            app:useSimpleSummaryProvider="true" />
+
         <ListPreference
-            android:key="font_family"
-            android:title="Font Family"
-            android:summary="Choose font for key labels"
+            android:key="pref_font_family"
+            android:title="@string/pref_title_font_family"
+            android:summary="@string/pref_summary_font_family"
             android:entries="@array/font_family_entries"
             android:entryValues="@array/font_family_values"
-            android:defaultValue="default" />
-            
-    </PreferenceCategory>
+            android:defaultValue="default"
+            app:useSimpleSummaryProvider="true" />
 
-    <PreferenceCategory android:title="Size &amp; Dimensions">
-        
-        <SeekBarPreference
-            android:key="font_size"
-            android:title="Font Size"
-            android:summary="Adjust key label font size"
+        <ListPreference
+            android:key="pref_font_size"
+            android:title="@string/pref_title_font_size"
+            android:summary="@string/pref_summary_font_size"
+            android:entries="@array/font_size_entries"
+            android:entryValues="@array/font_size_values"
             android:defaultValue="16"
-            android:max="30"
-            android:min="10" />
-            
-        <SeekBarPreference
-            android:key="key_height"
-            android:title="Key Height"
-            android:summary="Adjust height of keyboard keys"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:key="pref_key_size"
+            android:title="@string/pref_title_key_size"
+            android:summary="@string/pref_summary_key_size"
+            android:entries="@array/key_size_entries"
+            android:entryValues="@array/key_size_values"
             android:defaultValue="48"
-            android:max="80"
-            android:min="40" />
-            
+            app:useSimpleSummaryProvider="true" />
+
         <SeekBarPreference
-            android:key="key_width"
-            android:title="Key Width Scale"
-            android:summary="Adjust width scaling of keys"
-            android:defaultValue="100"
-            android:max="150"
-            android:min="80" />
-            
-        <SeekBarPreference
-            android:key="keyboard_height_portrait"
-            android:title="Keyboard Height (Portrait)"
-            android:summary="Adjust overall keyboard height in portrait"
+            android:key="pref_keyboard_height_portrait"
+            android:title="@string/pref_title_keyboard_height_portrait"
+            android:summary="@string/pref_summary_keyboard_height_portrait"
             android:defaultValue="300"
             android:max="500"
-            android:min="200" />
-            
+            android:min="200"
+            app:showSeekBarValue="true" />
+
         <SeekBarPreference
-            android:key="keyboard_height_landscape"
-            android:title="Keyboard Height (Landscape)"
-            android:summary="Adjust overall keyboard height in landscape"
-            android:defaultValue="250"
+            android:key="pref_keyboard_height_landscape"
+            android:title="@string/pref_title_keyboard_height_landscape"
+            android:summary="@string/pref_summary_keyboard_height_landscape"
+            android:defaultValue="200"
             android:max="400"
-            android:min="150" />
-            
+            android:min="150"
+            app:showSeekBarValue="true" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Colors &amp; Styling">
-        
-        <Preference
-            android:key="key_background_color"
-            android:title="Key Background Color"
-            android:summary="Choose color for key backgrounds" />
-            
-        <Preference
-            android:key="key_text_color"
-            android:title="Key Text Color"
-            android:summary="Choose color for key labels" />
-            
-        <Preference
-            android:key="keyboard_background_color"
-            android:title="Keyboard Background Color"
-            android:summary="Choose color for keyboard background" />
-            
-        <Preference
-            android:key="preview_bar_color"
-            android:title="Preview Bar Color"
-            android:summary="Choose color for preview bar" />
-            
-        <SwitchPreference
-            android:key="gradient_keys"
-            android:title="Gradient Key Effects"
-            android:summary="Add gradient effects to keys"
-            android:defaultValue="false" />
-            
-        <SwitchPreference
-            android:key="key_shadows"
-            android:title="Key Shadows"
-            android:summary="Add shadow effects to keys"
-            android:defaultValue="true" />
-            
-    </PreferenceCategory>
+    <!-- Behavior Settings Category -->
+    <PreferenceCategory
+        android:title="@string/preferences_category_behavior"
+        android:icon="@drawable/ic_settings_behavior">
 
-    <PreferenceCategory android:title="Advanced">
-        
-        <SwitchPreference
-            android:key="vibration_feedback"
-            android:title="Vibration Feedback"
-            android:summary="Enable vibration on key press"
+        <SwitchPreferenceCompat
+            android:key="pref_vibration"
+            android:title="@string/pref_title_vibration"
+            android:summary="@string/pref_summary_vibration"
             android:defaultValue="true" />
-            
+
         <SeekBarPreference
-            android:key="vibration_duration"
-            android:title="Vibration Duration"
-            android:summary="Adjust vibration duration in milliseconds"
+            android:key="pref_vibration_duration"
+            android:title="@string/pref_title_vibration_duration"
+            android:summary="@string/pref_summary_vibration_duration"
             android:defaultValue="20"
-            android:max="100"
-            android:min="5" />
-            
-        <SwitchPreference
-            android:key="sound_feedback"
-            android:title="Sound Feedback"
-            android:summary="Enable sound on key press"
+            android:max="50"
+            android:min="5"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_sound"
+            android:title="@string/pref_title_sound"
+            android:summary="@string/pref_summary_sound"
             android:defaultValue="true" />
-            
-        <SwitchPreference
-            android:key="auto_space"
-            android:title="Auto Space After Words"
-            android:summary="Automatically add space after words"
-            android:defaultValue="false" />
-            
-        <SwitchPreference
-            android:key="show_key_previews"
-            android:title="Show Key Previews"
-            android:summary="Show preview popup on key press"
+
+        <SwitchPreferenceCompat
+            android:key="pref_auto_correct"
+            android:title="@string/pref_title_auto_correct"
+            android:summary="@string/pref_summary_auto_correct"
             android:defaultValue="true" />
-            
+
+        <SwitchPreferenceCompat
+            android:key="pref_suggestions"
+            android:title="@string/pref_title_suggestions"
+            android:summary="@string/pref_summary_suggestions"
+            android:defaultValue="true" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Reset &amp; About">
-        
+    <!-- Advanced Settings Category -->
+    <PreferenceCategory
+        android:title="@string/preferences_category_advanced"
+        android:icon="@drawable/ic_settings_advanced">
+
         <Preference
-            android:key="reset_settings"
-            android:title="Reset to Defaults"
-            android:summary="Reset all settings to default values" />
-            
+            android:key="pref_reset"
+            android:title="@string/pref_title_reset"
+            android:summary="@string/pref_summary_reset"
+            android:icon="@drawable/ic_reset" />
+
         <Preference
-            android:key="about"
-            android:title="About Brahmi Keyboard"
-            android:summary="Version information and credits" />
-            
+            android:key="pref_about"
+            android:title="@string/pref_title_about"
+            android:summary="@string/pref_summary_about"
+            android:icon="@drawable/ic_about" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

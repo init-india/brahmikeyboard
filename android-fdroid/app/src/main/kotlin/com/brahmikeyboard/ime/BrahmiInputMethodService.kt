@@ -13,11 +13,15 @@ class BrahmiInputMethodService : InputMethodService() {
     private lateinit var brahmiEngine: BrahmiEngine
     private lateinit var preferences: PreferencesManager
     private var isPasswordField: Boolean = false
+    private var isOtpField: Boolean = false
     
     override fun onCreate() {
         super.onCreate()
         brahmiEngine = BrahmiEngine(assets)
         preferences = PreferencesManager(this)
+        
+        // Set initial reference script
+        brahmiEngine.setReferenceScript(preferences.getReferenceScript())
     }
     
     override fun onCreateInputView(): View {
@@ -28,9 +32,12 @@ class BrahmiInputMethodService : InputMethodService() {
     override fun onStartInput(editorInfo: EditorInfo?, restarting: Boolean) {
         super.onStartInput(editorInfo, restarting)
         isPasswordField = isPasswordField(editorInfo)
+        isOtpField = isOtpField(editorInfo)
+        
         if (::keyboardView.isInitialized) {
             keyboardView.setInputConnection(currentInputConnection)
-            keyboardView.setPasswordField(isPasswordField)
+            keyboardView.setPasswordField(isPasswordField || isOtpField)
+            keyboardView.updateFromPreferences()
         }
     }
     
@@ -47,7 +54,6 @@ class BrahmiInputMethodService : InputMethodService() {
     
     override fun onWindowShown() {
         super.onWindowShown()
-        // Apply any theme changes when window is shown
         applyThemeSettings()
     }
     
@@ -60,14 +66,31 @@ class BrahmiInputMethodService : InputMethodService() {
         return variation == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
                variation == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD ||
                variation == InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD ||
-               (inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD) == InputType.TYPE_NUMBER_VARIATION_PASSWORD ||
-               editorInfo.inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD
+               (inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD) == InputType.TYPE_NUMBER_VARIATION_PASSWORD
+    }
+    
+    private fun isOtpField(editorInfo: EditorInfo?): Boolean {
+        if (editorInfo == null) return false
+        
+        // Check for OTP field hints
+        val hintText = editorInfo.hintText?.toString()?.lowercase() ?: ""
+        val packageName = editorInfo.packageName?.lowercase() ?: ""
+        
+        return hintText.contains("otp") || 
+               hintText.contains("one time password") ||
+               hintText.contains("verification code") ||
+               packageName.contains("bank") ||
+               packageName.contains("payment") ||
+               packageName.contains("wallet")
     }
     
     private fun applyThemeSettings() {
-        // Apply theme settings to keyboard view
-        val theme = preferences.getThemeMode()
-        // This would apply the selected theme to the keyboard
-        // Implementation depends on your theming system
+        if (::keyboardView.isInitialized) {
+            keyboardView.applyTheme(preferences.getThemeMode())
+        }
     }
+    
+    fun getBrahmiEngine(): BrahmiEngine = brahmiEngine
+    
+    fun getPreferences(): PreferencesManager = preferences
 }

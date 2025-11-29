@@ -27,7 +27,7 @@ class PreferencesManager(context: Context) {
         prefs.edit().putString("current_mode", modeString).apply()
     }
     
-    // Reference language
+    // Reference language/script
     fun getReferenceScript(): String {
         return prefs.getString("reference_script", "devanagari") ?: "devanagari"
     }
@@ -94,6 +94,72 @@ class PreferencesManager(context: Context) {
         prefs.edit().putInt("key_height", height).apply()
     }
     
+    fun getKeyWidth(): Int {
+        return prefs.getInt("key_width", 40)
+    }
+    
+    fun setKeyWidth(width: Int) {
+        prefs.edit().putInt("key_width", width).apply()
+    }
+    
+    // Keyboard dimensions
+    fun getKeyboardHeightPortrait(): Int {
+        return prefs.getInt("keyboard_height_portrait", 300)
+    }
+    
+    fun setKeyboardHeightPortrait(height: Int) {
+        prefs.edit().putInt("keyboard_height_portrait", height).apply()
+    }
+    
+    fun getKeyboardHeightLandscape(): Int {
+        return prefs.getInt("keyboard_height_landscape", 200)
+    }
+    
+    fun setKeyboardHeightLandscape(height: Int) {
+        prefs.edit().putInt("keyboard_height_landscape", height).apply()
+    }
+    
+    // Color customization
+    fun getKeyboardBackgroundColor(): Int {
+        return prefs.getInt("keyboard_bg_color", 0xFFF0F0F0.toInt())
+    }
+    
+    fun setKeyboardBackgroundColor(color: Int) {
+        prefs.edit().putInt("keyboard_bg_color", color).apply()
+    }
+    
+    fun getKeyBackgroundColor(): Int {
+        return prefs.getInt("key_bg_color", 0xFFFFFFFF.toInt())
+    }
+    
+    fun setKeyBackgroundColor(color: Int) {
+        prefs.edit().putInt("key_bg_color", color).apply()
+    }
+    
+    fun getKeyTextColor(): Int {
+        return prefs.getInt("key_text_color", 0xFF000000.toInt())
+    }
+    
+    fun setKeyTextColor(color: Int) {
+        prefs.edit().putInt("key_text_color", color).apply()
+    }
+    
+    fun getPreviewBackgroundColor(): Int {
+        return prefs.getInt("preview_bg_color", 0xFFFFFFFF.toInt())
+    }
+    
+    fun setPreviewBackgroundColor(color: Int) {
+        prefs.edit().putInt("preview_bg_color", color).apply()
+    }
+    
+    fun getPreviewTextColor(): Int {
+        return prefs.getInt("preview_text_color", 0xFF333333.toInt())
+    }
+    
+    fun setPreviewTextColor(color: Int) {
+        prefs.edit().putInt("preview_text_color", color).apply()
+    }
+    
     // Utility methods
     fun getReferenceLanguage(): String {
         return getReferenceScript()
@@ -109,10 +175,6 @@ class PreferencesManager(context: Context) {
     
     fun setDefaultMode(mode: String) {
         prefs.edit().putString("default_mode", mode).apply()
-    }
-    
-    fun resetToDefaults() {
-        prefs.edit().clear().apply()
     }
     
     // Vibration and feedback
@@ -138,5 +200,36 @@ class PreferencesManager(context: Context) {
     
     fun setSoundEnabled(enabled: Boolean) {
         prefs.edit().putBoolean("sound_feedback", enabled).apply()
+    }
+    
+    // Auto-correction and suggestions
+    fun getAutoCorrectEnabled(): Boolean {
+        return prefs.getBoolean("auto_correct", true)
+    }
+    
+    fun setAutoCorrectEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean("auto_correct", enabled).apply()
+    }
+    
+    fun getSuggestionsEnabled(): Boolean {
+        return prefs.getBoolean("suggestions", true)
+    }
+    
+    fun setSuggestionsEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean("suggestions", enabled).apply()
+    }
+    
+    // Reset to defaults
+    fun resetToDefaults() {
+        prefs.edit().clear().apply()
+    }
+    
+    // First run detection
+    fun isFirstRun(): Boolean {
+        return prefs.getBoolean("first_run", true)
+    }
+    
+    fun setFirstRunCompleted() {
+        prefs.edit().putBoolean("first_run", false).apply()
     }
 }

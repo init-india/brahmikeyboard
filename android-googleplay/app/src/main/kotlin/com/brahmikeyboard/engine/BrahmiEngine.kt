@@ -4,10 +4,10 @@ import android.content.res.AssetManager
 import com.brahmikeyboard.data.ScriptMappingLoader
 
 data class ConversionResult(
-    val previewText: String,
+    val brahmiText: String,
+    val indianScriptText: String,
     val outputText: String,
-    val referenceScript: String,
-    val brahmiText: String
+    val referenceScript: String
 )
 
 class BrahmiEngine(private val assets: AssetManager) {
@@ -16,11 +16,13 @@ class BrahmiEngine(private val assets: AssetManager) {
     private var currentReferenceScript = "devanagari"
     
     // Word boundary characters
-    private val wordBoundaries = setOf(' ', '\n', '\t', '.', ',', '!', '?', ';', ':', '"', '\'', '(', ')', '[', ']', '{', '}')
+    private val wordBoundaries = setOf(' ', '\n', '\t', '.', ',', '!', '?', ';', ':', '"', '\'', '(', ')', '[', ']', '{', '}', '@', '#', '$', '%', '&', '*', '/', '\\', '|', '<', '>', '=', '+', '-', '_')
     
     fun setReferenceScript(script: String) {
         currentReferenceScript = script
     }
+    
+    fun getCurrentReferenceScript(): String = currentReferenceScript
     
     fun convertToBrahmi(input: String, mode: KeyboardMode): ConversionResult {
         return when (mode) {
@@ -31,23 +33,27 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertEnglish(input: String): ConversionResult {
-        // English mode - direct output, no conversion
+        // English mode - direct output, single line preview
         return ConversionResult(
-            previewText = "English: $input",
+            brahmiText = input,
+            indianScriptText = input,
             outputText = input,
-            referenceScript = "english",
-            brahmiText = input
+            referenceScript = "english"
         )
     }
     
     private fun convertBrahmi(romanInput: String): ConversionResult {
+        if (romanInput.isEmpty()) {
+            return ConversionResult("", "", "", currentReferenceScript)
+        }
+        
         // TRUE PARALLEL PROCESSING - both from Roman source
-        val segments = processTextWithWordBoundaries(romanInput)
+        val segments = splitTextWithBoundaries(romanInput)
         
         val brahmiResult = StringBuilder()
         val indianResult = StringBuilder()
         
-        // Process each segment
+        // Process each segment in parallel
         for (segment in segments) {
             when (segment.type) {
                 SegmentType.WORD -> {
@@ -62,29 +68,28 @@ class BrahmiEngine(private val assets: AssetManager) {
                     brahmiResult.append(segment.text)
                     indianResult.append(segment.text)
                 }
-                SegmentType.TEXT -> {
+                SegmentType.SYMBOL -> {
                     brahmiResult.append(segment.text)
                     indianResult.append(segment.text)
                 }
             }
         }
         
-        val brahmiText = brahmiResult.toString()
-        val indianText = indianResult.toString()
-        val scriptName = getScriptDisplayName(currentReferenceScript)
-        val preview = "Brahmi: $brahmiText\n$scriptName: $indianText"
-        
         return ConversionResult(
-            previewText = preview,
-            outputText = brahmiText,
-            referenceScript = currentReferenceScript,
-            brahmiText = brahmiText
+            brahmiText = brahmiResult.toString(),
+            indianScriptText = indianResult.toString(),
+            outputText = brahmiResult.toString(), // Brahmi output for BRM mode
+            referenceScript = currentReferenceScript
         )
     }
     
     private fun convertPureBrahmi(brahmiInput: String): ConversionResult {
+        if (brahmiInput.isEmpty()) {
+            return ConversionResult("", "", "", currentReferenceScript)
+        }
+        
         // For Pure Brahmi mode - Brahmi input, show Indian reference
-        val segments = processTextWithWordBoundaries(brahmiInput)
+        val segments = splitTextWithBoundaries(brahmiInput)
         
         val indianResult = StringBuilder()
         
@@ -99,26 +104,22 @@ class BrahmiEngine(private val assets: AssetManager) {
                 SegmentType.BOUNDARY -> {
                     indianResult.append(segment.text)
                 }
-                SegmentType.TEXT -> {
+                SegmentType.SYMBOL -> {
                     indianResult.append(segment.text)
                 }
             }
         }
         
-        val indianText = indianResult.toString()
-        val scriptName = getScriptDisplayName(currentReferenceScript)
-        val preview = "Brahmi: $brahmiInput\n$scriptName: $indianText"
-        
         return ConversionResult(
-            previewText = preview,
+            brahmiText = brahmiInput, // Direct Brahmi display
+            indianScriptText = indianResult.toString(),
             outputText = brahmiInput, // Direct Brahmi output
-            referenceScript = currentReferenceScript,
-            brahmiText = brahmiInput
+            referenceScript = currentReferenceScript
         )
     }
     
-    // Word boundary processing
-    private fun processTextWithWordBoundaries(text: String): List<TextSegment> {
+    // Enhanced text segmentation
+    private fun splitTextWithBoundaries(text: String): List<TextSegment> {
         val segments = mutableListOf<TextSegment>()
         var currentWord = StringBuilder()
         
@@ -129,8 +130,9 @@ class BrahmiEngine(private val assets: AssetManager) {
                     segments.add(TextSegment(currentWord.toString(), SegmentType.WORD))
                     currentWord.clear()
                 }
-                // Add the boundary as separate segment
-                segments.add(TextSegment(char.toString(), SegmentType.BOUNDARY))
+                // Classify boundary type
+                val type = if (char.isLetterOrDigit()) SegmentType.BOUNDARY else SegmentType.SYMBOL
+                segments.add(TextSegment(char.toString(), type))
             } else {
                 currentWord.append(char)
             }
@@ -143,29 +145,13 @@ class BrahmiEngine(private val assets: AssetManager) {
         
         return segments
     }
-    
-    private fun getScriptDisplayName(script: String): String {
-        return when (script) {
-            "devanagari" -> "Devanagari"
-            "kannada" -> "Kannada"
-            "telugu" -> "Telugu"
-            "bengali" -> "Bengali"
-            "gujarati" -> "Gujarati"
-            "tamil" -> "Tamil"
-            "malayalam" -> "Malayalam"
-            "odia" -> "Odia"
-            "punjabi" -> "Punjabi"
-            "assamese" -> "Assamese"
-            else -> script.replaceFirstChar { it.uppercase() }
-        }
-    }
 }
 
 // Supporting data classes
 data class TextSegment(val text: String, val type: SegmentType)
 
 enum class SegmentType {
-    WORD, BOUNDARY, TEXT
+    WORD, BOUNDARY, SYMBOL
 }
 
 enum class KeyboardMode {
