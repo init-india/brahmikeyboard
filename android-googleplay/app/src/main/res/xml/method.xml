@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <input-method xmlns:android="http://schemas.android.com/apk/res/android">
     <subtype
-        android:label="@string/keyboard_subtype_label"
+        android:label="@string/keyboard_name"
+        android:imeSubtypeLocale="en_IN"
         android:imeSubtypeMode="keyboard" />
+    <subtype
+        android:label="@string/keyboard_name_brahmi"
+        android:imeSubtypeLocale="en_IN"
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeExtraValue="brahmi" />
 </input-method>

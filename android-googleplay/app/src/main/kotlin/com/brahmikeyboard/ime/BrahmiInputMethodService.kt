@@ -20,10 +20,6 @@ class BrahmiInputMethodService : InputMethodService() {
         preferences = PreferencesManager(this)
     }
     
-    override fun onEvaluateInputViewShown(): Boolean {
-        return true
-    }
-    
     override fun onCreateInputView(): View {
         keyboardView = BrahmiKeyboardView(this, brahmiEngine, preferences)
         return keyboardView
@@ -45,6 +41,16 @@ class BrahmiInputMethodService : InputMethodService() {
         }
     }
     
+    override fun onEvaluateInputViewShown(): Boolean {
+        return true
+    }
+    
+    override fun onWindowShown() {
+        super.onWindowShown()
+        // Apply any theme changes when window is shown
+        applyThemeSettings()
+    }
+    
     private fun isPasswordField(editorInfo: EditorInfo?): Boolean {
         if (editorInfo == null) return false
         
@@ -54,6 +60,14 @@ class BrahmiInputMethodService : InputMethodService() {
         return variation == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
                variation == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD ||
                variation == InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD ||
-               (inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD) == InputType.TYPE_NUMBER_VARIATION_PASSWORD
+               (inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD) == InputType.TYPE_NUMBER_VARIATION_PASSWORD ||
+               editorInfo.inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD
+    }
+    
+    private fun applyThemeSettings() {
+        // Apply theme settings to keyboard view
+        val theme = preferences.getThemeMode()
+        // This would apply the selected theme to the keyboard
+        // Implementation depends on your theming system
     }
 }

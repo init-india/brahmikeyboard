@@ -53,6 +53,47 @@ class PreferencesManager(context: Context) {
         prefs.edit().putBoolean("symbols_active", active).apply()
     }
     
+    // Theme and customization
+    fun getThemeMode(): String {
+        return prefs.getString("theme_mode", "light") ?: "light"
+    }
+    
+    fun setThemeMode(theme: String) {
+        prefs.edit().putString("theme_mode", theme).apply()
+    }
+    
+    fun getKeyShape(): String {
+        return prefs.getString("key_shape", "square") ?: "square"
+    }
+    
+    fun setKeyShape(shape: String) {
+        prefs.edit().putString("key_shape", shape).apply()
+    }
+    
+    fun getFontFamily(): String {
+        return prefs.getString("font_family", "default") ?: "default"
+    }
+    
+    fun setFontFamily(font: String) {
+        prefs.edit().putString("font_family", font).apply()
+    }
+    
+    fun getFontSize(): Int {
+        return prefs.getInt("font_size", 16)
+    }
+    
+    fun setFontSize(size: Int) {
+        prefs.edit().putInt("font_size", size).apply()
+    }
+    
+    fun getKeyHeight(): Int {
+        return prefs.getInt("key_height", 48)
+    }
+    
+    fun setKeyHeight(height: Int) {
+        prefs.edit().putInt("key_height", height).apply()
+    }
+    
     // Utility methods
     fun getReferenceLanguage(): String {
         return getReferenceScript()
@@ -72,5 +113,30 @@ class PreferencesManager(context: Context) {
     
     fun resetToDefaults() {
         prefs.edit().clear().apply()
+    }
+    
+    // Vibration and feedback
+    fun getVibrationEnabled(): Boolean {
+        return prefs.getBoolean("vibration_feedback", true)
+    }
+    
+    fun setVibrationEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean("vibration_feedback", enabled).apply()
+    }
+    
+    fun getVibrationDuration(): Int {
+        return prefs.getInt("vibration_duration", 20)
+    }
+    
+    fun setVibrationDuration(duration: Int) {
+        prefs.edit().putInt("vibration_duration", duration).apply()
+    }
+    
+    fun getSoundEnabled(): Boolean {
+        return prefs.getBoolean("sound_feedback", true)
+    }
+    
+    fun setSoundEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean("sound_feedback", enabled).apply()
     }
 }

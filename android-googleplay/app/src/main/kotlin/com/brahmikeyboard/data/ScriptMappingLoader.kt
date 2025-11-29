@@ -8,6 +8,7 @@ class ScriptMappingLoader(private val assets: AssetManager) {
     
     private val scriptMappings = mutableMapOf<String, Map<String, String>>()
     private val romanToIndianMappings = mutableMapOf<String, Map<String, String>>()
+    private val wordLevelMappings = mutableMapOf<String, Map<String, String>>()
     
     // Brahmi combinations sorted by length (longest first)
     private val brahmiCombinations = listOf(
@@ -39,6 +40,16 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         }
     }
     
+    private fun loadWordLevelMappings(): Map<String, Map<String, String>> {
+        return try {
+            val inputStream: InputStream = assets.open("script-mappings/word-level-mappings.json")
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            Json.decodeFromString<Map<String, Map<String, String>>>(jsonString)
+        } catch (e: Exception) {
+            emptyMap()
+        }
+    }
+    
     private fun createFullMapping(data: ScriptMappingData): Map<String, String> {
         val fullMap = mutableMapOf<String, String>()
         
@@ -51,7 +62,8 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         return fullMap
     }
     
-    // Roman to Indian Script conversion
+    // CHARACTER-LEVEL METHODS (for backward compatibility)
+    
     fun romanToIndianScript(romanText: String, targetScript: String): String {
         val mappings = loadRomanToIndianMappings()
         var result = StringBuilder()
@@ -60,7 +72,6 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         while (i < romanText.length) {
             var matched = false
             
-            // Check for combinations first (longest match)
             for (combination in brahmiCombinations) {
                 if (i + combination.length <= romanText.length) {
                     val test = romanText.substring(i, i + combination.length).lowercase()
@@ -75,7 +86,6 @@ class ScriptMappingLoader(private val assets: AssetManager) {
                 }
             }
             
-            // Single character mapping
             if (!matched) {
                 val char = romanText[i].toString()
                 val scriptMapping = mappings[targetScript]
@@ -88,9 +98,7 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         return result.toString()
     }
     
-    // Direct Roman to Brahmi conversion
     fun romanToBrahmiScript(romanText: String, targetScript: String): String {
-        // First convert to Indian script, then to Brahmi
         val indianScript = romanToIndianScript(romanText, targetScript)
         return scriptToBrahmi(indianScript, targetScript)
     }
@@ -118,6 +126,35 @@ class ScriptMappingLoader(private val assets: AssetManager) {
         }
         
         return result.toString()
+    }
+    
+    // WORD-LEVEL METHODS (NEW - for parallel processing)
+    
+    fun romanToBrahmiWordLevel(romanWord: String, targetScript: String): String {
+        // Use word-level mappings if available, fallback to character-level
+        val wordMappings = loadWordLevelMappings()
+        val brahmiWordMapping = wordMappings["roman_to_brahmi_words"]
+        
+        return brahmiWordMapping?.get(romanWord.lowercase()) 
+            ?: romanToBrahmiScript(romanWord, targetScript) // Fallback
+    }
+    
+    fun romanToIndianWordLevel(romanWord: String, targetScript: String): String {
+        // Use word-level mappings if available, fallback to character-level
+        val wordMappings = loadWordLevelMappings()
+        val indianWordMapping = wordMappings["roman_to_${targetScript}_words"]
+        
+        return indianWordMapping?.get(romanWord.lowercase())
+            ?: romanToIndianScript(romanWord, targetScript) // Fallback
+    }
+    
+    fun brahmiToRomanWordLevel(brahmiWord: String, sourceScript: String): String {
+        // Use reverse mapping for Brahmi to Roman
+        val wordMappings = loadWordLevelMappings()
+        val romanWordMapping = wordMappings["brahmi_to_roman_words"]
+        
+        // Simple implementation - in real scenario, you'd have a proper mapping
+        return romanWordMapping?.get(brahmiWord) ?: brahmiWord // Fallback to same
     }
 }
 

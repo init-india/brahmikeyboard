@@ -171,9 +171,6 @@ class BrahmiKeyboardView(
         
         // Brahmi layout special characters
         findViewById<Button>(R.id.key_brahmi_dot)?.setOnClickListener { onKeyPress(".") }
-        findViewById<Button>(R.id.key_brahmi_comma1)?.setOnClickListener { onKeyPress(",") }
-        findViewById<Button>(R.id.key_brahmi_comma2)?.setOnClickListener { onKeyPress(",") }
-        findViewById<Button>(R.id.key_brahmi_comma3)?.setOnClickListener { onKeyPress(",") }
         findViewById<Button>(R.id.key_brahmi_question)?.setOnClickListener { onKeyPress("?") }
         findViewById<Button>(R.id.key_brahmi_at)?.setOnClickListener { onKeyPress("@") }
         findViewById<Button>(R.id.key_brahmi_halant)?.setOnClickListener { onBrahmiKeyPress("halant") }
