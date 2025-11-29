@@ -23,7 +23,6 @@ class BrahmiKeyboardView(
     private var inputConnection: InputConnection? = null
     private var currentMode: KeyboardMode = KeyboardMode.BRAHMI
     private var currentBuffer: String = ""
-    private lateinit var previewBar: TextView
     private lateinit var previewLine1: TextView
     private lateinit var previewLine2: TextView
     private lateinit var previewLabel1: TextView
@@ -116,7 +115,6 @@ class BrahmiKeyboardView(
     }
     
     private fun setupKeyboard() {
-        previewBar = findViewById(R.id.preview_bar)
         previewLine1 = findViewById(R.id.preview_line1)
         previewLine2 = findViewById(R.id.preview_line2)
         previewLabel1 = findViewById(R.id.preview_label1)
