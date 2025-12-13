@@ -11,18 +11,26 @@ import android.widget.LinearLayout
 import com.brahmikeyboard.engine.BrahmiEngine
 import com.brahmikeyboard.engine.KeyboardMode
 import com.brahmikeyboard.data.PreferencesManager
+import com.brahmikeyboard.data.ScriptMappingLoader
 import com.brahmikeyboard.ui.SettingsActivity
 import com.brahmikeyboard.R
 
 class BrahmiKeyboardView(
     context: Context,
     private val brahmiEngine: BrahmiEngine,
+    private val scriptLoader: ScriptMappingLoader,
     private val preferences: PreferencesManager
 ) : LinearLayout(context) {
     
     private var inputConnection: InputConnection? = null
     private var currentMode: KeyboardMode = KeyboardMode.BRAHMI
-    private var currentBuffer: String = ""
+    
+    // Unified input state
+    private var inputBuffer = StringBuilder()
+    private var isSyllableComplete = false
+    private var pendingConsonant: String? = null
+    private var isConsonantPending = false
+    
     private lateinit var previewLine1: TextView
     private lateinit var previewLine2: TextView
     private lateinit var previewLabel1: TextView
@@ -42,37 +50,49 @@ class BrahmiKeyboardView(
     private var isSymbolsActive = false
     private var isShiftActive = false
     
-    // Brahmi character mapping for PURE BRAHMI mode
-    private val brahmiCharacterMap = mapOf(
-        // Vowels
-        "a" to "𑀅", "aa" to "𑀆", "i" to "𑀇", "ee" to "𑀈", 
-        "u" to "𑀉", "uu" to "𑀊", "e" to "𑀏", "ei" to "𑀐",
-        "o" to "𑀑", "ou" to "𑀒",
-        
-        // Consonants
-        "k" to "𑀓", "kh" to "𑀔", "g" to "𑀕", "gh" to "𑀖", 
-        "nga" to "𑀗", "c" to "𑀘", "ch" to "𑀙", "j" to "𑀚", 
-        "jh" to "𑀛", "yn" to "𑀜", "T" to "𑀝", "Th" to "𑀞",
-        "D" to "𑀟", "Dh" to "𑀠", "N" to "𑀡", "t" to "𑀢",
-        "th" to "𑀣", "d" to "𑀤", "dh" to "𑀥", "n" to "𑀦",
-        "p" to "𑀧", "ph" to "𑀨", "b" to "𑀩", "bh" to "𑀪",
-        "m" to "𑀫", "y" to "𑀬", "r" to "𑀭", "l" to "𑀮",
-        "v" to "𑀯", "sh" to "𑀰", "Sh" to "𑀱", "s" to "𑀲", 
-        "h" to "𑀳", "L" to "𑀴",
-        
-        // Special keys
-        "halant" to "𑁆"
+    // Character mappings (extended from script loader)
+    private val romanConsonants = setOf(
+        "k", "kh", "g", "gh", "nga", "c", "ch", "j", "jh", "yn",
+        "T", "Th", "D", "Dh", "N", "t", "th", "d", "dh", "n",
+        "p", "ph", "b", "bh", "m", "y", "r", "l", "v", "sh", "Sh", "s", "h", "L"
+    )
+    
+    private val romanVowels = setOf(
+        "a", "aa", "i", "ee", "u", "uu", "e", "ei", "o", "ou"
+    )
+    
+    private val romanStandaloneVowels = setOf(
+        "a", "aa", "i", "ee", "u", "uu", "e", "ei", "o", "ou"
     )
     
     private val languageDisplayNames = mapOf(
-        "assamese" to "assamese", "awadhi" to "awadhi", "bengali" to "bengali",
-        "bhojpuri" to "bhojpuri", "chhattisgarhi" to "chhattisgarhi", "devanagari" to "devanagari",
-        "dogri" to "dogri", "gujarati" to "gujarati", "harayanvi" to "harayanvi",
-        "kannada" to "kannada", "kashmiri" to "kashmiri", "konkani" to "konkani",
-        "maithili" to "maithili", "malayalam" to "malayalam", "manipuri" to "manipuri",
-        "marathi" to "marathi", "nepali" to "nepali", "odia" to "odia",
-        "punjabi" to "punjabi", "rajasthani" to "rajasthani", "sanskrit" to "sanskrit",
-        "sindhi" to "sindhi", "tamil" to "tamil", "telugu" to "telugu"
+        "assamese" to "Assamese", "awadhi" to "Awadhi", "bengali" to "Bengali",
+        "bhojpuri" to "Bhojpuri", "chhattisgarhi" to "Chhattisgarhi", "devanagari" to "Devanagari",
+        "dogri" to "Dogri", "gujarati" to "Gujarati", "harayanvi" to "Harayanvi",
+        "kannada" to "Kannada", "kashmiri" to "Kashmiri", "konkani" to "Konkani",
+        "maithili" to "Maithili", "malayalam" to "Malayalam", "manipuri" to "Manipuri",
+        "marathi" to "Marathi", "nepali" to "Nepali", "odia" to "Odia",
+        "punjabi" to "Punjabi", "rajasthani" to "Rajasthani", "sanskrit" to "Sanskrit",
+        "sindhi" to "Sindhi", "tamil" to "Tamil", "telugu" to "Telugu"
+    )
+    
+    // Data classes for syllable processing
+    private data class SyllableParseResult(
+        val isValidPartial: Boolean = false,
+        val isValidComplete: Boolean = false,
+        val syllable: String = "",
+        val partial: String = ""
+    ) {
+        companion object {
+            fun invalid(): SyllableParseResult = SyllableParseResult()
+        }
+    }
+    
+    private data class InputState(
+        val buffer: String = "",
+        val isComplete: Boolean = false,
+        val pendingConsonant: String? = null,
+        val displayText: String = ""
     )
     
     init {
@@ -91,7 +111,10 @@ class BrahmiKeyboardView(
     }
     
     fun clearPreview() {
-        currentBuffer = ""
+        inputBuffer.clear()
+        isSyllableComplete = false
+        pendingConsonant = null
+        isConsonantPending = false
         updatePreviewDisplay()
     }
     
@@ -104,7 +127,6 @@ class BrahmiKeyboardView(
     }
     
     fun applyTheme(theme: String) {
-        // Apply theme to keyboard elements
         when (theme) {
             "dark" -> applyDarkTheme()
             "light" -> applyLightTheme()
@@ -120,7 +142,6 @@ class BrahmiKeyboardView(
         previewLabel1 = findViewById(R.id.preview_label1)
         previewLabel2 = findViewById(R.id.preview_label2)
         
-        // Load saved states
         currentMode = preferences.getCurrentMode()
         isNumpadActive = preferences.isNumpadActive()
         isSymbolsActive = preferences.isSymbolsActive()
@@ -142,7 +163,6 @@ class BrahmiKeyboardView(
     }
     
     private fun setupEnglishAlphabetKeys() {
-        // Alphabet keys q w e r t y u i o p a s d f g h j k l z x c v b n m
         val englishKeys = listOf("q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
                                 "a", "s", "d", "f", "g", "h", "j", "k", "l", 
                                 "z", "x", "c", "v", "b", "n", "m")
@@ -160,50 +180,32 @@ class BrahmiKeyboardView(
     }
     
     private fun setupBrahmiKeys() {
-        // Brahmi vowel keys
         listOf("a", "aa", "i", "ee", "u", "uu", "e", "ei", "o", "ou").forEach { vowel ->
             val keyId = resources.getIdentifier("key_brahmi_$vowel", "id", context.packageName)
             findViewById<Button>(keyId)?.setOnClickListener { onBrahmiKeyPress(vowel) }
         }
         
-        // Brahmi consonant keys
-        listOf("k", "kh", "g", "gh", "nga", "c", "ch", "j", "jh", "yn",
-               "T", "Th", "D", "Dh", "N", "t", "th", "d", "dh", "n",
-               "p", "ph", "b", "bh", "m", "y", "r", "l", "v", "sh", "Sh", "s", "h", "L").forEach { consonant ->
+        romanConsonants.forEach { consonant ->
             val keyId = resources.getIdentifier("key_brahmi_$consonant", "id", context.packageName)
             findViewById<Button>(keyId)?.setOnClickListener { onBrahmiKeyPress(consonant) }
         }
+        
+        // Special Brahmi keys
+        findViewById<Button>(R.id.key_brahmi_halant)?.setOnClickListener { onBrahmiKeyPress("halant") }
+        findViewById<Button>(R.id.key_brahmi_anusvara)?.setOnClickListener { onBrahmiKeyPress("anusvara") }
+        findViewById<Button>(R.id.key_brahmi_visarga)?.setOnClickListener { onBrahmiKeyPress("visarga") }
     }
     
     private fun setupEnglishFunctionKeys() {
-        // Backspace
         findViewById<Button>(R.id.key_backspace)?.setOnClickListener { onKeyPress("BACKSPACE") }
-        
-        // Space
         findViewById<Button>(R.id.key_space)?.setOnClickListener { onKeyPress(" ") }
-        
-        // Enter
         findViewById<Button>(R.id.key_enter)?.setOnClickListener { onKeyPress("ENTER") }
-        
-        // Mode switch
         findViewById<Button>(R.id.key_mode)?.setOnClickListener { switchMode() }
-        
-        // Settings
         findViewById<Button>(R.id.key_settings)?.setOnClickListener { openSettings() }
-        
-        // Language switch
         findViewById<Button>(R.id.key_lang)?.setOnClickListener { switchReferenceLanguage() }
-        
-        // Numpad toggle
         findViewById<Button>(R.id.key_numpad)?.setOnClickListener { toggleNumpad() }
-        
-        // Symbols toggle
         findViewById<Button>(R.id.key_symbols)?.setOnClickListener { toggleSymbols() }
-        
-        // Shift
         findViewById<Button>(R.id.key_shift)?.setOnClickListener { toggleShift() }
-        
-        // Punctuation
         findViewById<Button>(R.id.key_question)?.setOnClickListener { onKeyPress("?") }
         findViewById<Button>(R.id.key_dot)?.setOnClickListener { onKeyPress(".") }
         findViewById<Button>(R.id.key_comma)?.setOnClickListener { onKeyPress(",") }
@@ -211,46 +213,26 @@ class BrahmiKeyboardView(
     }
     
     private fun setupBrahmiFunctionKeys() {
-        // Brahmi layout number pad toggle
         findViewById<Button>(R.id.key_brahmi_numpad)?.setOnClickListener { toggleNumpad() }
-        
-        // Brahmi layout symbols toggle  
         findViewById<Button>(R.id.key_brahmi_symbols)?.setOnClickListener { toggleSymbols() }
-        
-        // Brahmi layout mode switch
         findViewById<Button>(R.id.key_brahmi_mode)?.setOnClickListener { switchMode() }
-        
-        // Brahmi layout space
         findViewById<Button>(R.id.key_brahmi_space)?.setOnClickListener { onKeyPress(" ") }
-        
-        // Brahmi layout language switch
         findViewById<Button>(R.id.key_brahmi_lang)?.setOnClickListener { switchReferenceLanguage() }
-        
-        // Brahmi layout settings
         findViewById<Button>(R.id.key_brahmi_settings)?.setOnClickListener { openSettings() }
-        
-        // Brahmi layout backspace
         findViewById<Button>(R.id.key_brahmi_backspace)?.setOnClickListener { onKeyPress("BACKSPACE") }
-        
-        // Brahmi layout enter
         findViewById<Button>(R.id.key_brahmi_enter)?.setOnClickListener { onKeyPress("ENTER") }
-        
-        // Brahmi layout special characters
         findViewById<Button>(R.id.key_brahmi_dot)?.setOnClickListener { onKeyPress(".") }
         findViewById<Button>(R.id.key_brahmi_question)?.setOnClickListener { onKeyPress("?") }
         findViewById<Button>(R.id.key_brahmi_at)?.setOnClickListener { onKeyPress("@") }
         findViewById<Button>(R.id.key_brahmi_comma)?.setOnClickListener { onKeyPress(",") }
-        findViewById<Button>(R.id.key_brahmi_halant)?.setOnClickListener { onBrahmiKeyPress("halant") }
     }
     
     private fun setupNumpadListeners() {
-        // Numbers 0-9
         (0..9).forEach { num ->
             val keyId = resources.getIdentifier("key_$num", "id", context.packageName)
             findViewById<Button>(keyId)?.setOnClickListener { onKeyPress(num.toString()) }
         }
         
-        // Numpad special keys
         findViewById<Button>(R.id.key_plus)?.setOnClickListener { onKeyPress("+") }
         findViewById<Button>(R.id.key_minus)?.setOnClickListener { onKeyPress("-") }
         findViewById<Button>(R.id.key_dot_num)?.setOnClickListener { onKeyPress(".") }
@@ -263,7 +245,6 @@ class BrahmiKeyboardView(
     }
     
     private fun setupSymbolsListeners() {
-        // Symbol keys
         val symbolMap = mapOf(
             R.id.key_excl to "!", R.id.key_at_sym to "@", R.id.key_hash to "#", 
             R.id.key_dollar to "$", R.id.key_percent_sym to "%", R.id.key_caret to "^",
@@ -279,7 +260,6 @@ class BrahmiKeyboardView(
             findViewById<Button>(id)?.setOnClickListener { onKeyPress(symbol) }
         }
         
-        // Navigation
         findViewById<Button>(R.id.key_enter_sym)?.setOnClickListener { onKeyPress("ENTER") }
         findViewById<Button>(R.id.key_abc_sym)?.setOnClickListener { toggleSymbols() }
         findViewById<Button>(R.id.key_space_sym)?.setOnClickListener { onKeyPress(" ") }
@@ -296,10 +276,8 @@ class BrahmiKeyboardView(
     
     private fun onBrahmiKeyPress(brahmiKey: String) {
         if (currentMode == KeyboardMode.PURE_BRAHMI) {
-            val actualChar = brahmiCharacterMap[brahmiKey] ?: brahmiKey
-            handleCharacter(actualChar)
+            handlePureBrahmiKey(brahmiKey)
         } else {
-            // In BRAHMI mode, treat as Roman input
             handleCharacter(brahmiKey)
         }
     }
@@ -313,29 +291,27 @@ class BrahmiKeyboardView(
     }
     
     private fun handleCharacterInPassword(char: String) {
-        // Direct output for passwords - no preview
         inputConnection?.commitText(char, 1)
-        
         if (isShiftActive) {
             isShiftActive = false
             updateLayout()
         }
-        
-        // Show asterisks in preview for passwords
-        updatePreviewDisplay()
+        showPasswordPreview()
     }
     
     private fun handleCharacterInNormal(char: String) {
         when (currentMode) {
             KeyboardMode.ENGLISH -> {
-                // Direct output for English mode
                 inputConnection?.commitText(char, 1)
-                currentBuffer = "" // No buffering in English mode
+                clearInputState()
             }
-            KeyboardMode.BRAHMI, KeyboardMode.PURE_BRAHMI -> {
-                // Buffer for preview in Brahmi modes
-                currentBuffer += char
-                updatePreview()
+            
+            KeyboardMode.BRAHMI -> {
+                processBrahmiCharacter(char)
+            }
+            
+            KeyboardMode.PURE_BRAHMI -> {
+                processPureBrahmiCharacter(char)
             }
         }
         
@@ -345,17 +321,265 @@ class BrahmiKeyboardView(
         }
     }
     
-    private fun handleBackspace() {
-        if (isPasswordField || currentMode == KeyboardMode.ENGLISH) {
-            // Direct backspace for passwords and English mode
-            inputConnection?.deleteSurroundingText(1, 0)
+    private fun processBrahmiCharacter(char: String) {
+        inputBuffer.append(char)
+        
+        val parseResult = analyzeInputBuffer()
+        
+        when {
+            parseResult.isValidComplete -> {
+                // Complete syllable ready
+                val conversion = brahmiEngine.convertToBrahmi(parseResult.syllable, currentMode)
+                showCompletePreview(conversion)
+                isSyllableComplete = true
+            }
+            
+            parseResult.isValidPartial -> {
+                // Valid partial input
+                showPartialPreview(parseResult.partial)
+                isSyllableComplete = false
+            }
+            
+            else -> {
+                // Invalid input - handle as new syllable
+                if (inputBuffer.length > 1) {
+                    // Try to salvage by extracting valid syllable
+                    val salvaged = salvageSyllable(inputBuffer.toString())
+                    if (salvaged.isNotEmpty()) {
+                        inputBuffer = StringBuilder(salvaged)
+                        showPartialPreview(salvaged)
+                    } else {
+                        // Commit previous and start fresh
+                        commitCurrentBuffer()
+                        inputBuffer = StringBuilder(char)
+                        showPartialPreview(char)
+                    }
+                } else {
+                    showPartialPreview(char)
+                }
+            }
+        }
+    }
+    
+    private fun analyzeInputBuffer(): SyllableParseResult {
+        val buffer = inputBuffer.toString()
+        if (buffer.isEmpty()) return SyllableParseResult.invalid()
+        
+        // Check if it's a direct match in mappings
+        if (isExactMapping(buffer)) {
+            return SyllableParseResult(
+                isValidPartial = true,
+                isValidComplete = isCompleteSyllable(buffer),
+                syllable = buffer,
+                partial = buffer
+            )
+        }
+        
+        // Try to extract the longest valid syllable
+        val extracted = extractValidSyllable(buffer)
+        
+        return SyllableParseResult(
+            isValidPartial = extracted.isNotEmpty(),
+            isValidComplete = isCompleteSyllable(extracted),
+            syllable = extracted,
+            partial = extracted
+        )
+    }
+    
+    private fun extractValidSyllable(buffer: String): String {
+        // Try longest possible matches first (up to 3 chars for syllables like "nga")
+        for (length in 3 downTo 1) {
+            if (buffer.length >= length) {
+                val candidate = buffer.substring(0, length)
+                if (isValidSyllable(candidate)) {
+                    return candidate
+                }
+            }
+        }
+        
+        // If no valid syllable found, check if it could be a consonant followed by vowel
+        if (buffer.length >= 2) {
+            val consonant = getConsonantPart(buffer)
+            if (consonant.isNotEmpty() && consonant in romanConsonants) {
+                val remaining = buffer.substring(consonant.length)
+                if (remaining.isEmpty() || remaining in romanVowels) {
+                    return consonant + remaining
+                }
+            }
+        }
+        
+        return ""
+    }
+    
+    private fun isExactMapping(text: String): Boolean {
+        // Check if text exists in the universal mapping
+        return when {
+            text in romanConsonants -> true
+            text in romanVowels -> true
+            text in setOf("halant", "anusvara", "visarga") -> true
+            else -> false
+        }
+    }
+    
+    private fun isValidSyllable(text: String): Boolean {
+        if (text.isEmpty()) return false
+        
+        return when {
+            // Standalone vowel
+            text in romanStandaloneVowels -> true
+            
+            // Consonant (with or without inherent 'a')
+            text in romanConsonants -> true
+            
+            // Consonant + vowel combination
+            text.length >= 2 -> {
+                val consonant = getConsonantPart(text)
+                val vowel = text.substring(consonant.length)
+                consonant in romanConsonants && vowel in romanVowels
+            }
+            
+            else -> false
+        }
+    }
+    
+    private fun isCompleteSyllable(text: String): Boolean {
+        if (text.isEmpty()) return false
+        
+        return when {
+            // Vowel is always complete
+            text in romanStandaloneVowels -> true
+            
+            // Consonant alone (inherent 'a') is complete
+            text in romanConsonants -> true
+            
+            // Consonant + vowel is complete
+            text.length >= 2 -> {
+                val consonant = getConsonantPart(text)
+                val vowel = text.substring(consonant.length)
+                consonant in romanConsonants && vowel in romanVowels
+            }
+            
+            else -> false
+        }
+    }
+    
+    private fun getConsonantPart(input: String): String {
+        // Check for 3-character consonants first
+        if (input.length >= 3) {
+            val firstThree = input.substring(0, 3)
+            if (firstThree in listOf("nga", "yna")) { // Add more 3-char consonants as needed
+                return firstThree
+            }
+        }
+        
+        // Check for 2-character consonants
+        if (input.length >= 2) {
+            val firstTwo = input.substring(0, 2)
+            if (firstTwo in listOf("kh", "gh", "ch", "jh", "th", "dh", "ph", 
+                                  "bh", "sh", "Th", "Dh", "Sh")) {
+                return firstTwo
+            }
+        }
+        
+        // Single character consonant
+        return if (input.isNotEmpty() && input[0].toString() in romanConsonants) {
+            input[0].toString()
         } else {
-            // Backspace in preview buffer for Brahmi modes
-            if (currentBuffer.isNotEmpty()) {
-                currentBuffer = currentBuffer.dropLast(1)
-                updatePreview()
-            } else {
+            ""
+        }
+    }
+    
+    private fun salvageSyllable(buffer: String): String {
+        // Try to extract a valid syllable from invalid buffer
+        for (i in buffer.length downTo 1) {
+            val candidate = buffer.substring(0, i)
+            if (isValidSyllable(candidate)) {
+                return candidate
+            }
+        }
+        return ""
+    }
+    
+    private fun processPureBrahmiCharacter(char: String) {
+        // For Pure Brahmi mode, we need different handling
+        // This could be Roman input that gets converted to Brahmi characters
+        // Or direct Brahmi character input
+        
+        // For now, treat it like Brahmi mode but with different conversion
+        inputBuffer.append(char)
+        val conversion = brahmiEngine.convertToBrahmi(inputBuffer.toString(), currentMode)
+        
+        if (conversion.brahmiText.isNotEmpty()) {
+            showPureBrahmiPreview(conversion)
+            isSyllableComplete = true
+        } else {
+            showPartialPreview(inputBuffer.toString())
+            isSyllableComplete = false
+        }
+    }
+    
+    private fun handlePureBrahmiKey(key: String) {
+        when (key) {
+            "halant" -> handleHalant()
+            "anusvara" -> handleAnusvara()
+            "visarga" -> handleVisarga()
+            else -> {
+                // Treat as Brahmi character key
+                val brahmiChar = getBrahmiCharacter(key)
+                if (brahmiChar.isNotEmpty()) {
+                    inputConnection?.commitText(brahmiChar, 1)
+                    updatePureBrahmiPreview()
+                }
+            }
+        }
+    }
+    
+    private fun getBrahmiCharacter(key: String): String {
+        // Map Roman key to Brahmi character
+        // This should come from script loader or a mapping table
+        return when (key) {
+            in romanConsonants -> scriptLoader.romanToBrahmiSyllable(key, "brahmi")
+            in romanVowels -> scriptLoader.romanToBrahmiSyllable(key, "brahmi")
+            else -> key
+        }
+    }
+    
+    private fun handleHalant() {
+        // Add halant to current buffer or commit
+        if (inputBuffer.isNotEmpty()) {
+            inputBuffer.append("_") // Represent halant
+            showPartialPreview(inputBuffer.toString())
+        }
+    }
+    
+    private fun handleAnusvara() {
+        // Add anusvara
+        inputConnection?.commitText("ṃ", 1)
+    }
+    
+    private fun handleVisarga() {
+        // Add visarga
+        inputConnection?.commitText("ḥ", 1)
+    }
+    
+    private fun handleBackspace() {
+        when {
+            isPasswordField || currentMode == KeyboardMode.ENGLISH -> {
                 inputConnection?.deleteSurroundingText(1, 0)
+            }
+            
+            currentMode == KeyboardMode.BRAHMI -> {
+                if (inputBuffer.isNotEmpty()) {
+                    inputBuffer.deleteCharAt(inputBuffer.length - 1)
+                    updatePreview()
+                } else {
+                    inputConnection?.deleteSurroundingText(1, 0)
+                }
+            }
+            
+            currentMode == KeyboardMode.PURE_BRAHMI -> {
+                inputConnection?.deleteSurroundingText(1, 0)
+                updatePreview()
             }
         }
     }
@@ -364,9 +588,7 @@ class BrahmiKeyboardView(
         if (isPasswordField) {
             inputConnection?.commitText("\n", 1)
         } else {
-            if (currentBuffer.isNotEmpty() && currentMode != KeyboardMode.ENGLISH) {
-                commitCurrentBuffer()
-            }
+            commitCurrentBuffer()
             inputConnection?.commitText("\n", 1)
         }
     }
@@ -375,28 +597,51 @@ class BrahmiKeyboardView(
         if (isPasswordField) {
             inputConnection?.commitText(" ", 1)
         } else {
-            if (currentBuffer.isNotEmpty() && currentMode != KeyboardMode.ENGLISH) {
-                commitCurrentBuffer()
-            }
+            commitCurrentBuffer()
             inputConnection?.commitText(" ", 1)
         }
     }
     
     private fun commitCurrentBuffer() {
-        if (currentBuffer.isNotEmpty()) {
-            val conversion = brahmiEngine.convertToBrahmi(currentBuffer, currentMode)
-            inputConnection?.commitText(conversion.outputText, 1)
-            clearPreview()
+        if (inputBuffer.isEmpty()) return
+        
+        when (currentMode) {
+            KeyboardMode.BRAHMI -> {
+                val conversion = brahmiEngine.convertToBrahmi(inputBuffer.toString(), currentMode)
+                inputConnection?.commitText(conversion.outputText, 1)
+                clearInputState()
+                clearPreview()
+            }
+            
+            KeyboardMode.PURE_BRAHMI -> {
+                // For Pure Brahmi, buffer should already contain Brahmi characters
+                inputConnection?.commitText(inputBuffer.toString(), 1)
+                clearInputState()
+                clearPreview()
+            }
+            
+            else -> {} // English mode handled elsewhere
         }
     }
     
+    private fun clearInputState() {
+        inputBuffer.clear()
+        isSyllableComplete = false
+        pendingConsonant = null
+        isConsonantPending = false
+    }
+    
     private fun switchMode() {
+        // Commit any pending input before switching
+        commitCurrentBuffer()
+        
         currentMode = when (currentMode) {
             KeyboardMode.ENGLISH -> KeyboardMode.BRAHMI
             KeyboardMode.BRAHMI -> KeyboardMode.PURE_BRAHMI
             KeyboardMode.PURE_BRAHMI -> KeyboardMode.ENGLISH
         }
         preferences.setCurrentMode(currentMode)
+        clearInputState()
         clearPreview()
         updateAllIndicators()
         updateLayout()
@@ -452,7 +697,6 @@ class BrahmiKeyboardView(
         val numpadLayout = findViewById<View>(R.id.layout_numpad)
         val symbolsLayout = findViewById<View>(R.id.layout_symbols)
         
-        // Show appropriate main layout based on mode
         when (currentMode) {
             KeyboardMode.ENGLISH, KeyboardMode.BRAHMI -> {
                 englishLayout?.visibility = if (!isNumpadActive && !isSymbolsActive) View.VISIBLE else View.GONE
@@ -478,28 +722,58 @@ class BrahmiKeyboardView(
             return
         }
         
-        if (currentBuffer.isNotEmpty()) {
-            val conversion = brahmiEngine.convertToBrahmi(currentBuffer, currentMode)
-            showConversionPreview(conversion)
-        } else {
-            showEmptyPreview()
+        when (currentMode) {
+            KeyboardMode.BRAHMI -> {
+                if (inputBuffer.isNotEmpty()) {
+                    val parseResult = analyzeInputBuffer()
+                    if (parseResult.isValidComplete) {
+                        val conversion = brahmiEngine.convertToBrahmi(parseResult.syllable, currentMode)
+                        showCompletePreview(conversion)
+                    } else if (parseResult.isValidPartial) {
+                        showPartialPreview(parseResult.partial)
+                    } else {
+                        showPartialPreview(inputBuffer.toString())
+                    }
+                } else {
+                    showEmptyPreview()
+                }
+            }
+            
+            KeyboardMode.PURE_BRAHMI -> {
+                if (inputBuffer.isNotEmpty()) {
+                    val conversion = brahmiEngine.convertToBrahmi(inputBuffer.toString(), currentMode)
+                    showPureBrahmiPreview(conversion)
+                } else {
+                    showEmptyPreview()
+                }
+            }
+            
+            else -> showEmptyPreview()
         }
+    }
+    
+    private fun showCompletePreview(conversion: com.brahmikeyboard.engine.ConversionResult) {
+        previewLine1.text = conversion.brahmiText
+        previewLine2.text = conversion.indianScriptText
+    }
+    
+    private fun showPureBrahmiPreview(conversion: com.brahmikeyboard.engine.ConversionResult) {
+        // For Pure Brahmi, line 1 shows Brahmi, line 2 shows Roman/Indian
+        previewLine1.text = conversion.brahmiText
+        previewLine2.text = conversion.indianScriptText
+    }
+    
+    private fun showPartialPreview(partial: String) {
+        previewLine1.text = "$partial..."
+        previewLine2.text = "$partial..."
     }
     
     private fun updatePreviewDisplay() {
         if (isPasswordField) {
             showPasswordPreview()
-        } else if (currentBuffer.isNotEmpty()) {
-            val conversion = brahmiEngine.convertToBrahmi(currentBuffer, currentMode)
-            showConversionPreview(conversion)
         } else {
-            showEmptyPreview()
+            updatePreview()
         }
-    }
-    
-    private fun showConversionPreview(conversion: com.brahmikeyboard.engine.ConversionResult) {
-        previewLine1.text = conversion.brahmiText
-        previewLine2.text = conversion.indianScriptText
     }
     
     private fun showPasswordPreview() {
@@ -516,7 +790,7 @@ class BrahmiKeyboardView(
         val currentScript = brahmiEngine.getCurrentReferenceScript()
         val displayName = languageDisplayNames[currentScript] ?: currentScript
         previewLabel2.text = "$displayName:"
-        previewLabel1.text = "brahmi:"
+        previewLabel1.text = "Brahmi:"
     }
     
     private fun updateAllIndicators() {
@@ -596,24 +870,19 @@ class BrahmiKeyboardView(
         }
     }
     
-    // Theme application methods
     private fun applyDarkTheme() {
         setBackgroundColor(0xFF333333.toInt())
-        // Implement dark theme for all keyboard elements
     }
     
     private fun applyLightTheme() {
         setBackgroundColor(0xFFF0F0F0.toInt())
-        // Implement light theme for all keyboard elements
     }
     
     private fun applyHighContrastTheme() {
         setBackgroundColor(0xFF000000.toInt())
-        // Implement high contrast theme
     }
     
     private fun applySepiaTheme() {
         setBackgroundColor(0xFFF4ECD8.toInt())
-        // Implement sepia theme
     }
 }

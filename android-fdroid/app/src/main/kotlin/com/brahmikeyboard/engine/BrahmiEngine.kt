@@ -1,3 +1,4 @@
+// File: engine/BrahmiEngine.kt
 package com.brahmikeyboard.engine
 
 import android.content.res.AssetManager
@@ -15,9 +16,6 @@ class BrahmiEngine(private val assets: AssetManager) {
     private val scriptLoader = ScriptMappingLoader(assets)
     private var currentReferenceScript = "devanagari"
     
-    // Word boundary characters
-    private val wordBoundaries = setOf(' ', '\n', '\t', '.', ',', '!', '?', ';', ':', '"', '\'', '(', ')', '[', ']', '{', '}', '@', '#', '$', '%', '&', '*', '/', '\\', '|', '<', '>', '=', '+', '-', '_')
-    
     fun setReferenceScript(script: String) {
         currentReferenceScript = script
     }
@@ -33,7 +31,6 @@ class BrahmiEngine(private val assets: AssetManager) {
     }
     
     private fun convertEnglish(input: String): ConversionResult {
-        // English mode - direct output, single line preview
         return ConversionResult(
             brahmiText = input,
             indianScriptText = input,
@@ -47,40 +44,104 @@ class BrahmiEngine(private val assets: AssetManager) {
             return ConversionResult("", "", "", currentReferenceScript)
         }
         
-        // TRUE PARALLEL PROCESSING - both from Roman source
-        val segments = splitTextWithBoundaries(romanInput)
+        // Process input by splitting into words and syllables
+        val words = splitIntoWords(romanInput)
         
         val brahmiResult = StringBuilder()
         val indianResult = StringBuilder()
         
-        // Process each segment in parallel
-        for (segment in segments) {
-            when (segment.type) {
-                SegmentType.WORD -> {
-                    // PARALLEL PATHS: Both process the same Roman word
-                    val brahmiWord = scriptLoader.romanToBrahmiWordLevel(segment.text, currentReferenceScript)
-                    val indianWord = scriptLoader.romanToIndianWordLevel(segment.text, currentReferenceScript)
-                    
-                    brahmiResult.append(brahmiWord)
-                    indianResult.append(indianWord)
-                }
-                SegmentType.BOUNDARY -> {
-                    brahmiResult.append(segment.text)
-                    indianResult.append(segment.text)
-                }
-                SegmentType.SYMBOL -> {
-                    brahmiResult.append(segment.text)
-                    indianResult.append(segment.text)
-                }
+        for (word in words) {
+            // Process each word syllable by syllable
+            val syllables = splitIntoSyllables(word)
+            
+            // PARALLEL PROCESSING
+            for (syllable in syllables) {
+                // Path 1: Roman → Brahmi
+                val brahmiSyllable = scriptLoader.romanToBrahmiSyllable(syllable, currentReferenceScript)
+                brahmiResult.append(brahmiSyllable)
+                
+                // Path 2: Roman → Indian Script
+                val indianSyllable = scriptLoader.romanToIndianSyllable(syllable, currentReferenceScript)
+                indianResult.append(indianSyllable)
+            }
+            
+            // Add space between words
+            if (word != words.last()) {
+                brahmiResult.append(" ")
+                indianResult.append(" ")
             }
         }
         
         return ConversionResult(
             brahmiText = brahmiResult.toString(),
             indianScriptText = indianResult.toString(),
-            outputText = brahmiResult.toString(), // Brahmi output for BRM mode
+            outputText = brahmiResult.toString(), // Brahmi output
             referenceScript = currentReferenceScript
         )
+    }
+    
+    private fun splitIntoWords(text: String): List<String> {
+        // Simple word splitting - preserve spaces for reconstruction
+        return text.split(" ").filter { it.isNotEmpty() }
+    }
+    
+    private fun splitIntoSyllables(word: String): List<String> {
+        val syllables = mutableListOf<String>()
+        var i = 0
+        
+        while (i < word.length) {
+            // Find the next syllable
+            val syllable = extractNextSyllable(word, i)
+            syllables.add(syllable)
+            i += syllable.length
+        }
+        
+        return syllables
+    }
+    
+    private fun extractNextSyllable(word: String, startIndex: Int): String {
+        if (startIndex >= word.length) return ""
+        
+        var i = startIndex
+        val syllable = StringBuilder()
+        
+        // Look for consonant(s) + vowel pattern
+        while (i < word.length) {
+            val char = word[i]
+            
+            // If we hit a delimiter in middle of word, stop
+            if (char in ",.!?;:") {
+                if (syllable.isEmpty()) {
+                    syllable.append(char)
+                    i++
+                }
+                break
+            }
+            
+            syllable.append(char)
+            i++
+            
+            // Check if we have a complete syllable
+            if (isCompleteSyllable(syllable.toString(), i < word.length)) {
+                break
+            }
+        }
+        
+        return syllable.toString()
+    }
+    
+    private fun isCompleteSyllable(syllable: String, hasMoreChars: Boolean): Boolean {
+        if (syllable.isEmpty()) return false
+        
+        // A syllable is complete when:
+        // 1. It ends with a vowel
+        // 2. Or it's followed by another consonant (start of new syllable)
+        // 3. Or it's the end of the word
+        
+        val lastChar = syllable.last()
+        val isVowel = lastChar in "aeiou"
+        
+        return isVowel || !hasMoreChars
     }
     
     private fun convertPureBrahmi(brahmiInput: String): ConversionResult {
@@ -88,72 +149,40 @@ class BrahmiEngine(private val assets: AssetManager) {
             return ConversionResult("", "", "", currentReferenceScript)
         }
         
-        // For Pure Brahmi mode - Brahmi input, show Indian reference
-        val segments = splitTextWithBoundaries(brahmiInput)
+        // For Pure Brahmi mode, input is already in Brahmi
+        // We just need to convert to Indian script for line 2 preview
         
         val indianResult = StringBuilder()
+        var i = 0
         
-        for (segment in segments) {
-            when (segment.type) {
-                SegmentType.WORD -> {
-                    // Brahmi→Roman→Indian pipeline for word-level accuracy
-                    val romanWord = scriptLoader.brahmiToRomanWordLevel(segment.text, currentReferenceScript)
-                    val indianWord = scriptLoader.romanToIndianWordLevel(romanWord, currentReferenceScript)
-                    indianResult.append(indianWord)
-                }
-                SegmentType.BOUNDARY -> {
-                    indianResult.append(segment.text)
-                }
-                SegmentType.SYMBOL -> {
-                    indianResult.append(segment.text)
-                }
-            }
+        while (i < brahmiInput.length) {
+            // Try to extract a Brahmi unit (character or combined)
+            val unit = extractBrahmiUnit(brahmiInput, i)
+            
+            // Convert Brahmi → Roman → Indian
+            val roman = scriptLoader.brahmiToRoman(unit)
+            val indian = scriptLoader.romanToIndianSyllable(roman, currentReferenceScript)
+            indianResult.append(indian)
+            
+            i += unit.length
         }
         
         return ConversionResult(
-            brahmiText = brahmiInput, // Direct Brahmi display
+            brahmiText = brahmiInput, // Direct Brahmi for line 1
             indianScriptText = indianResult.toString(),
             outputText = brahmiInput, // Direct Brahmi output
             referenceScript = currentReferenceScript
         )
     }
     
-    // Enhanced text segmentation
-    private fun splitTextWithBoundaries(text: String): List<TextSegment> {
-        val segments = mutableListOf<TextSegment>()
-        var currentWord = StringBuilder()
+    private fun extractBrahmiUnit(text: String, startIndex: Int): String {
+        if (startIndex >= text.length) return ""
         
-        for (char in text) {
-            if (wordBoundaries.contains(char)) {
-                // Commit current word if exists
-                if (currentWord.isNotEmpty()) {
-                    segments.add(TextSegment(currentWord.toString(), SegmentType.WORD))
-                    currentWord.clear()
-                }
-                // Classify boundary type
-                val type = if (char.isLetterOrDigit()) SegmentType.BOUNDARY else SegmentType.SYMBOL
-                segments.add(TextSegment(char.toString(), type))
-            } else {
-                currentWord.append(char)
-            }
-        }
-        
-        // Add any remaining word
-        if (currentWord.isNotEmpty()) {
-            segments.add(TextSegment(currentWord.toString(), SegmentType.WORD))
-        }
-        
-        return segments
+        // Simple: take one character at a time
+        // In reality, Brahmi might have combined characters
+        return text[startIndex].toString()
     }
 }
 
-// Supporting data classes
-data class TextSegment(val text: String, val type: SegmentType)
-
-enum class SegmentType {
-    WORD, BOUNDARY, SYMBOL
-}
-
-enum class KeyboardMode {
-    ENGLISH, BRAHMI, PURE_BRAHMI
-}
+// Supporting enums
+enum class KeyboardMode { ENGLISH, BRAHMI, PURE_BRAHMI }
