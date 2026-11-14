@@ -45,7 +45,9 @@ F-Droid builds from the tag; its metadata lives in the F-Droid data repository. 
 
 ## Status
 
-0.1: EN, BR and PB modes, 21 languages, warnings and blocked letters, numerals, themes, user guide.
+0.9: Custom, Brahmi and Pure Brahmi modes, 21 languages, warnings and blocked letters, numerals, themes, user guide.
 Not yet: custom colours and fonts, language-specific letters (Tamil ழ ற ன and others), native-speaker checks of non-Devanagari tables.
 
-Licence: choose one (GPL-3.0 or Apache-2.0 both suit F-Droid) and add a `LICENSE` file before the first release.
+## Licence
+
+GPL-3.0-or-later (see `LICENSE`). The Noto Sans Brahmi font in `data/fonts/` is under the SIL Open Font License. Privacy policy: `PRIVACY.md`. How to publish: `docs/PUBLISHING.md`.

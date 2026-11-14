@@ -1,0 +1,26 @@
+Brahmi Keyboard lets you type Ashokan Brahmi, the script of the edicts of Ashoka, on your phone, using the Indian language you already know.
+
+THREE MODES
+• Custom (cus): turns what you type into another script. Type with English letters or with a language's own keys, and choose the output script. English to English leaves your text unchanged.
+• Brahmi (br): the keys show your language's letters with the Brahmi letter in small type. Type your language and the app receives Ashokan Brahmi.
+• Pure Brahmi (pb): the keys are Brahmi letters, with your language's reading in small type.
+
+Hold the Mode key for quick English, and hold it again to come back.
+
+MADE FOR LEARNERS OF THE SCRIPT
+• 21 Indian languages: Assamese, Bengali, Bodo, Dogri, Gujarati, Hindi, Kannada, Kashmiri, Konkani, Maithili, Malayalam, Manipuri, Marathi, Nepali, Odia, Punjabi, Santali, Sindhi, Tamil, Telugu and Urdu.
+• A preview strip shows your word in your language and in Brahmi before it is sent.
+• Conjuncts are stacked with a joiner key, written the Ashokan way.
+• Ashokan numerals, which are additive and have no zero.
+• Letters that do not belong to Ashokan script are refused with a red message. Post-Ashokan letters such as श and ष, and ऐ and औ, give an orange warning.
+• A built-in user guide explains the script and every key.
+
+COMFORT
+• Change key height, width, position and the space under the keys, so the bottom row never sits on your phone's back and home buttons.
+• Choose keyboard, key and letter colours, with light and dark themes.
+• A Go key runs the app's own action, and Enter starts a new line.
+
+PRIVATE BY DESIGN
+No network access, no ads, no analytics, no accounts. Everything is converted on your phone. In password fields the preview shows asterisks.
+
+Open source under the GPL-3.0 licence.

@@ -1,0 +1,27 @@
+# Draft build recipe for the F-Droid data repository (https://gitlab.com/fdroid/fdroiddata).
+# Copy to metadata/io.github.initindia.brahmikeyboard.yml in your fork and test it (see docs/PUBLISHING.md).
+Categories:
+  - Writing
+License: GPL-3.0-or-later
+AuthorName: init-india
+WebSite: https://github.com/init-india/brahmikeyboard
+SourceCode: https://github.com/init-india/brahmikeyboard
+IssueTracker: https://github.com/init-india/brahmikeyboard/issues
+
+AutoName: Brahmi Keyboard
+
+RepoType: git
+Repo: https://github.com/init-india/brahmikeyboard.git
+
+Builds:
+  - versionName: 0.9.0
+    versionCode: 1
+    commit: v0.9.0
+    subdir: android/app
+    gradle:
+      - fdroid
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 0.9.0
+CurrentVersionCode: 1

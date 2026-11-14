@@ -8,12 +8,12 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.brahmikeyboard"
+        applicationId = "io.github.initindia.brahmikeyboard"
         minSdk = 24
         targetSdk = 35
         // versionCode must only ever go up. versionName follows the git tag (vX.Y.Z).
         versionCode = 1
-        versionName = "0.1.0"
+        versionName = "0.9.0"
     }
 
     // Same source for both stores. The only reason for flavors is to keep the
@@ -24,8 +24,21 @@ android {
         create("fdroid") { dimension = "store" }
     }
 
+    // Release signing: only when the upload key is supplied through the environment (GitHub Actions secrets).
+    // Without it the release build is unsigned, which is what F-Droid wants (it signs with its own key).
+    val keystore = System.getenv("KEYSTORE_FILE")
+    signingConfigs {
+        if (keystore != null) create("release") {
+            storeFile = file(keystore)
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("KEY_ALIAS")
+            keyPassword = System.getenv("KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.findByName("release")
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }

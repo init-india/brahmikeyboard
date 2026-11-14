@@ -1,0 +1,1 @@
+First public version: Custom, Brahmi and Pure Brahmi modes, 21 languages, Ashokan numerals, size and colour settings, and a built-in user guide.
