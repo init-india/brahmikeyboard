@@ -215,6 +215,9 @@ class BrahmiIme : InputMethodService() {
         listOf("औऐआईऊभङघधझढ", "ओएअइउफऱखथछठ", "ऎँणऩऴळशषञ"),
     )
 
+    // ा ि ी ु ू ् े ै ो ौ ं : the joiner (halant) sits in the middle, as in Pure Brahmi.
+    private val signRow = "ािीुू्ेैोौं".toList()
+
     private fun comb(c: Int) = c in 0x11000..0x11004 || c in 0x11038..0x11046 || c == 0x11070 || c == 0x11073 || c == 0x11074
     private fun devSign(c: Char) = c.code in 0x900..0x903 || c.code in 0x93A..0x94F || c.code == 0x962 || c.code == 0x963
     private fun sg(c: Int) = String(Character.toChars(c))
@@ -288,6 +291,11 @@ class BrahmiIme : InputMethodService() {
         val out = ArrayList<List<K>>()
         val top = listOf(K("c:@", "@")) + "1234567890".map { K("c:$it", it.toString()) } + listOf(K("c:#", "#"), K("c:%", "%"), K("del", "Del", "fn"))
         out.add(top)
+        // Sign row (same idea as Pure Brahmi row 2): vowel signs, anusvara and the joiner, for typing words like नोकेश्वर.
+        if (!(engine.mode == "lc" && engine.lcIn == "English" && engine.lcOut == "English")) {
+            val target = when { engine.mode == "br" -> engine.lang; engine.lcIn != "English" -> engine.lcIn; else -> engine.lcOut }
+            out.add(signRow.map { K("c:$it", "◌" + engine.toScript(it.toString(), target)) })
+        }
         if (nativeIn()) {
             val rows = insRows[if (shift != 0) 1 else 0]
             fun nk(c: Char) = K("c:$c", (if (devSign(c)) "◌" else "") + engine.toScript(c.toString(), engine.lcIn))

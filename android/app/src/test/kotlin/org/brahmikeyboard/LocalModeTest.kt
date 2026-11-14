@@ -49,7 +49,7 @@ class SignRowTest {
     @Test fun brahmiMode() {
         val e = engine("br"); e.lang = "Hindi"
         assertEquals("𑀦𑁄𑀓𑁂𑀰𑁆𑀯𑀭", type(e))
-        assertEquals("नोकेश्वर → ".trim() .let { it }, e.preview().substringBefore(" →") )
+        assertEquals("नोकेश्वर", e.preview().substringBefore(" →"))
     }
     @Test fun localModeToTamil() {
         val e = engine("lc"); e.lcOut = "Tamil"
