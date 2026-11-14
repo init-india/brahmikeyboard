@@ -46,7 +46,7 @@ F-Droid builds from the tag; its metadata lives in the F-Droid data repository. 
 ## Status
 
 0.9: Custom, Brahmi and Pure Brahmi modes, 21 languages, warnings and blocked letters, numerals, themes, user guide.
-Not yet: custom colours and fonts, language-specific letters (Tamil ழ ற ன and others), native-speaker checks of non-Devanagari tables.
+Not yet: custom fonts, language-specific letters (Tamil ழ ற ன and others), native-speaker checks of non-Devanagari tables.
 
 ## Licence
 
