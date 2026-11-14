@@ -43,6 +43,8 @@ class BrahmiIme : InputMethodService() {
     private var shift = 0                // 0 off, 1 once, 2 caps lock
     private var lastShift = 0L
     private var password = false
+    /** Quick English: held Mode key switches to English in, English out, and back again. */
+    private var plain = false
 
     // ---------- lifecycle ----------
     override fun onCreate() {
@@ -96,6 +98,13 @@ class BrahmiIme : InputMethodService() {
         engine.lcIn = prefs.lcIn; engine.lcOut = prefs.lcOut
         if (engine.lcIn != "English" && engine.lcIn !in engine.nativeLanguages()) engine.lcIn = "English"
         if (!Data.tables(this).scripts.containsKey(engine.lang)) engine.lang = "Hindi"
+        if (plain) { engine.mode = "lc"; engine.lcIn = "English"; engine.lcOut = "English" }
+    }
+
+    private fun togglePlain() {
+        commit(null)
+        plain = !plain
+        syncFromPrefs(); layer = "abc"; shift = 0; rebuild()
     }
 
     // ---------- text output ----------
@@ -149,11 +158,12 @@ class BrahmiIme : InputMethodService() {
             k.startsWith("c:") -> typeKey(k.substring(2))
             k.startsWith("L:") -> {
                 val n = k.substring(2)
+                plain = false; syncFromPrefs()
                 if (engine.mode == "lc") { engine.lcOut = n; prefs.lcOut = n }
                 else { engine.lang = n; engine.script = ""; prefs.lang = n; prefs.script = "" }
                 commit(null); layer = "abc"; rebuild()
             }
-            k.startsWith("I:") -> { commit(null); engine.lcIn = k.substring(2); prefs.lcIn = engine.lcIn; layer = "abc"; shift = 0; rebuild() }
+            k.startsWith("I:") -> { commit(null); plain = false; syncFromPrefs(); engine.lcIn = k.substring(2); prefs.lcIn = engine.lcIn; layer = "abc"; shift = 0; rebuild() }
             else -> when (k) {
                 "sh" -> if (!gridMode()) {
                     val n = System.currentTimeMillis()
@@ -165,7 +175,7 @@ class BrahmiIme : InputMethodService() {
                 "more" -> { layer = "more"; rebuild() }
                 "lang" -> { layer = "lang"; rebuild() }
                 "lang2" -> { layer = "lang2"; rebuild() }
-                "mode" -> {
+                "mode" -> if (plain) togglePlain() else {
                     commit(null)
                     engine.mode = when (engine.mode) { "lc" -> "br"; "br" -> "pb"; else -> "lc" }
                     prefs.mode = engine.mode; layer = "abc"; shift = 0; rebuild()
@@ -187,7 +197,7 @@ class BrahmiIme : InputMethodService() {
         prev.text = if (password) "*".repeat(engine.buf.codePointCount(0, engine.buf.length)) else engine.preview()
     }
 
-    private fun modeName() = when (engine.mode) { "lc" -> "LOCAL"; else -> engine.mode.uppercase() }
+    private fun modeName() = if (plain) "ENG" else when (engine.mode) { "lc" -> "CUS"; else -> engine.mode.uppercase() }
 
     private fun showBanner(v: TextView, msg: String, ms: Long) {
         v.text = msg; v.visibility = View.VISIBLE
@@ -282,7 +292,7 @@ class BrahmiIme : InputMethodService() {
 
     private fun layout(): List<List<K>> {
         val sh = K("sh", if (shift == 2) "⇪" else "⇧", if (shift != 0) "fnon" else "fn")
-        val modeK = K("mode", (if (engine.mode == "lc") "Local" else engine.mode.uppercase()) + " ⇄", "fn")
+        val modeK = K("mode", small("Mode", if (plain) "eng" else when (engine.mode) { "lc" -> "cus"; else -> engine.mode }), "fn")
         val langK = K("lang", langLabel(), "fn")
         val goK = K("go", "Go", "fn")
         val setK = K("set", "⚙", "fn")
@@ -332,8 +342,18 @@ class BrahmiIme : InputMethodService() {
     private fun pal(): Pal {
         val dark = when (prefs.theme) { "dark" -> true; "light" -> false
             else -> (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES }
-        return if (dark) Pal(Color.parseColor("#2D2A21"), Color.parseColor("#3A362B"), Color.parseColor("#4A4535"), Color.parseColor("#F0EBDD"), Color.parseColor("#E0A458"), Color.parseColor("#1B1914"), Color.parseColor("#26231C"))
+        val base = if (dark) Pal(Color.parseColor("#2D2A21"), Color.parseColor("#3A362B"), Color.parseColor("#4A4535"), Color.parseColor("#F0EBDD"), Color.parseColor("#E0A458"), Color.parseColor("#1B1914"), Color.parseColor("#26231C"))
         else Pal(Color.parseColor("#DCD6C6"), Color.WHITE, Color.parseColor("#C9C2AE"), Color.parseColor("#1D1B16"), Color.parseColor("#8A4B14"), Color.parseColor("#F4F1EA"), Color.parseColor("#F4F1EA"))
+        // Colours chosen in Settings override the theme.
+        fun mine(h: String): Int? = try { if (h.isEmpty()) null else Color.parseColor(h) } catch (e: Exception) { null }
+        val kbc = mine(prefs.kbColor); val kc = mine(prefs.keyColor); val tc = mine(prefs.textColor)
+        fun shade(c: Int, t: Float): Int {
+            val light = (Color.red(c) * 299 + Color.green(c) * 587 + Color.blue(c) * 114) / 1000 > 140
+            val to = if (light) 0 else 255
+            fun m(a: Int) = (a + (to - a) * t).toInt()
+            return Color.rgb(m(Color.red(c)), m(Color.green(c)), m(Color.blue(c)))
+        }
+        return Pal(kbc ?: base.bg, kc ?: base.key, if (kc != null) shade(kc, 0.14f) else base.fn, tc ?: base.tx, base.ac, base.acTx, if (kbc != null) shade(kbc, 0.08f) else base.strip)
     }
 
     private fun rounded(c: Int, r: Int = 7) = GradientDrawable().apply { setColor(c); cornerRadius = dp(r).toFloat() }
@@ -368,7 +388,10 @@ class BrahmiIme : InputMethodService() {
                     textSize = if (fn) 12f else if (k.kind == "br") (if (pb) 17f else 20f) else 16f
                     if (k.kind == "br" || (pb && !fn)) typeface = brahmiFont
                     setTextColor(if (k.kind == "fnon") p.acTx else p.tx)
-                    background = rounded(if (k.kind == "fnon") p.ac else if (fn) p.fn else p.key)
+                    background = rounded(if (k.kind == "fnon") p.ac else if (fn) p.fn else p.key).also {
+                        // Mode, Go and the joiner are the important keys: amber border.
+                        if (k.id == "mode" || k.id == "go" || k.id == "c:" + sg(0x11046) || k.id == "c:\u094D") it.setStroke(dp(2), Color.parseColor("#F5A623"))
+                    }
                     setOnTouchListener { view, e -> touch(view, e, k.id); true }
                 }
                 val w = when (k.kind) { "sp" -> 4f; "fn", "fnon" -> 1.4f; else -> 1f }
@@ -381,7 +404,18 @@ class BrahmiIme : InputMethodService() {
 
     private val repeat = object : Runnable { var id = ""; override fun run() { handle(id); ui.postDelayed(this, 60) } }
 
+    private var longFired = false
+    private val modeLong = Runnable { longFired = true; togglePlain() }
+
     private fun touch(v: View, e: MotionEvent, id: String) {
+        if (id == "mode") {
+            when (e.actionMasked) {
+                MotionEvent.ACTION_DOWN -> { v.alpha = 0.7f; longFired = false; ui.postDelayed(modeLong, 500) }
+                MotionEvent.ACTION_UP -> { v.alpha = 1f; ui.removeCallbacks(modeLong); if (!longFired) handle("mode") }
+                MotionEvent.ACTION_CANCEL -> { v.alpha = 1f; ui.removeCallbacks(modeLong) }
+            }
+            return
+        }
         when (e.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
                 v.alpha = 0.7f; handle(id)

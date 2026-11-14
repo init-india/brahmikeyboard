@@ -4,7 +4,7 @@ Single source of truth for the conversion rules, used by the Android app, the fu
 
 - `tables.json`: transliteration, Devanagari to Brahmi map and per-language script tables. **Generated.**
 - `tests.json`: expected results for typed sequences. **Generated.** Every platform must pass all cases.
-- `guide.html`: the user guide shown in Settings. **Generated** from the prototype.
+- `guide.html`: the user guide shown in Settings. **Written by hand** for the apps (the web prototype has its own shorter guide).
 - `fonts/`: Noto Sans Brahmi (SIL OFL). Fetch with `tools/fetch-font.sh` and commit it.
 
 Do not edit the generated files by hand. Change `web/index.html`, then run `node tools/export-data.js`.

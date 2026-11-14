@@ -15,6 +15,10 @@ class Prefs(ctx: Context) {
     /** Keyboard width as a percent of the screen, and where it sits when narrower: left, center or right. */
     var widthPct: Int get() = p.getInt("widthPct", 100); set(v) = p.edit().putInt("widthPct", v).apply()
     var align: String get() = p.getString("align", "center")!!; set(v) = p.edit().putString("align", v).apply()
+    /** Colours as #RRGGBB, empty = follow the theme. */
+    var kbColor: String get() = p.getString("kbColor", "")!!; set(v) = p.edit().putString("kbColor", v).apply()
+    var keyColor: String get() = p.getString("keyColor", "")!!; set(v) = p.edit().putString("keyColor", v).apply()
+    var textColor: String get() = p.getString("textColor", "")!!; set(v) = p.edit().putString("textColor", v).apply()
     var autoInset: Boolean get() = p.getBoolean("autoInset", true); set(v) = p.edit().putBoolean("autoInset", v).apply()
     var lang: String get() = p.getString("lang", "Hindi")!!; set(v) = p.edit().putString("lang", v).apply()
     var script: String get() = p.getString("script", "")!!; set(v) = p.edit().putString("script", v).apply()

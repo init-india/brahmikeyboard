@@ -27,7 +27,6 @@ const tables={
  tables:X.T,
  devConsonants:X.DC,devVowels:X.DVw,devMatras:X.DMt
 };
-fs.writeFileSync(path.join(root,'data/guide.html'),X.GUIDE.replace(/<span class="gl">([^<]*)<\/span>/g,'$1'));
 fs.writeFileSync(path.join(root,'data/tables.json'),JSON.stringify(tables));
 // ---- tests ----
 const msgs=[];

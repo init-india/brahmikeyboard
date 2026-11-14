@@ -2,7 +2,10 @@ package org.brahmikeyboard
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.HorizontalScrollView
 import android.provider.Settings
 import android.text.Html
 import android.view.View
@@ -40,8 +43,8 @@ class SettingsActivity : Activity() {
         col.addView(Button(this).apply { text = "Enable in system settings"; setOnClickListener { startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS)) } })
         col.addView(Button(this).apply { text = "Choose keyboard"; setOnClickListener { (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).showInputMethodPicker() } })
 
-        col.addView(TextView(this).apply { text = "Local mode"; textSize = 18f; setPadding(0, pad, 0, 0) })
-        col.addView(TextView(this).apply { text = "Local mode turns what you type into another script. Type with English letters (phonetic) or with a language's own keys, and choose the script that comes out. English to English leaves the text unchanged."; textSize = 13f })
+        col.addView(TextView(this).apply { text = "Custom mode (cus)"; textSize = 18f; setPadding(0, pad, 0, 0) })
+        col.addView(TextView(this).apply { text = "Custom mode turns what you type into another script. Type with English letters (phonetic) or with a language's own keys, and choose the script that comes out. English to English leaves the text unchanged. Hold the Mode key on the keyboard for quick English."; textSize = 13f })
         col.addView(label("Type with"))
         col.addView(spinner(listOf("English") + BrahmiEngine(t).nativeLanguages(), prefs.lcIn) { prefs.lcIn = it })
         col.addView(label("Output script"))
@@ -75,15 +78,35 @@ class SettingsActivity : Activity() {
             isChecked = prefs.autoInset; setOnCheckedChangeListener { _, c -> prefs.autoInset = c }
         })
         col.addView(TextView(this).apply { text = "Changes show the next time the keyboard opens."; textSize = 12f })
+        col.addView(TextView(this).apply { text = "Colours"; textSize = 18f; setPadding(0, pad, 0, 0) })
+        val swatches = listOf("#FFFFFF", "#F4F1EA", "#DCD6C6", "#B9B2A0", "#1D1B16", "#000000", "#2D2A21", "#8A4B14", "#E0A458", "#1E3A5F", "#1B5E3A", "#B3261E", "#5B3A8C", "#006D77")
+        fun colorRow(title: String, cur: () -> String, set: (String) -> Unit) {
+            col.addView(label(title))
+            val hex = EditText(this).apply { setText(cur()); hint = "#RRGGBB or empty for the theme"; setSingleLine(); textSize = 14f }
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+            for (c in swatches) row.addView(TextView(this).apply {
+                setBackgroundColor(Color.parseColor(c))
+                setOnClickListener { set(c); hex.setText(c) }
+            }, LinearLayout.LayoutParams((36 * resources.displayMetrics.density).toInt(), (36 * resources.displayMetrics.density).toInt()).apply { setMargins(0, 0, (6 * resources.displayMetrics.density).toInt(), 0) })
+            col.addView(HorizontalScrollView(this).apply { addView(row) })
+            col.addView(hex)
+            col.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                addView(Button(this@SettingsActivity).apply { text = "Apply"; setOnClickListener {
+                    val v = hex.text.toString().trim()
+                    try { if (v.isNotEmpty()) Color.parseColor(v); set(v) } catch (e: Exception) { hex.error = "Use #RRGGBB" }
+                } })
+                addView(Button(this@SettingsActivity).apply { text = "Theme default"; setOnClickListener { set(""); hex.setText("") } })
+            })
+        }
+        colorRow("Keyboard colour", { prefs.kbColor }) { prefs.kbColor = it }
+        colorRow("Key colour", { prefs.keyColor }) { prefs.keyColor = it }
+        colorRow("Letter colour", { prefs.textColor }) { prefs.textColor = it }
         col.addView(label("Theme"))
         col.addView(spinner(listOf("system", "light", "dark"), prefs.theme) { prefs.theme = it })
         col.addView(CheckBox(this).apply {
             text = "Smart vowels: consonant + vowel joins into one syllable (Pure Brahmi)"
             isChecked = prefs.smart; setOnCheckedChangeListener { _, c -> prefs.smart = c }
-        })
-        col.addView(TextView(this).apply {
-            text = "How the modes work in this version: Brahmi mode and Pure Brahmi mode share one layout. In Brahmi mode the keys show your preferred language's letters, with the Brahmi letter in small type; what you type becomes Brahmi. In Pure Brahmi mode the keys are Brahmi, with your language in small type. Local mode uses the same layout with the language you type with (small type shows the output script), or English keys when you type with English. Where the guide below mentions typing Brahmi with English letters, that is the older behaviour."
-            textSize = 13f; setPadding(0, pad, 0, 0)
         })
         col.addView(TextView(this).apply { text = "User guide and Ashokan notes"; textSize = 18f; setPadding(0, pad, 0, pad / 2) })
         val guide = assets.open("guide.html").bufferedReader().use { it.readText() }
