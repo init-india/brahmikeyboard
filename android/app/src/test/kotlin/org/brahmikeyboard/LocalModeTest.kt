@@ -38,3 +38,26 @@ class LocalModeTest {
         assertEquals(true, "Hindi" in l && "Kannada" in l && "Tamil" in l); assertEquals(false, "Urdu" in l)
     }
 }
+
+class SignRowTest {
+    private fun engine(mode: String) = BrahmiEngine(Tables(File("../../data/tables.json").readText())).also { it.mode = mode }
+    // n + ो , k + े , sh + joiner + v , a , r  (the sign-row keys send Devanagari signs into the typed word)
+    private val keys = listOf("n", "ो", "k", "े", "s", "h", "्", "v", "a", "r")
+
+    private fun type(e: BrahmiEngine): String { e.clear(); keys.forEach { e.add(it) }; return e.commitText() }
+
+    @Test fun brahmiMode() {
+        val e = engine("br"); e.lang = "Hindi"
+        assertEquals("𑀦𑁄𑀓𑁂𑀰𑁆𑀯𑀭", type(e))
+        assertEquals("नोकेश्वर → ".trim() .let { it }, e.preview().substringBefore(" →") )
+    }
+    @Test fun localModeToTamil() {
+        val e = engine("lc"); e.lcOut = "Tamil"
+        assertEquals("நோகேஶ்வர", type(e))
+    }
+    @Test fun nativeInputToTamil() {
+        val e = engine("lc"); e.lcIn = "Hindi"; e.lcOut = "Tamil"
+        e.clear(); "नोकेश्वर".forEach { e.add(it.toString()) }
+        assertEquals("நோகேஶ்வர", e.commitText())
+    }
+}
