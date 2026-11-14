@@ -131,11 +131,13 @@ class BrahmiIme : InputMethodService() {
     }
 
     private fun nativeIn() = engine.mode == "lc" && engine.lcIn != "English"
+    /** Pure Brahmi layout: used in PB, in Brahmi mode (language letters) and in Local mode with a native input language. */
+    private fun gridMode() = engine.mode == "pb" || engine.mode == "br" || nativeIn()
 
     private fun typeKey(raw: String) {
         var ch = raw
-        if (nativeIn()) { if (shift == 1) { shift = 0; rebuild() } }
-        else if (engine.mode != "pb" && shift != 0) { ch = ch.uppercase(); if (shift == 1) { shift = 0; rebuild() } }
+        if (gridMode()) { /* no shift in this layout */ }
+        else if (shift != 0) { ch = ch.uppercase(); if (shift == 1) { shift = 0; rebuild() } }
         val r = engine.add(ch)
         r.pop?.let { showBanner(pop, it, 3200) }
         r.warn?.let { showBanner(warn, it, 4200) }
@@ -153,7 +155,7 @@ class BrahmiIme : InputMethodService() {
             }
             k.startsWith("I:") -> { commit(null); engine.lcIn = k.substring(2); prefs.lcIn = engine.lcIn; layer = "abc"; shift = 0; rebuild() }
             else -> when (k) {
-                "sh" -> if (engine.mode != "pb") {
+                "sh" -> if (!gridMode()) {
                     val n = System.currentTimeMillis()
                     shift = if (shift == 2) 0 else if (shift == 1 && n - lastShift < 350) 2 else if (shift != 0) 0 else 1
                     lastShift = n; rebuild()
@@ -209,12 +211,6 @@ class BrahmiIme : InputMethodService() {
     private val pr4: List<Any> = listOf(0x11006, 0x1100F, 0x1101E, 0x11005, 0x11032, 0x11024, 0x11028, 0x11015, 0x11033, 0x1101A, 0x11013, 0x1102E, 0x11034, 0x1101C)
     private val pr5: List<Any> = listOf("num", 0x1101F, 0x1101B, 0x11019, 0x11018, 0x1102F, 0x11029, 0x11026, 0x1102B, 0x1102A, 0x11021, ".", ",", "?")
 
-    // Standard Inscript positions (written in Devanagari; shown in the chosen language's script).
-    private val insRows = listOf(
-        listOf("ौैाीूबहगदजड", "ोे्िुपरकतचट", "ॆंमनवलसय."),
-        listOf("औऐआईऊभङघधझढ", "ओएअइउफऱखथछठ", "ऎँणऩऴळशषञ"),
-    )
-
     // ा ि ी ु ू ् े ै ो ौ ं : the joiner (halant) sits in the middle, as in Pure Brahmi.
     private val signRow = "ािीुू्ेैोौं".toList()
 
@@ -245,10 +241,34 @@ class BrahmiIme : InputMethodService() {
         return if (t.isNotEmpty() && t != sg(c)) t else ""
     }
 
+    /**
+     * One key of the Pure Brahmi layout.
+     * PB: the Brahmi letter, with the preferred language's letter in small type under it.
+     * BR: the preferred language's letter (what you type), with the Brahmi letter in small type under it.
+     * Local with a native input language: that language's letter, with the output script's letter under it.
+     */
     private fun pbKey(x: Any): K = when (x) {
         "del" -> K("del", "Del", "fn"); "bk" -> K("bk", "⌫", "fn"); "en" -> K("en", "↵", "fn"); "num" -> K("num", "123", "fn")
         is String -> K("c:$x", x)
-        else -> { val c = x as Int; K("c:" + sg(c), small((if (comb(c)) "◌" else "") + sg(c), cap(c)), "br") }
+        else -> gridKey(x as Int)
+    }
+
+    private fun gridKey(c: Int): K {
+        if (engine.mode == "pb") return K("c:" + sg(c), small((if (comb(c)) "◌" else "") + sg(c), cap(c)), "br")
+        val from = if (engine.mode == "br") engine.lang else engine.lcIn
+        val to = if (engine.mode == "br") "" else if (engine.lcOut == "English" || engine.lcOut == engine.lcIn) "" else engine.lcOut
+        if (c in 0x11052..0x1105B) {                       // number keys 1..9 and the 10 sign (typed as 0)
+            val i = c - 0x11052 + 1; val d = if (i == 10) 0 else i
+            val dev = String(Character.toChars(0x966 + d))
+            val id = if (engine.mode == "br") d.toString() else dev       // Brahmi mode sends 0-9 so the Ashokan numeral rules apply
+            val shadow = if (engine.mode == "br") (if (i < 10) sg(c) else "") else if (to.isEmpty()) "" else engine.toScript(dev, to)
+            return K("c:$id", small(engine.toScript(dev, from), shadow), "br")
+        }
+        val dev = engine.fromBr(sg(c))
+        val sign = dev.isNotEmpty() && devSign(dev[0])
+        val mark = if (sign) "◌" else ""
+        val shadow = if (engine.mode == "br") (if (comb(c)) "◌" else "") + sg(c) else if (to.isEmpty()) "" else mark + engine.toScript(dev, to)
+        return K("c:$dev", small(mark + engine.toScript(dev, from), shadow), "br")
     }
 
     private fun ab(l: String) = if (l == "English") "Eng" else l.take(3)
@@ -282,27 +302,18 @@ class BrahmiIme : InputMethodService() {
             fun r(s: String) = s.map { K("c:$it", it.toString()) }
             return listOf(r("1234567890"), r("@#₹%&*-+()"), r("!\"':;/?_=~"),
                 listOf(K("abc", "ABC", "fn")) + r(",.€£^<>") + K("bk", "⌫", "fn"),
-                listOf(K("abc", "← back", "fn")) + (if (engine.mode == "pb") listOf(K("more", "Ext", "fn")) else emptyList()) + sp + K("en", "↵", "fn") + goK)
+                listOf(K("abc", "← back", "fn")) + (if (gridMode()) listOf(K("more", "Ext", "fn")) else emptyList()) + sp + K("en", "↵", "fn") + goK)
         }
-        if (engine.mode == "pb") {
+        if (gridMode()) {
             val bottom = listOf(sh, modeK, setK, pbKey(0x11030), sp, pbKey(0x11031), langK, goK)
             return listOf(pr1, pr2, pr3, pr4, pr5).map { r -> r.map { pbKey(it) } } + listOf(bottom)
         }
         val out = ArrayList<List<K>>()
         val top = listOf(K("c:@", "@")) + "1234567890".map { K("c:$it", it.toString()) } + listOf(K("c:#", "#"), K("c:%", "%"), K("del", "Del", "fn"))
         out.add(top)
-        // Sign row (same idea as Pure Brahmi row 2): vowel signs, anusvara and the joiner, for typing words like नोकेश्वर.
-        if (!(engine.mode == "lc" && engine.lcIn == "English" && engine.lcOut == "English")) {
-            val target = when { engine.mode == "br" -> engine.lang; engine.lcIn != "English" -> engine.lcIn; else -> engine.lcOut }
-            out.add(signRow.map { K("c:$it", "◌" + engine.toScript(it.toString(), target)) })
-        }
-        if (nativeIn()) {
-            val rows = insRows[if (shift != 0) 1 else 0]
-            fun nk(c: Char) = K("c:$c", (if (devSign(c)) "◌" else "") + engine.toScript(c.toString(), engine.lcIn))
-            out.add(rows[0].map { nk(it) })
-            out.add(rows[1].map { nk(it) } + K("en", "↵", "fn"))
-            out.add(listOf(K("num", "123", "fn")) + rows[2].map { nk(it) } + K("bk", "⌫", "fn"))
-        } else {
+        // English letters going to another script: a sign row (vowel signs, anusvara, joiner) for words like नोकेश्वर.
+        if (engine.lcOut != "English") out.add(signRow.map { K("c:$it", "◌" + engine.toScript(it.toString(), engine.lcOut)) })
+        run {
             fun cs(c: Char) = if (shift != 0 && !c.isDigit()) c.uppercaseChar() else c
             fun letter(c: Char) = K("c:$c", small(cs(c).toString(), cap2(c.toString())))
             out.add("qwertyuiop".map { letter(it) })
@@ -346,7 +357,7 @@ class BrahmiIme : InputMethodService() {
         (tag.parent as View).setBackgroundColor(p.strip)
         tag.background = rounded(p.ac, 4); tag.setTextColor(p.acTx); prev.setTextColor(p.tx)
         keys.removeAllViews()
-        val pb = engine.mode == "pb" && layer == "abc"
+        val pb = gridMode() && layer == "abc"
         val h = prefs.keyH.coerceIn(34, 72)
         for (row in layout()) {
             val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }

@@ -81,6 +81,10 @@ class SettingsActivity : Activity() {
             text = "Smart vowels: consonant + vowel joins into one syllable (Pure Brahmi)"
             isChecked = prefs.smart; setOnCheckedChangeListener { _, c -> prefs.smart = c }
         })
+        col.addView(TextView(this).apply {
+            text = "How the modes work in this version: Brahmi mode and Pure Brahmi mode share one layout. In Brahmi mode the keys show your preferred language's letters, with the Brahmi letter in small type; what you type becomes Brahmi. In Pure Brahmi mode the keys are Brahmi, with your language in small type. Local mode uses the same layout with the language you type with (small type shows the output script), or English keys when you type with English. Where the guide below mentions typing Brahmi with English letters, that is the older behaviour."
+            textSize = 13f; setPadding(0, pad, 0, 0)
+        })
         col.addView(TextView(this).apply { text = "User guide and Ashokan notes"; textSize = 18f; setPadding(0, pad, 0, pad / 2) })
         val guide = assets.open("guide.html").bufferedReader().use { it.readText() }
         col.addView(TextView(this).apply { text = Html.fromHtml(guide, Html.FROM_HTML_MODE_COMPACT); textSize = 14f })

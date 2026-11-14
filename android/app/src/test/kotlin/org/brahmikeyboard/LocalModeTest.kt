@@ -61,3 +61,29 @@ class SignRowTest {
         assertEquals("நோகேஶ்வர", e.commitText())
     }
 }
+
+/** Brahmi mode now types the language's own letters (the Pure Brahmi layout with language keys). */
+class LanguageKeysTest {
+    private fun engine() = BrahmiEngine(Tables(File("../../data/tables.json").readText())).also { it.mode = "br"; it.lang = "Hindi" }
+    private fun type(e: BrahmiEngine, keys: String): AddResult? { var last: AddResult? = null; e.clear(); keys.forEach { last = e.add(it.toString()) }; return last }
+
+    @Test fun hindiLettersToBrahmi() {
+        val e = engine(); type(e, "नोकेश्वर")
+        assertEquals("𑀦𑁄𑀓𑁂𑀰𑁆𑀯𑀭", e.commitText())
+        assertEquals("नोकेश्वर", e.preview().substringBefore(" →"))
+    }
+    @Test fun tamilPreview() {
+        val e = engine(); e.lang = "Tamil"; type(e, "नमस्ते")
+        assertEquals("நமஸ்தே → 𑀦𑀫𑀲𑁆𑀢𑁂", e.preview())
+    }
+    @Test fun raConjunctStillBlocked() {
+        val e = engine(); type(e, "क"); val r = e.add("्"); val r2 = e.add("र")
+        assertEquals(true, r2.pop != null)
+    }
+    @Test fun digitsMakeAshokanNumerals() {
+        val e = engine(); type(e, "256"); assertEquals("𑁓𑁿𑁤𑁟𑁗", e.commitText())
+    }
+    @Test fun aiAuWarnsButKeepsLetters() {
+        val e = engine(); val r = type(e, "ऐ"); assertEquals("𑀐", e.commitText()); assertEquals(true, r!!.warn != null)
+    }
+}
