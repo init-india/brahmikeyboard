@@ -6,6 +6,9 @@ on:
     tags: ['v*']
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
   data-in-sync:
     name: Shared data matches the web prototype
@@ -38,3 +41,15 @@ jobs:
         with:
           name: brahmi-keyboard-debug-apks
           path: android/app/build/outputs/apk/**/*.apk
+
+      - name: Publish the APK on the Releases page (latest test build)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          APK=$(ls android/app/build/outputs/apk/play/debug/*.apk | head -1)
+          cp "$APK" brahmi-keyboard-test.apk
+          gh release delete latest-test --yes --cleanup-tag 2>/dev/null || true
+          gh release create latest-test brahmi-keyboard-test.apk --prerelease \
+            --title "Latest test build" \
+            --notes "Debug APK built from commit ${GITHUB_SHA::7}. For testing only."
