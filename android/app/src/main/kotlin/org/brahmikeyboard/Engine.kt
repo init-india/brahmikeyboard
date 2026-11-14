@@ -9,7 +9,10 @@ data class AddResult(val pop: String? = null, val warn: String? = null)
  * generated from the prototype and must pass here unchanged.
  */
 class BrahmiEngine(private val t: Tables) {
-    var mode = "en"          // "en" | "br" | "pb"
+    var mode = "lc"          // "lc" local | "br" Brahmi | "pb" Pure Brahmi  ("en" = plain passthrough, tests only)
+    /** Local mode: what the user types with ("English" = roman letters, otherwise a language's own keys) and what comes out. */
+    var lcIn = "English"
+    var lcOut = "English"
     var lang = "Hindi"
     var script = ""
     var smart = false
@@ -55,7 +58,7 @@ class BrahmiEngine(private val t: Tables) {
 
     // ---------- Devanagari -> preferred script ----------
     private fun resolvedScript(l: String): String =
-        if (script.isNotEmpty() && l == lang) script else (t.scripts[l] ?: l)
+        if (script.isNotEmpty() && l == lang && mode != "lc") script else (t.scripts[l] ?: l)
 
     private fun tbl(dev: String, tb: ScriptTable): String {
         val a = cps(dev); val o = StringBuilder(); var i = 0
@@ -115,13 +118,35 @@ class BrahmiEngine(private val t: Tables) {
     // ---------- what gets sent / shown ----------
     fun conv(b: String): String = when (mode) {
         "br" -> toBr(num2br(fold(toDev(b))))
+        "lc" -> lcConvert(b)
         else -> b
+    }
+
+    private val isolates = Regex("[\u2068\u2069]")
+    private fun clean(s: String) = isolates.replace(s, "")
+
+    /** Local mode. Typed text is held as Devanagari (the pivot) and written out in the chosen script. */
+    private fun lcConvert(b: String): String {
+        val dev = if (lcIn == "English") toDev(b) else b
+        if (lcOut == "English") return if (lcIn == "English") b else clean(toScript(dev, "IAST"))
+        return clean(toScript(dev, lcOut))
+    }
+
+    /** Languages whose own letters can be used as a typing layout (scripts that share the Unicode Indic block layout). */
+    fun nativeLanguages(): List<String> = t.languages.filter { l ->
+        val sc = t.scripts[l]; sc != null && (t.langOffset[sc] ?: 0) in 1..0xFFFF
     }
     fun commitText(): String = conv(buf)
 
     fun preview(): String = when (mode) {
         "br" -> if (buf.isEmpty()) "" else { val d = toDev(buf); toScript(d, lang) + " → " + toBr(num2br(fold(d))) }
         "pb" -> if (buf.isEmpty()) "" else buf + " → " + toScript(fromBr(buf), lang)
+        "lc" -> when {
+            buf.isEmpty() -> ""
+            lcIn == "English" && lcOut == "English" -> buf
+            lcIn == "English" -> buf + " → " + toScript(toDev(buf), lcOut)
+            else -> toScript(buf, lcIn) + " → " + toScript(buf, if (lcOut == "English") "IAST" else lcOut)
+        }
         else -> buf
     }
 
@@ -141,6 +166,7 @@ class BrahmiEngine(private val t: Tables) {
 
     /** Type one key (already upper-cased by the UI when Shift is on). Returns a pop-up or warning to show. */
     fun add(ch: String): AddResult {
+        if (mode == "lc") { buf += ch; return AddResult() }
         if (mode == "pb" && smart) {
             val cp = ch.codePointAt(0); val l = lastCp(buf)
             if ((mt[cp] != null || cp == 0x11005) && l != null && isCons(l)) {
