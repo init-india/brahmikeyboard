@@ -1,0 +1,5442 @@
+{
+ "version": 1,
+ "cases": [
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "क → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "का → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "कि → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "की → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "कु → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "कू → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "के → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "कै → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ै as ◌े. You still get the actual ◌ै."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "को → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "कौ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ौ as ◌ो. You still get the actual ◌ौ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "कम → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "कं → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "क्ख → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "न्त → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "म्प → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "सडक → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "औरत → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats औ as ओ. You still get the actual औ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "औ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats औ as ओ. You still get the actual औ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ऐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ऐ as ए. You still get the actual ऐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "खै → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ै as ◌े. You still get the actual ◌ै."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "गौ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ौ as ◌ो. You still get the actual ◌ौ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "श → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: श is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ष → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ष is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "स → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "धम्म → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "p",
+    "i",
+    "y",
+    "a",
+    "d",
+    "a",
+    "s",
+    "i"
+   ],
+   "buf": "piyadasi",
+   "commit": "𑀧𑀺𑀬𑀤𑀲𑀺",
+   "preview": "पियदसि → 𑀧𑀺𑀬𑀤𑀲𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "r",
+    "a",
+    "a",
+    "j",
+    "a",
+    "a"
+   ],
+   "buf": "raajaa",
+   "commit": "𑀭𑀸𑀚𑀸",
+   "preview": "राजा → 𑀭𑀸𑀚𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "p",
+    "r"
+   ],
+   "buf": "p",
+   "commit": "𑀧",
+   "preview": "प → 𑀧",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "r",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "क → 𑀓",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "t",
+    "r",
+    "a"
+   ],
+   "buf": "ta",
+   "commit": "𑀢",
+   "preview": "त → 𑀢",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "r",
+    "k",
+    "a"
+   ],
+   "buf": "ra",
+   "commit": "𑀭",
+   "preview": "र → 𑀭",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "a",
+    "r",
+    "m",
+    "a"
+   ],
+   "buf": "kara",
+   "commit": "𑀓𑀭",
+   "preview": "कर → 𑀓𑀭",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "R"
+   ],
+   "buf": "k",
+   "commit": "𑀓",
+   "preview": "क → 𑀓",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: ṛ and ḷ cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "1"
+   ],
+   "buf": "1",
+   "commit": "𑁒",
+   "preview": "1 → 𑁒",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "1",
+    "0"
+   ],
+   "buf": "10",
+   "commit": "𑁛",
+   "preview": "10 → 𑁛",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "2",
+    "5"
+   ],
+   "buf": "25",
+   "commit": "𑁜𑁖",
+   "preview": "25 → 𑁜𑁖",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "1",
+    "0",
+    "0"
+   ],
+   "buf": "100",
+   "commit": "𑁤",
+   "preview": "100 → 𑁤",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "2",
+    "5",
+    "6"
+   ],
+   "buf": "256",
+   "commit": "𑁓𑁿𑁤𑁟𑁗",
+   "preview": "256 → 𑁓𑁿𑁤𑁟𑁗",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "buf": "1000",
+   "commit": "𑁥",
+   "preview": "1000 → 𑁥",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "1",
+    "9",
+    "9",
+    "9"
+   ],
+   "buf": "1999",
+   "commit": "𑁥𑁚𑁿𑁤𑁣𑁚",
+   "preview": "1999 → 𑁥𑁚𑁿𑁤𑁣𑁚",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "0"
+   ],
+   "buf": "",
+   "commit": "",
+   "preview": "",
+   "msgs": [
+    [
+     "pop",
+     "Ashokan Brahmi has no zero."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "0",
+    "0"
+   ],
+   "buf": "",
+   "commit": "",
+   "preview": "",
+   "msgs": [
+    [
+     "pop",
+     "Ashokan Brahmi has no zero."
+    ],
+    [
+     "pop",
+     "Ashokan Brahmi has no zero."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "buf": "1000",
+   "commit": "𑁥",
+   "preview": "1000 → 𑁥",
+   "msgs": [
+    [
+     "pop",
+     "Ashokan numerals here go up to 9999."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "l",
+    "o",
+    "k",
+    "a",
+    "H"
+   ],
+   "buf": "loka",
+   "commit": "𑀮𑁄𑀓",
+   "preview": "लोक → 𑀮𑁄𑀓",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Pali: visarga, candrabindu, nukta, accents, avagraha and the candra and short vowels cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "k",
+    "H"
+   ],
+   "buf": "k",
+   "commit": "𑀓",
+   "preview": "क → 𑀓",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Pali: visarga, candrabindu, nukta, accents, avagraha and the candra and short vowels cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "a",
+    "b"
+   ],
+   "buf": "ab",
+   "commit": "𑀅𑀩",
+   "preview": "अब → 𑀅𑀩",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "n",
+    "g"
+   ],
+   "buf": "ng",
+   "commit": "𑀗",
+   "preview": "ङ → 𑀗",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "y",
+    "n"
+   ],
+   "buf": "yn",
+   "commit": "𑀜",
+   "preview": "ञ → 𑀜",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "T",
+    "h"
+   ],
+   "buf": "Th",
+   "commit": "𑀞",
+   "preview": "ठ → 𑀞",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "D",
+    "h"
+   ],
+   "buf": "Dh",
+   "commit": "𑀠",
+   "preview": "ढ → 𑀠",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "L"
+   ],
+   "buf": "L",
+   "commit": "𑀴",
+   "preview": "ळ → 𑀴",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "q"
+   ],
+   "buf": "q",
+   "commit": "q",
+   "preview": "q → q",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Hindi",
+   "keys": [
+    "x"
+   ],
+   "buf": "x",
+   "commit": "x",
+   "preview": "x → x",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "க → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "கா → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "கி → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "கீ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "கு → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "கூ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "கே → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "கை → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ை as ◌ே. You still get the actual ◌ை."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "கோ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "கௌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ௌ as ◌ோ. You still get the actual ◌ௌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "கம → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "கஂ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "க்க → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "ந்த → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "ம்ப → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "ஸடக → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ஔரத → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ஔ as ஓ. You still get the actual ஔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ஔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ஔ as ஓ. You still get the actual ஔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ஐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ஐ as ஏ. You still get the actual ஐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "கை → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ை as ◌ே. You still get the actual ◌ை."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "கௌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ௌ as ◌ோ. You still get the actual ◌ௌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "ஶ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ஶ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ஷ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ஷ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "ஸ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Tamil",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "தம்ம → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "ক → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "কা → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "কি → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "কী → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "কু → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "কূ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "কে → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "কৈ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ৈ as ◌ে. You still get the actual ◌ৈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "কো → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "কৌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ৌ as ◌ো. You still get the actual ◌ৌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "কম → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "কং → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "ক্খ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "ন্ত → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "ম্প → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "সডক → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ঔরত → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ঔ as ও. You still get the actual ঔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ঔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ঔ as ও. You still get the actual ঔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ঐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ঐ as এ. You still get the actual ঐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "খৈ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ৈ as ◌ে. You still get the actual ◌ৈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "গৌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ৌ as ◌ো. You still get the actual ◌ৌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "শ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: শ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ষ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ষ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "স → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Bengali",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "ধম্ম → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "ક → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "કા → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "કિ → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "કી → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "કુ → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "કૂ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "કે → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "કૈ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ૈ as ◌ે. You still get the actual ◌ૈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "કો → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "કૌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ૌ as ◌ો. You still get the actual ◌ૌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "કમ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "કં → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "ક્ખ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "ન્ત → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "મ્પ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "સડક → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ઔરત → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ઔ as ઓ. You still get the actual ઔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ઔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ઔ as ઓ. You still get the actual ઔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ઐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ઐ as એ. You still get the actual ઐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "ખૈ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ૈ as ◌ે. You still get the actual ◌ૈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "ગૌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ૌ as ◌ો. You still get the actual ◌ૌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "શ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: શ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ષ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ષ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "સ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Gujarati",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "ધમ્મ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "క → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "కా → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "కి → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "కీ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "కు → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "కూ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "కే → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "కై → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ై as ◌ే. You still get the actual ◌ై."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "కో → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "కౌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ౌ as ◌ో. You still get the actual ◌ౌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "కమ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "కం → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "క్ఖ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "న్త → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "మ్ప → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "సడక → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ఔరత → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ఔ as ఓ. You still get the actual ఔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ఔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ఔ as ఓ. You still get the actual ఔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ఐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ఐ as ఏ. You still get the actual ఐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "ఖై → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ై as ◌ే. You still get the actual ◌ై."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "గౌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ౌ as ◌ో. You still get the actual ◌ౌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "శ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: శ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ష → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ష is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "స → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Telugu",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "ధమ్మ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "ಕ → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "ಕಾ → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "ಕಿ → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "ಕೀ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "ಕು → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "ಕೂ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "ಕೇ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "ಕೈ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ೈ as ◌ೇ. You still get the actual ◌ೈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "ಕೋ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "ಕೌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ೌ as ◌ೋ. You still get the actual ◌ೌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "ಕಮ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "ಕಂ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "ಕ್ಖ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "ನ್ತ → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "ಮ್ಪ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "ಸಡಕ → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ಔರತ → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ಔ as ಓ. You still get the actual ಔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ಔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ಔ as ಓ. You still get the actual ಔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ಐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ಐ as ಏ. You still get the actual ಐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "ಖೈ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ೈ as ◌ೇ. You still get the actual ◌ೈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "ಗೌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ೌ as ◌ೋ. You still get the actual ◌ೌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "ಶ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ಶ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ಷ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ಷ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "ಸ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Kannada",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "ಧಮ್ಮ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "ക → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "കാ → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "കി → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "കീ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "കു → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "കൂ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "കേ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "കൈ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ൈ as ◌േ. You still get the actual ◌ൈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "കോ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "കൌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ൌ as ◌ോ. You still get the actual ◌ൌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "കമ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "കം → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "ക്ഖ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "ന്ത → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "മ്പ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "സഡക → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ഔരത → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ഔ as ഓ. You still get the actual ഔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ഔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ഔ as ഓ. You still get the actual ഔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ഐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ഐ as ഏ. You still get the actual ഐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "ഖൈ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ൈ as ◌േ. You still get the actual ◌ൈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "ഗൌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ൌ as ◌ോ. You still get the actual ◌ൌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "ശ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ശ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ഷ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ഷ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "സ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Malayalam",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "ധമ്മ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "ਕ → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "ਕਾ → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "ਕਿ → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "ਕੀ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "ਕੁ → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "ਕੂ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "ਕੇ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "ਕੈ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ੈ as ◌ੇ. You still get the actual ◌ੈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "ਕੋ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "ਕੌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ੌ as ◌ੋ. You still get the actual ◌ੌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "ਕਮ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "ਕਂ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "ਕ੍ਖ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "ਨ੍ਤ → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "ਮ੍ਪ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "ਸਡਕ → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ਔਰਤ → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ਔ as ਓ. You still get the actual ਔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ਔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ਔ as ਓ. You still get the actual ਔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ਐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ਐ as ਏ. You still get the actual ਐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "ਖੈ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ੈ as ◌ੇ. You still get the actual ◌ੈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "ਗੌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ੌ as ◌ੋ. You still get the actual ◌ੌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "ਸ਼ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ਸ਼ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "਷ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ਷ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "ਸ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Punjabi",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "ਧਮ੍ਮ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "କ → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "କା → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "କି → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "କୀ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "କୁ → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "କୂ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "କେ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "କୈ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ୈ as ◌େ. You still get the actual ◌ୈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "କୋ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "କୌ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ୌ as ◌ୋ. You still get the actual ◌ୌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "କମ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "କଂ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "କ୍ଖ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "ନ୍ତ → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "ମ୍ପ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "ସଡକ → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "ଔରତ → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ଔ as ଓ. You still get the actual ଔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "ଔ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ଔ as ଓ. You still get the actual ଔ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "ଐ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ଐ as ଏ. You still get the actual ଐ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "ଖୈ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ୈ as ◌େ. You still get the actual ◌ୈ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "ଗୌ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ୌ as ◌ୋ. You still get the actual ◌ୌ."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "ଶ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ଶ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "ଷ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ଷ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "ସ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Odia",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "ଧମ୍ମ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "⁨ک⁩ → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "⁨کا⁩ → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "⁨کِ⁩ → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "⁨کی⁩ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "⁨کُ⁩ → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "⁨کو⁩ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "⁨کے⁩ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "⁨کَے⁩ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "⁨کو⁩ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "⁨کَو⁩ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "⁨کم⁩ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "⁨کں⁩ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "⁨ککھ⁩ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "⁨نت⁩ → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "⁨مپ⁩ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "⁨سڈک⁩ → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "⁨اَورت⁩ → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨اَو⁩ as ⁨او⁩. You still get the actual ⁨اَو⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "⁨اَو⁩ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨اَو⁩ as ⁨او⁩. You still get the actual ⁨اَو⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "⁨اَے⁩ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨اَے⁩ as ⁨اے⁩. You still get the actual ⁨اَے⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "⁨کھَے⁩ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "⁨گَو⁩ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "⁨س⁩ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨س⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "⁨س⁩ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨س⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "⁨س⁩ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Urdu",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "⁨دھمم⁩ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "⁨ᱠ⁩ → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "⁨ᱠᱟ⁩ → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "⁨ᱠᱤ⁩ → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "⁨ᱠᱤ⁩ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "⁨ᱠᱩ⁩ → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "⁨ᱠᱩ⁩ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "⁨ᱠᱮ⁩ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "⁨ᱠᱮᱤ⁩ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "⁨ᱠᱳ⁩ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "⁨ᱠᱳᱩ⁩ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "⁨ᱠᱚᱢ⁩ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "⁨ᱠᱚᱝ⁩ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "⁨ᱠᱠᱷ⁩ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "⁨ᱱᱛ⁩ → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "⁨ᱢᱯ⁩ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "⁨ᱥᱚᱰᱚᱠ⁩ → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "⁨ᱳᱩᱨᱚᱛ⁩ → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨ᱳᱩ⁩ as ⁨ᱳ⁩. You still get the actual ⁨ᱳᱩ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "⁨ᱳᱩ⁩ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨ᱳᱩ⁩ as ⁨ᱳ⁩. You still get the actual ⁨ᱳᱩ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "⁨ᱮᱤ⁩ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨ᱮᱤ⁩ as ⁨ᱮ⁩. You still get the actual ⁨ᱮᱤ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "⁨ᱠᱷᱮᱤ⁩ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "⁨ᱜᱳᱩ⁩ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "⁨ᱥ⁩ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨ᱥ⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "⁨ᱥ⁩ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨ᱥ⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "⁨ᱥ⁩ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Santali",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "⁨ᱫᱷᱚᱢᱢ⁩ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "⁨ꯀ⁩ → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "⁨ꯀꯥ⁩ → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "⁨ꯀꯤ⁩ → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "⁨ꯀꯤ⁩ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "⁨ꯀꯨ⁩ → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "⁨ꯀꯨ⁩ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "⁨ꯀꯦ⁩ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "⁨ꯀꯩ⁩ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "⁨ꯀꯣ⁩ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "⁨ꯀꯧ⁩ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "⁨ꯀꯃ⁩ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "⁨ꯀꯪ⁩ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "⁨ꯀ꯭ꯈ⁩ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "⁨ꯅ꯭ꯇ⁩ → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "⁨ꯃ꯭ꯄ⁩ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "⁨ꯁꯗꯀ⁩ → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "⁨ꯑꯧꯔꯇ⁩ → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨ꯑꯧ⁩ as ⁨ꯑꯣ⁩. You still get the actual ⁨ꯑꯧ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "⁨ꯑꯧ⁩ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨ꯑꯧ⁩ as ⁨ꯑꯣ⁩. You still get the actual ⁨ꯑꯧ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "⁨ꯑꯩ⁩ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨ꯑꯩ⁩ as ⁨ꯑꯦ⁩. You still get the actual ⁨ꯑꯩ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "⁨ꯈꯩ⁩ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "⁨ꯒꯧ⁩ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "⁨ꯁ⁩ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨ꯁ⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "⁨ꯁ⁩ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨ꯁ⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "⁨ꯁ⁩ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Manipuri",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "⁨ꯙꯃ꯭ꯃ⁩ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "a"
+   ],
+   "buf": "ka",
+   "commit": "𑀓",
+   "preview": "⁨ڪ⁩ → 𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "a",
+    "a"
+   ],
+   "buf": "kaa",
+   "commit": "𑀓𑀸",
+   "preview": "⁨ڪا⁩ → 𑀓𑀸",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "i"
+   ],
+   "buf": "ki",
+   "commit": "𑀓𑀺",
+   "preview": "⁨ڪِ⁩ → 𑀓𑀺",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "e",
+    "e"
+   ],
+   "buf": "kee",
+   "commit": "𑀓𑀻",
+   "preview": "⁨ڪی⁩ → 𑀓𑀻",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "u"
+   ],
+   "buf": "ku",
+   "commit": "𑀓𑀼",
+   "preview": "⁨ڪُ⁩ → 𑀓𑀼",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "u",
+    "u"
+   ],
+   "buf": "kuu",
+   "commit": "𑀓𑀽",
+   "preview": "⁨ڪو⁩ → 𑀓𑀽",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "e"
+   ],
+   "buf": "ke",
+   "commit": "𑀓𑁂",
+   "preview": "⁨ڪے⁩ → 𑀓𑁂",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "e",
+    "i"
+   ],
+   "buf": "kei",
+   "commit": "𑀓𑁃",
+   "preview": "⁨ڪَے⁩ → 𑀓𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "o"
+   ],
+   "buf": "ko",
+   "commit": "𑀓𑁄",
+   "preview": "⁨ڪو⁩ → 𑀓𑁄",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "o",
+    "u"
+   ],
+   "buf": "kou",
+   "commit": "𑀓𑁅",
+   "preview": "⁨ڪَو⁩ → 𑀓𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "a",
+    "m"
+   ],
+   "buf": "kam",
+   "commit": "𑀓𑀫",
+   "preview": "⁨ڪم⁩ → 𑀓𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "M"
+   ],
+   "buf": "kM",
+   "commit": "𑀓𑀁",
+   "preview": "⁨ڪں⁩ → 𑀓𑀁",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "k",
+    "h",
+    "a"
+   ],
+   "buf": "kkha",
+   "commit": "𑀓𑁆𑀔",
+   "preview": "⁨ڪک⁩ → 𑀓𑁆𑀔",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "n",
+    "t",
+    "a"
+   ],
+   "buf": "nta",
+   "commit": "𑀦𑁆𑀢",
+   "preview": "⁨نت⁩ → 𑀦𑁆𑀢",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "m",
+    "p",
+    "a"
+   ],
+   "buf": "mpa",
+   "commit": "𑀫𑁆𑀧",
+   "preview": "⁨مپ⁩ → 𑀫𑁆𑀧",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "s",
+    "a",
+    "D",
+    "a",
+    "k"
+   ],
+   "buf": "saDak",
+   "commit": "𑀲𑀟𑀓",
+   "preview": "⁨سڊڪ⁩ → 𑀲𑀟𑀓",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "o",
+    "u",
+    "r",
+    "a",
+    "t"
+   ],
+   "buf": "ourat",
+   "commit": "𑀒𑀭𑀢",
+   "preview": "⁨اَورت⁩ → 𑀒𑀭𑀢",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨اَو⁩ as ⁨او⁩. You still get the actual ⁨اَو⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "o",
+    "u"
+   ],
+   "buf": "ou",
+   "commit": "𑀒",
+   "preview": "⁨اَو⁩ → 𑀒",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨اَو⁩ as ⁨او⁩. You still get the actual ⁨اَو⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "e",
+    "i"
+   ],
+   "buf": "ei",
+   "commit": "𑀐",
+   "preview": "⁨اَے⁩ → 𑀐",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ⁨اَے⁩ as ⁨اے⁩. You still get the actual ⁨اَے⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "k",
+    "h",
+    "e",
+    "i"
+   ],
+   "buf": "khei",
+   "commit": "𑀔𑁃",
+   "preview": "⁨کَے⁩ → 𑀔𑁃",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ै⁩ as ◌⁨े⁩. You still get the actual ◌⁨ै⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "g",
+    "o",
+    "u"
+   ],
+   "buf": "gou",
+   "commit": "𑀕𑁅",
+   "preview": "⁨گَو⁩ → 𑀕𑁅",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌⁨ौ⁩ as ◌⁨ो⁩. You still get the actual ◌⁨ौ⁩."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "s",
+    "h",
+    "a"
+   ],
+   "buf": "sha",
+   "commit": "𑀰",
+   "preview": "⁨س⁩ → 𑀰",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨س⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "S",
+    "h",
+    "a"
+   ],
+   "buf": "Sha",
+   "commit": "𑀱",
+   "preview": "⁨س⁩ → 𑀱",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ⁨س⁩ is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "s",
+    "a"
+   ],
+   "buf": "sa",
+   "commit": "𑀲",
+   "preview": "⁨س⁩ → 𑀲",
+   "msgs": []
+  },
+  {
+   "mode": "br",
+   "lang": "Sindhi",
+   "keys": [
+    "d",
+    "h",
+    "a",
+    "m",
+    "m",
+    "a"
+   ],
+   "buf": "dhamma",
+   "commit": "𑀥𑀫𑁆𑀫",
+   "preview": "⁨ڌمم⁩ → 𑀥𑀫𑁆𑀫",
+   "msgs": []
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀓",
+    "𑀸"
+   ],
+   "buf": "𑀓𑀸",
+   "commit": "𑀓𑀸",
+   "preview": "𑀓𑀸 → का",
+   "msgs": []
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀓",
+    "𑁆",
+    "𑀓"
+   ],
+   "buf": "𑀓𑁆𑀓",
+   "commit": "𑀓𑁆𑀓",
+   "preview": "𑀓𑁆𑀓 → क्क",
+   "msgs": []
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀓",
+    "𑁆",
+    "𑀭"
+   ],
+   "buf": "𑀓𑁆",
+   "commit": "𑀓𑁆",
+   "preview": "𑀓𑁆 → क्",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀭",
+    "𑁆",
+    "𑀓"
+   ],
+   "buf": "𑀭𑀓",
+   "commit": "𑀭𑀓",
+   "preview": "𑀭𑀓 → रक",
+   "msgs": [
+    [
+     "pop",
+     "Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀰"
+   ],
+   "buf": "𑀰",
+   "commit": "𑀰",
+   "preview": "𑀰 → श",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: श is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀱"
+   ],
+   "buf": "𑀱",
+   "commit": "𑀱",
+   "preview": "𑀱 → ष",
+   "msgs": [
+    [
+     "warn",
+     "Post-Ashokan: ष is not found in Ashokan script. You can still type it."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀐"
+   ],
+   "buf": "𑀐",
+   "commit": "𑀐",
+   "preview": "𑀐 → ऐ",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ऐ as ए. You still get the actual ऐ."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀒"
+   ],
+   "buf": "𑀒",
+   "commit": "𑀒",
+   "preview": "𑀒 → औ",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats औ as ओ. You still get the actual औ."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀓",
+    "𑁃"
+   ],
+   "buf": "𑀓𑁃",
+   "commit": "𑀓𑁃",
+   "preview": "𑀓𑁃 → कै",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ै as ◌े. You still get the actual ◌ै."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀓",
+    "𑁅"
+   ],
+   "buf": "𑀓𑁅",
+   "commit": "𑀓𑁅",
+   "preview": "𑀓𑁅 → कौ",
+   "msgs": [
+    [
+     "warn",
+     "Ashokan script treats ◌ौ as ◌ो. You still get the actual ◌ौ."
+    ]
+   ]
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑁒",
+    "𑁓"
+   ],
+   "buf": "𑁒𑁓",
+   "commit": "𑁒𑁓",
+   "preview": "𑁒𑁓 → 𑁒𑁓",
+   "msgs": []
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑁿"
+   ],
+   "buf": "𑁿",
+   "commit": "𑁿",
+   "preview": "𑁿 → 𑁿",
+   "msgs": []
+  },
+  {
+   "mode": "pb",
+   "lang": "Hindi",
+   "keys": [
+    "𑀓",
+    "𑀁"
+   ],
+   "buf": "𑀓𑀁",
+   "commit": "𑀓𑀁",
+   "preview": "𑀓𑀁 → कं",
+   "msgs": []
+  },
+  {
+   "mode": "en",
+   "lang": "Hindi",
+   "keys": [
+    "h",
+    "e",
+    "l",
+    "l",
+    "o"
+   ],
+   "buf": "hello",
+   "commit": "hello",
+   "preview": "hello",
+   "msgs": []
+  }
+ ]
+}

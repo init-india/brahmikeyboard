@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brahmi Keyboard Prototype</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Brahmi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&family=Noto+Sans+Bengali&family=Noto+Sans+Gurmukhi&family=Noto+Sans+Gujarati&family=Noto+Sans+Oriya&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Sans+Kannada&family=Noto+Sans+Malayalam&family=Noto+Sans+Ol+Chiki&family=Noto+Sans+Meetei+Mayek&family=Noto+Naskh+Arabic&family=Noto+Sans+Sinhala&family=Noto+Sans+Grantha&display=swap">
+<style>
+@font-face{font-family:'KbSans';src:local('Inter'),local('Segoe UI'),local('Roboto'),local('Helvetica Neue'),local('Arial');unicode-range:U+0020-024F}
+@font-face{font-family:'KbSerif';src:local('Georgia'),local('Noto Serif'),local('Times New Roman'),local('Times');unicode-range:U+0020-024F}
+@font-face{font-family:'KbMono';src:local('Consolas'),local('Menlo'),local('Roboto Mono'),local('Courier New'),local('Courier');unicode-range:U+0020-024F}
+@font-face{font-family:'DevaUI';src:local('Nirmala UI'),local('Nirmala UI Regular'),local('Nirmala');unicode-range:U+0900-097F,U+1CD0-1CFF,U+A8E0-A8FF}
+:root{--bg:#f4f1ea;--sf:#fff;--tx:#1d1b16;--mu:#6d675a;--key:#fff;--kf:#dcd6c6;--ac:#8a4b14;--ln:#d8d1bf;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1914;--sf:#26231c;--tx:#f0ebdd;--mu:#a39c8a;--key:#3a362b;--kf:#2d2a21;--ac:#e0a458;--ln:#3d392d}}
+:root[data-theme="dark"]{--bg:#1b1914;--sf:#26231c;--tx:#f0ebdd;--mu:#a39c8a;--key:#3a362b;--kf:#2d2a21;--ac:#e0a458;--ln:#3d392d;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.4 var(--enfont,'KbSans'),'DevaUI','Noto Sans','Noto Sans Brahmi','Segoe UI Historic','Apple Symbols','Noto Sans Devanagari','Noto Sans Bengali','Noto Sans Gurmukhi','Noto Sans Gujarati','Noto Sans Oriya','Noto Sans Tamil','Noto Sans Telugu','Noto Sans Kannada','Noto Sans Malayalam','Noto Sans Ol Chiki','Noto Sans Meetei Mayek','Noto Naskh Arabic','Noto Sans Sinhala','Noto Sans Grantha',system-ui,sans-serif;max-width:760px;margin:0 auto;padding:10px;min-height:100%}
+h1{font-size:17px;margin:4px 0 8px}
+.field{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:8px 10px;min-height:52px;white-space:pre-wrap;word-break:break-all;margin-bottom:8px;font-size:18px}
+.field.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+.lb{font-size:12px;color:var(--mu);display:flex;justify-content:space-between;margin:2px 2px 3px}
+.lb button{font:inherit;background:none;border:0;color:var(--ac);cursor:pointer;padding:0}
+#prev{background:var(--kbbg,var(--kf));border-radius:8px 8px 0 0;padding:6px 10px;min-height:38px;font-size:20px;display:flex;gap:8px;align-items:center;overflow-x:auto;white-space:nowrap}
+#pop{background:#b3261e;color:#fff;padding:7px 10px;font-size:13px;font-weight:600}#pop[hidden]{display:none}#warn{background:#f5a623;color:#1d1b16;padding:7px 10px;font-size:13px;font-weight:600}#warn[hidden]{display:none}
+#tag{font-size:11px;background:var(--ac);color:var(--bg);border-radius:4px;padding:1px 6px;flex:none}
+#kb{overflow-x:auto;background:var(--kbbg,var(--kf));padding:6px 4px 8px;border-radius:0 0 12px 12px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.row{display:flex;gap:5px;margin-bottom:6px}
+.k{flex:1;min-width:0;height:44px;border:0;border-radius:7px;background:var(--keybg,var(--key));color:var(--keyfg,var(--tx));font:inherit;font-size:17px;box-shadow:0 1px 0 var(--ln);cursor:pointer;padding:0}
+.k:active{filter:brightness(.85)}
+.k.fn{background:var(--ln);font-size:13px;flex:1.4}.k.sp{flex:4}.k.on{background:var(--ac);color:var(--bg)}
+.k.br{font-size:22px;line-height:1.05}.pbk .row{min-width:680px;gap:3px}.pbk .k.fn{font-size:11px;flex:1.3}.k small.cp{display:block;margin:0;font-size:10px;line-height:1;color:var(--mu)}.k.on small.cp{color:inherit}
+.guide{padding:10px;font-size:13px;line-height:1.5;max-height:58vh;overflow-y:auto;user-select:text;-webkit-user-select:text;touch-action:pan-y}.guide h3{font-size:14px;margin:14px 0 4px}.guide h3:first-child{margin-top:0}.guide ul{margin:4px 0;padding-left:18px}.guide li{margin:2px 0}.guide .gl{font-size:16px}
+#set{padding:10px}#set select{width:100%;font:inherit;padding:8px;margin:6px 0 10px}
+small{color:var(--mu);display:block;margin-top:10px;font-size:12px}
+</style></head><body>
+<h1>𑀩𑁆𑀭𑀸𑀳𑁆𑀫𑀻 Brahmi Keyboard · prototype</h1>
+<div class="lb"><span>App text field <label><input type="checkbox" id="pwc"> password input</label></span><span><button id="rv">Reveal (demo)</button> <button id="cp">Copy</button></span></div>
+<div class="field on" id="msg" data-t="msg"></div>
+
+<div id="prev"><span id="tag">EN</span><span id="pv"></span></div><div id="pop" hidden></div><div id="warn" hidden></div>
+<div id="kb"></div><div id="fh" style="color:#c0392b;font-size:12px;margin-top:4px"></div>
+<small>Tick “password input” to simulate a password field: the preview and the field show asterisks, while the app still receives the real text. Words are sent on Space; Enter sends the word and a new line. Physical keys also work. Preferred language and last mode are remembered.</small>
+<script>
+(function(){
+const $=s=>document.querySelector(s),H=n=>String.fromCharCode(n);
+// ---------- transliteration (roman -> Devanagari pivot) ----------
+const CONS={kh:0x916,k:0x915,gh:0x918,g:0x917,ng:0x919,ch:0x91A,Ch:0x91B,jh:0x91D,Jh:0x91D,j:0x91C,yn:0x91E,Th:0x920,T:0x91F,Dh:0x922,D:0x921,N:0x923,th:0x925,t:0x924,dh:0x927,d:0x926,n:0x928,ph:0x92B,p:0x92A,bh:0x92D,b:0x92C,m:0x92E,y:0x92F,r:0x930,l:0x932,v:0x935,w:0x935,sh:0x936,Sh:0x937,s:0x938,h:0x939,L:0x933};
+const VOW={a:[0x905,0],aa:[0x906,0x93E],i:[0x907,0x93F],ee:[0x908,0x940],ii:[0x908,0x940],u:[0x909,0x941],uu:[0x90A,0x942],e:[0x90F,0x947],ei:[0x910,0x948],o:[0x913,0x94B],ou:[0x914,0x94C],R:[0x90B,0x943]};
+const SIGN={M:0x902,H:0x903};
+const has=k=>k in CONS||k in VOW||k in SIGN;
+function toDev(s){s=s.replace(/[AEIOU]/g,c=>c.toLowerCase());let o='',pc=false,i=0;
+ while(i<s.length){let k=s.substr(i,2);if(!has(k))k=has(s[i])?s[i]:null;
+  if(!k){o+=s[i++];pc=false;continue}i+=k.length;
+  if(k in CONS){o+=(pc?H(0x94D):'')+H(CONS[k]);pc=true}
+  else if(k in VOW){const[v,m]=VOW[k];o+=pc?(m?H(m):''):H(v);pc=false}
+  else{o+=H(SIGN[k]);pc=false}}
+ return o}
+// ---------- Devanagari <-> Brahmi (Unicode block U+11000) ----------
+const P=[[0x905,0x11005],[0x906,0x11006],[0x907,0x11007],[0x908,0x11008],[0x909,0x11009],[0x90A,0x1100A],[0x90B,0x1100B],[0x90F,0x1100F],[0x910,0x11010],[0x913,0x11011],[0x914,0x11012],[0x93E,0x11038],[0x93F,0x1103A],[0x940,0x1103B],[0x941,0x1103C],[0x942,0x1103D],[0x943,0x1103E],[0x947,0x11042],[0x948,0x11043],[0x94B,0x11044],[0x94C,0x11045],[0x94D,0x11046],[0x901,0x11000],[0x902,0x11001],[0x903,0x11002],[0x964,0x11047],[0x965,0x11048],[0x92F,0x1102C],[0x930,0x1102D],[0x932,0x1102E],[0x935,0x1102F],[0x936,0x11030],[0x937,0x11031],[0x938,0x11032],[0x939,0x11033],[0x933,0x11034],[0x960,0x1100C],[0x90C,0x1100D],[0x961,0x1100E],[0x944,0x1103F],[0x962,0x11040],[0x963,0x11041]];
+for(let i=0;i<20;i++)P.push([0x915+i,0x11013+i]);
+for(let i=0;i<5;i++)P.push([0x92A+i,0x11027+i]);
+for(let i=0;i<10;i++)P.push([0x966+i,0x11066+i]);
+const d2b=new Map(P),b2d=new Map(P.map(([a,b])=>[b,a]));b2d.set(0x11039,0x93E);
+const FOLD=[['\u090b','\u0930\u093f'],['\u0960','\u0930\u0940'],['\u090c','\u0932\u093f'],['\u0961','\u0932\u0940'],['\u0943','\u094d\u0930\u093f'],['\u0944','\u094d\u0930\u0940'],['\u0962','\u094d\u0932\u093f'],['\u0963','\u094d\u0932\u0940'],['\u0901','\u0902'],['\u093c',''],['\u0958','\u0915'],['\u0959','\u0916'],['\u095a','\u0917'],['\u095b','\u091c'],['\u095c','\u0921'],['\u095d','\u0922'],['\u095e','\u092b'],['\u095f','\u092f'],['\u090d','\u090f'],['\u090e','\u090f'],['\u0911','\u0913'],['\u0912','\u0913'],['\u0945','\u0947'],['\u0946','\u0947'],['\u0949','\u094b'],['\u094a','\u094b']];
+const fold=s=>FOLD.reduce((a,[x,y])=>a.split(x).join(y),s);
+const toBr=s=>Array.from(s).map(c=>{const b=d2b.get(c.codePointAt(0));return b?String.fromCodePoint(b):c}).join('');
+const fromBr=s=>Array.from(s).map(c=>{const d=b2d.get(c.codePointAt(0));return d?H(d):c}).join('');
+// ---------- languages (pivot shifted into each Indic Unicode block) ----------
+const LANGS={Devanagari:0x900,Bengali:0x980,Gurmukhi:0xA00,Gujarati:0xA80,Odia:0xB00,Tamil:0xB80,Telugu:0xC00,Kannada:0xC80,Malayalam:0xD00};
+const TAMIL={0x916:0x915,0x917:0x915,0x918:0x915,0x91B:0x91A,0x920:0x91F,0x921:0x91F,0x922:0x91F,0x925:0x924,0x926:0x924,0x927:0x924,0x92B:0x92A,0x92C:0x92A,0x92D:0x92A};
+Object.assign(LANGS,{'Perso-Arabic':'ur','Sindhi-Arabic':'sd','Ol Chiki':'ol','Meitei Mayek':'mt',Sinhala:'si',Grantha:0x11300,IAST:'la'});
+const SC={Assamese:'Bengali',Bengali:'Bengali',Bodo:'Devanagari',Dogri:'Devanagari',Gujarati:'Gujarati',Hindi:'Devanagari',Kannada:'Kannada',Kashmiri:'Perso-Arabic',Konkani:'Devanagari',Maithili:'Devanagari',Malayalam:'Malayalam',Manipuri:'Meitei Mayek',Marathi:'Devanagari',Nepali:'Devanagari',Odia:'Odia',Punjabi:'Gurmukhi',Santali:'Ol Chiki',Sindhi:'Sindhi-Arabic',Tamil:'Tamil',Telugu:'Telugu',Urdu:'Perso-Arabic'};
+const DC=[];for(let i=0;i<20;i++)DC.push(0x915+i);for(let i=0;i<5;i++)DC.push(0x92A+i);DC.push(0x92F,0x930,0x932,0x935,0x936,0x937,0x938,0x939,0x933);
+const DVw=[0x905,0x906,0x907,0x908,0x909,0x90A,0x90B,0x90F,0x910,0x913,0x914],DMt=[0x93E,0x93F,0x940,0x941,0x942,0x943,0x947,0x948,0x94B,0x94C];
+const mk=(c,v,m,s,i,d)=>{const t={c:{},v:{},m:{},s,i,d},a=c.split(' '),b=v.split(' '),e=m.split(' ');DC.forEach((x,k)=>t.c[x]=a[k]);DVw.forEach((x,k)=>t.v[x]=b[k]);DMt.forEach((x,k)=>t.m[x]=e[k]);return t};
+const UV='ا آ اِ ای اُ او رِ اے اَے او اَو',UM='ا ِ ی ُ و رِ ے َے و َو',US={0x902:'ں',0x903:'ہ',0x901:'ں',0x94D:'',0x964:'۔',0x965:'۔'};
+const T={
+ ur:mk('ک کھ گ گھ نگ چ چھ ج جھ ن ٹ ٹھ ڈ ڈھ ن ت تھ د دھ ن پ پھ ب بھ م ی ر ل و س س س ہ ل',UV,UM,US,'',0x6F0),
+ sd:mk('ڪ ک گ گھ ڱ چ ڇ ج جھ ڃ ٽ ٺ ڊ ڍ ڻ ت ٿ د ڌ ن پ ڦ ب ڀ م ی ر ل و س س س ه ل',UV,UM,US,'',0x6F0),
+ ol:mk('ᱠ ᱠᱷ ᱜ ᱜᱷ ᱝ ᱪ ᱪᱷ ᱡ ᱡᱷ ᱧ ᱴ ᱴᱷ ᱰ ᱰᱷ ᱬ ᱛ ᱛᱷ ᱫ ᱫᱷ ᱱ ᱯ ᱯᱷ ᱵ ᱵᱷ ᱢ ᱭ ᱨ ᱞ ᱣ ᱥ ᱥ ᱥ ᱦ ᱞ','ᱚ ᱟ ᱤ ᱤ ᱩ ᱩ ᱨᱤ ᱮ ᱮᱤ ᱳ ᱳᱩ','ᱟ ᱤ ᱤ ᱩ ᱩ ᱨᱤ ᱮ ᱮᱤ ᱳ ᱳᱩ',{0x902:'ᱝ',0x903:'ᱷ',0x901:'ᱝ',0x94D:'',0x964:'᱾',0x965:'᱿'},'ᱚ',0x1C50),
+ mt:mk('ꯀ ꯈ ꯒ ꯘ ꯉ ꯆ ꯆ ꯖ ꯓ ꯅ ꯇ ꯊ ꯗ ꯙ ꯅ ꯇ ꯊ ꯗ ꯙ ꯅ ꯄ ꯐ ꯕ ꯚ ꯃ ꯌ ꯔ ꯂ ꯋ ꯁ ꯁ ꯁ ꯍ ꯂ','ꯑ ꯑꯥ ꯏ ꯏ ꯎ ꯎ ꯔꯤ ꯑꯦ ꯑꯩ ꯑꯣ ꯑꯧ','ꯥ ꯤ ꯤ ꯨ ꯨ ꯔꯤ ꯦ ꯩ ꯣ ꯧ',{0x902:'ꯪ',0x903:'ꯍ',0x901:'ꯪ',0x94D:'꯭',0x964:'꯫',0x965:'꯫'},'',0xABF0)};
+T.si=mk('ක ඛ ග ඝ ඞ ච ඡ ජ ඣ ඤ ට ඨ ඩ ඪ ණ ත ථ ද ධ න ප ඵ බ භ ම ය ර ල ව ශ ෂ ස හ ළ','අ ආ ඉ ඊ උ ඌ ඍ ඒ ඓ ඕ ඖ','ා ි ී ු ූ ෘ ේ ෛ ෝ ෞ',{0x902:'ං',0x903:'ඃ',0x901:'ං',0x94D:'්',0x964:'෴',0x965:'෴'},'',0xDE6);
+T.la=mk('k kh g gh ṅ c ch j jh ñ ṭ ṭh ḍ ḍh ṇ t th d dh n p ph b bh m y r l v ś ṣ s h ḷ','a ā i ī u ū ṛ e ai o au','ā i ī u ū ṛ e ai o au',{0x902:'ṃ',0x903:'ḥ',0x901:'m̐',0x94D:'',0x964:'.',0x965:'..'},'a',0x30);T.la.f=true;
+function tbl(dev,t){const a=Array.from(dev);let o='';
+ for(let i=0;i<a.length;i++){const n=a[i].charCodeAt(0);
+  if(t.c[n]!==undefined){o+=t.c[n];const x=a[i+1],y=x&&x.charCodeAt(0);
+   if(y&&t.m[y]!==undefined){o+=t.m[y];i++}
+   else if(y==0x94D){o+=t.s[0x94D]||'';i++}
+   else if(t.i&&(y||t.f))o+=t.i}
+  else if(t.v[n]!==undefined)o+=t.v[n];
+  else if(t.s[n]!==undefined)o+=t.s[n];
+  else if(n>=0x966&&n<=0x96F)o+=H(t.d+n-0x966);
+  else o+=a[i]}
+ return o}
+function toScript(dev,lang){lang=(st.script&&lang==st.lang)?st.script:(SC[lang]||lang);const b=LANGS[lang];if(lang=='Tamil'||lang=='Gurmukhi')dev=FOLD.slice(0,8).reduce((a,[x,y])=>a.split(x).join(y),dev);if(typeof b=='string')return '\u2068'+tbl(dev,T[b])+'\u2069';return Array.from(dev).map(c=>{let n=c.charCodeAt(0);if(n<0x900||n>0x97F)return c;if(b>0xFFFF&&n>=0x964)return c;if(lang=='Tamil'&&TAMIL[n])n=TAMIL[n];return String.fromCodePoint(b+n-0x900)}).join('')}
+// ---------- state ----------
+let st={mode:'en',lang:'Hindi'};try{Object.assign(st,JSON.parse(localStorage.getItem('abk')||'{}'))}catch(e){}
+if(!SC[st.lang])st.lang='Hindi';if(st.script&&!LANGS[st.script])st.script='';
+let shift=0,lastSh=0,layer='abc',pg=1,buf='',target='msg',val={msg:'',pw:''},reveal=false;
+const save=()=>{try{localStorage.setItem('abk',JSON.stringify(st))}catch(e){}};
+function look(){const r=document.documentElement,s=r.style;if(st.theme==='light'||st.theme==='dark')r.setAttribute('data-theme',st.theme);else r.removeAttribute('data-theme');s.setProperty('--enfont',{serif:"'KbSerif'",mono:"'KbMono'"}[st.efont]||"'KbSans'");[['--keyfg','kfg'],['--keybg','keybg'],['--kbbg','kbg']].forEach(function(p){if(st[p[1]])s.setProperty(p[0],st[p[1]]);else s.removeProperty(p[0])})}
+const cv=n=>{const v=getComputedStyle(document.documentElement).getPropertyValue(n).trim();return /^#[0-9a-f]{6}$/i.test(v)?v:'#000000'};
+look();
+const conv=b=>st.mode=='en'?b:st.mode=='br'?toBr(num2br(fold(toDev(b)))):b;
+function drawFields(){
+ $('#msg').textContent=target=='pw'&&!reveal?'*'.repeat(Array.from(val.msg).length):val.msg;
+ 
+ 
+ $('#rv').textContent=reveal?'Hide':'Reveal (demo)'}
+function drawPrev(){
+ $('#tag').textContent=st.mode.toUpperCase();
+ let t;
+ if(st.mode=='en')t=buf;
+ else if(st.mode=='br'){const d=toDev(buf);t=buf?toScript(d,st.lang)+' → '+toBr(num2br(fold(d))):''}
+ else t=buf?buf+' → '+toScript(fromBr(buf),st.lang):'';
+ if(target=='pw')t='*'.repeat(Array.from(buf).length);
+ $('#pv').textContent=t}
+function send(t){val.msg+=t;drawFields()}
+function commit(extra){if(buf){send(conv(buf));buf=''}if(extra)send(extra);drawPrev();if(st.mode=='pb')build()}
+const PAIRS=new Set();
+(function(){const G=[[0x915,0x916,0x917,0x918,0x919],[0x91A,0x91B,0x91C,0x91D,0x91E],[0x91F,0x920,0x921,0x922,0x923],[0x924,0x925,0x926,0x927,0x928],[0x92A,0x92B,0x92C,0x92D,0x92E]];
+const add=(a,b)=>PAIRS.add(a+'-'+b);
+G.forEach(g=>{add(g[0],g[0]);add(g[0],g[1]);add(g[2],g[2]);add(g[2],g[3]);add(g[4],g[4]);for(let i=0;i<4;i++)add(g[4],g[i])});
+[[0x923,0x939],[0x928,0x939],[0x92E,0x939],[0x92F,0x92F],[0x932,0x932],[0x935,0x935],[0x938,0x938],[0x938,0x92E],[0x938,0x935],[0x926,0x935],[0x924,0x935],[0x939,0x92E]].forEach(p=>add(p[0],p[1]))})();
+function badConj(dev){const a=Array.from(dev);for(let i=0;i+2<a.length;i++){if(a[i+1].charCodeAt(0)==0x94D){const x=a[i].charCodeAt(0),y=a[i+2].charCodeAt(0);if(x>=0x915&&x<=0x939&&y>=0x915&&y<=0x939&&!PAIRS.has(x+'-'+y))return a[i]+'्'+a[i+2]}}return null}
+function ashNum(s){const n=parseInt(s,10);if(!(n>0&&n<10000))return s;const D=k=>String.fromCodePoint(0x11052+k-1),J=String.fromCodePoint(0x1107F);const th=Math.floor(n/1000),h=Math.floor(n%1000/100),t=Math.floor(n%100/10),u=n%10;let o='';if(th)o+=(th>1?D(th)+J:'')+String.fromCodePoint(0x11065);if(h)o+=(h>1?D(h)+J:'')+String.fromCodePoint(0x11064);if(t)o+=String.fromCodePoint(t==1?0x1105B:0x1105C+t-2);if(u)o+=D(u);return o}
+const num2br=s=>s.replace(/[0-9]+/g,ashNum);
+function warn(m){const e=$('#warn');e.textContent=m;e.hidden=false;clearTimeout(warn.t);warn.t=setTimeout(()=>{e.hidden=true},4200)}
+function pop(m){const e=$('#pop');e.textContent=m;e.hidden=false;clearTimeout(pop.t);pop.t=setTimeout(()=>{e.hidden=true},3200)}
+const CONJMSG=c=>'Not a Pali conjunct in Ashokan Brahmi: '+toScript(c,st.lang)+'. Allowed: double letters (tt, kkh), nasal + stop (nt, mp) and a few more.';
+function add(ch,raw){
+ if(!raw&&st.mode!='pb'&&shift){ch=ch.toUpperCase();if(shift==1){shift=0;build()}}
+ if(st.mode=='pb'&&shift==1)shift=0;
+ if(st.mode=='pb'&&sm()){const cp=ch.codePointAt(0),l=Array.from(buf).pop();if((MT[cp]||cp==0x11005)&&l&&isC(l.codePointAt(0))){if(MT[cp])buf+=sg(MT[cp]);drawPrev();build();return}}
+ if(st.mode=='br'){const voc=/[ऋऌॠॡृॄॢॣ]/,dn=toDev(buf+ch),dp=toDev(buf);
+  if(voc.test(dn)&&!voc.test(dp)){pop('Not in Ashokan Brahmi: ṛ and ḷ cannot be typed.');return}
+  const absRe=/[ँः़॒॑ऽॅॆॉॊऍऎऑऒ]/;if(absRe.test(dn)&&!absRe.test(dp)){pop('Not in Ashokan Pali: visarga, candrabindu, nukta, accents, avagraha and the candra and short vowels cannot be typed.');return}
+  if(/[0-9]/.test(ch)){const n=parseInt((buf.match(/[0-9]*$/)[0])+ch,10);if(n===0){pop('Ashokan Brahmi has no zero.');return}if(n>9999){pop('Ashokan numerals here go up to 9999.');return}}}
+ 
+ const raMsg='Not in Ashokan Brahmi: conjuncts with ra, such as kra, tra and rka, cannot be typed.';
+ if(st.mode=='br'&&/्र|र्/.test(toDev(buf+ch))&&!/्र|र्/.test(toDev(buf))){pop(raMsg);return}
+ if(st.mode=='pb'&&((ch==String.fromCodePoint(0x1102D)&&buf.endsWith(String.fromCodePoint(0x11046)))||(ch==String.fromCodePoint(0x11046)&&buf.endsWith(String.fromCodePoint(0x1102D))))){pop(raMsg);return}
+ const wRe=/[शषऐऔैौ]/g,wcnt=s=>(s.match(wRe)||[]).length;
+ if(st.mode=='br'||st.mode=='pb'){const wa=st.mode=='br'?toDev(buf+ch):fromBr(buf+ch),wb=st.mode=='br'?toDev(buf):fromBr(buf);if(wcnt(wa)>wcnt(wb)){const wm=wa.match(wRe),wc=wm[wm.length-1];{const sg2=/[ैौ]/.test(wc),lab=c=>(sg2?'◌':'')+toScript(c,st.lang),T2={'ऐ':'ए','औ':'ओ','ै':'े','ौ':'ो'};if(T2[wc])warn('Ashokan script treats '+lab(wc)+' as '+lab(T2[wc])+'. You still get the actual '+lab(wc)+'.');else warn('Post-Ashokan: '+lab(wc)+' is not found in Ashokan script. You can still type it.')}}}
+ buf+=ch;drawPrev();if(st.mode=='pb')build()}
+function delWord(){if(buf)buf='';else val.msg=val.msg.replace(/\S+\s*$/,'');drawPrev();drawFields();if(st.mode=='pb')build()}
+function del(){
+ if(buf)buf=Array.from(buf).slice(0,-1).join('');
+ else val.msg=Array.from(val.msg).slice(0,-1).join('');
+ drawPrev();drawFields();if(st.mode=='pb')build()}
+// ---------- keyboard rendering ----------
+const GUIDE=`<h3>Modes</h3><ul><li><b>EN</b>: normal English typing.</li><li><b>BR (Brahmi)</b>: type with English letters. The preview shows your language's script, then the Ashokan Brahmi that is sent to the app.</li><li><b>PB (Pure Brahmi)</b>: the keys are Brahmi letters. The preview shows the reading in your preferred language.</li><li>The mode key cycles EN, BR, PB. Your last mode and language are remembered.</li></ul>
+<h3>Typing in Brahmi mode</h3><ul><li>Consonants already carry a short a, so type <b>saDak</b>, not sadaka. Type <b>aa</b> for a long a. Other vowels: i, ee, u, uu, e, ei, o, ou. <b>M</b> gives the anusvara.</li><li>Consonants: k kh g gh ng, ch Ch j jh yn, then capital T Th D Dh N for the retroflex letters, t th d dh n, p ph b bh m, y r l v s h, and capital L for ळ. sh gives श and Sh gives ष, as on the Pure Brahmi keys.</li><li>Keys such as q, x, f, z and c have no sound in Brahmi mode.</li><li>The small letters under each key show what it types in your language.</li><li><b>Space</b> sends the word. <b>Enter</b> sends the word and a new line. If nothing is waiting, Enter does the app's own action. <b>Backspace</b> removes one character; <b>Delete</b> clears the whole word.</li><li><b>123</b> shows numbers and symbols; use the back key to return.</li><li>In password fields the preview and the field show asterisks, but the app receives the real text.</li></ul>
+<h3>Pure Brahmi mode</h3><ul><li>Type a consonant, then a vowel sign from row 2. Example: <span class="gl">𑀓</span> then <span class="gl">◌𑀸</span> gives <span class="gl">𑀓𑀸</span>.</li><li>For a conjunct, type consonant, joiner, consonant. The joiner <span class="gl">◌𑁆</span> is on the Ext page (123, then Ext).</li><li>Shift does nothing in this mode.</li></ul>
+<h3>Numbers</h3><ul><li>Ashokan numerals are not positional and have no zero. 1 to 9 have their own signs, as do 10, 20 to 90, 100 and 1000.</li><li>Hundreds and thousands join a digit to the 100 or 1000 sign. 256 is written as 2 hundreds, 50 and 6.</li><li>Brahmi mode converts typed numbers from 1 to 9999. A lone 0 is refused.</li></ul>
+<h3>What cannot be typed</h3><ul><li>Visarga, candrabindu, nukta, accent marks, avagraha, and the candra and short vowels: not used in Ashokan Brahmi.</li><li>Vocalic ṛ ṝ ḷ ḹ and their signs: later additions.</li><li>Conjuncts that include ra, such as kra, tra, rka and rma.</li><li>Zero.</li><li>Letters found only in one modern language, such as Tamil ழ, ற and ன, cannot be typed yet.</li><li>A red message appears when a key is refused. The key is ignored and the rest of the word continues.</li></ul>
+<h3>Orange warnings</h3><ul><li>An orange message means the letter is typed normally but is not found in Ashokan script, so it is post-Ashokan.</li><li>श and ष get a post-Ashokan warning. For ऐ and औ, and the signs ै and ौ (खै, गौ), the message says Ashokan script treats them as ए and ओ. You still get the actual ai and au letters in both Brahmi and Pure Brahmi mode.</li></ul>
+<h3>About Ashokan Brahmi</h3><ul><li>An abugida: each consonant carries a short a, other vowels are written with signs, and independent vowel letters start a word. It is written left to right.</li><li>The best known early dated examples are the edicts of Ashoka, about 250 to 232 BCE, which give the reference forms.</li><li>Vowels: a, ā, i, ī, u, ū, e, ai, o, and the sign for au.</li><li>34 consonants: five groups of five, then y r l v, three sibilants, h and ḷ.</li><li>Conjuncts are written by stacking letters downward. This keyboard uses the Unicode joiner sign and the font draws the stack.</li><li>The anusvara is used. Ancient sources list 11 or 12 vowels at this stage, adding aṃ or aḥ.</li><li>Text is stored in the Unicode Brahmi block (U+11000 to U+1107F). It pastes anywhere, but the reader needs a Brahmi font, and letter shapes depend on that font.</li></ul>
+<h3>Limits of this version</h3><ul><li>The Ashokan rules come from reference sources, not from a check of every inscription.</li><li>The tables for several languages have not been checked by native speakers.</li></ul>`;
+const kb=$('#kb');
+const K=(k,l,c)=>`<button class="k ${c||''}" data-k="${k}">${l}</button>`;
+const R=h=>`<div class="row">${h}</div>`;
+const chunk=(a,n)=>{const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r};
+const sg=c=>String.fromCodePoint(c);
+const BV=[];for(let c=0x11005;c<=0x11012;c++)BV.push(c);
+const BM=[];for(let c=0x11038;c<=0x11046;c++)BM.push(c);BM.push(0x11070,0x11073,0x11074);
+const BS=[0x11000,0x11001,0x11002,0x11003,0x11004,0x11071,0x11072,0x11075],BP=[0x11047,0x11048,0x11049,0x1104A,0x1104B,0x1104C,0x1104D];
+const BN=[];for(let c=0x11052;c<=0x1106F;c++)BN.push(c);BN.push(0x1107F);
+const BC=[];for(let c=0x11013;c<=0x11034;c++)BC.push(c);
+const PG=[[...BV,...BS],BC,[...BM,...BP],BN],PL=[sg(0x11005)+' Vowels',sg(0x11013)+' Cons.',sg(0x11038)+' Matras',sg(0x11067)+' Nums'];
+const MT={0x11006:0x11038,0x11007:0x1103A,0x11008:0x1103B,0x11009:0x1103C,0x1100A:0x1103D,0x1100B:0x1103E,0x1100C:0x1103F,0x1100D:0x11040,0x1100E:0x11041,0x1100F:0x11042,0x11010:0x11043,0x11011:0x11044,0x11012:0x11045};
+const COMB=c=>(c>=0x11000&&c<=0x11004)||(c>=0x11038&&c<=0x11046)||c==0x11070||c==0x11073||c==0x11074,isC=c=>c>=0x11013&&c<=0x11034,sm=()=>st.smart===true;
+const cap2=c=>{if(st.mode!='br')return '';const ch=shift&&!/\d/.test(c)?c.toUpperCase():c,d=toDev(ch);if(d===ch||/[ऋऌॠॡृॄॢॣःँॅॆ]/.test(d))return '';return '<small class="cp">'+(/^[ऀ-ःा-्]/.test(d)?'◌':'')+toScript(d,st.lang)+'</small>'};
+const cap=c=>{const t=toScript(fromBr(sg(c)),st.lang);return t&&t!=sg(c)?'<small class="cp">'+t+'</small>':''};
+const PBD=[0x11052,0x11053,0x11054,0x11055,0x11056,0x11057,0x11058,0x11059,0x1105A,0x1105B];
+const PBH=[0x1105C,0x1105D,0x1105E,0x1105F,0x11060,0x11061,0x11062,0x11063,0x11064,0x11065];
+const PBM={q:[0x11017,0x1101C],w:[0x1101D,0x1101E],e:[0x1101F,0x11020],r:[0x1102D],t:[0x11022,0x11023],y:[0x1102C],u:[0x11021],i:[0x11031],o:[0x11034],p:[0x11027,0x11028],a:[0x11001,0x11002],s:[0x11032,0x11030],d:[0x11024,0x11025],f:[0x11000,0x11047],g:[0x11015,0x11016],h:[0x11033],j:[0x1101A,0x1101B],k:[0x11013,0x11014],l:[0x1102E],z:[0x200c],x:[0x11046],c:[0x11018,0x11019],v:[0x1102F],b:[0x11029,0x1102A],n:[0x11026],m:[0x1102B]};
+function pbLayout(){
+ const lc=Array.from(buf).pop(),pend=sm()&&lc&&isC(lc.codePointAt(0)),S=shift?1:0;
+ if(layer=='more'){const X=[0x11046,0x1107F];return chunk(X,10).map(r=>R(r.map(c=>K('c:'+sg(c),(COMB(c)?'◌':'')+sg(c)+cap(c),'br')).join(''))).join('')+R(K('abc','← back','fn')+K('sp','space','sp')+K('bk','⌫','fn')+K('en','↵','fn'))}
+ const ks=r=>r.split('').map(x=>{const a=PBM[x],c=a[S]!==undefined?a[S]:a[0];return K('c:'+sg(c),c==0x200c?'⊘':(COMB(c)?'◌':'')+sg(c)+cap(c),c==0x200c?'fn':'br')}).join('');
+ const vr='<div class="row" style="overflow-x:auto;scrollbar-width:none">'+BV.map(c=>`<button class="k br" style="flex:none;width:40px" data-k="c:${sg(c)}">${pend?(c==0x11005?'∅':'◌'+sg(MT[c])):sg(c)+cap(c)}</button>`).join('')+'</div>';
+ return R(PBD.map(c=>K('c:'+sg(c),sg(c),'br')).join(''))+vr+R(ks('qwertyuiop'))+R(ks('asdfghjkl'))+R(K('sh',shift==2?'⇪':'⇧','fn'+(shift?' on':''))+ks('zxcvbnm')+K('bk','⌫','fn'))+R(K('num','123','fn')+K('mode','PB ⇄','fn')+K('set','⚙','fn')+K('more','⋯','fn')+K('sp','space','sp')+K('en','↵','fn'))}
+const PR1=['@',...PBD,'#','%','del'];
+const PR2=[0x11023,0x11014,0x11038,0x1103A,0x1103B,0x1103C,0x1103D,0x11042,0x11043,0x11044,0x11045,0x11001,0x11016,0x11025,'bk'];
+const PR3=[0x1101D,0x11020,0x1100A,0x11008,0x1102D,0x11022,0x1102C,0x11009,0x11007,0x11011,0x11027,0x11010,0x11017,'en'];
+const PR4=[0x11006,0x1100F,0x1101E,0x11005,0x11032,0x11024,0x11028,0x11015,0x11033,0x1101A,0x11013,0x1102E,0x11034,0x1101C];
+const PR5=['num',0x1101F,0x1101B,0x11019,0x11018,0x1102F,0x11029,0x11026,0x1102B,0x1102A,0x11021,'.',',','?'];
+function pbLayout2(){
+ if(layer=='more')return pbLayout();
+ const S=shift?1:0;
+ const pk=x=>{
+  if(x=='del')return K('del','Delete','fn');if(x=='bk')return K('bk','⌫','fn');if(x=='en')return K('en','↵','fn');if(x=='num')return K('num','123','fn');
+  if(typeof x=='string')return K('c:'+x,x);
+  const c=Array.isArray(x)?(S&&x[1]!==undefined?x[1]:x[0]):x;
+  return K('c:'+sg(c),(COMB(c)?'◌':'')+sg(c)+cap(c),'br')};
+ const rw=a=>R(a.map(pk).join(''));
+ const sh=K('sh',shift==2?'⇪':'⇧','fn'+(shift?' on':''));
+ return '<div class="pbk">'+[PR1,PR2,PR3,PR4,PR5].map(rw).join('')+R(sh+K('mode','PB ⇄','fn')+K('set','⚙','fn')+K('c:'+sg(0x11030),sg(0x11030)+cap(0x11030),'br')+K('sp','space','sp')+K('c:'+sg(0x11031),sg(0x11031)+cap(0x11031),'br')+sh+K('lang',st.lang.slice(0,5),'fn'))+'</div>'}
+function build(){
+ if(layer=='set'){
+  kb.innerHTML=`<div id="set"><b>Settings</b><br>Preferred language<select id="sl">${Object.keys(SC).map(l=>`<option${l==st.lang?' selected':''}>${l}</option>`).join('')}</select>Script<select id="ss"><option value="">Default (${SC[st.lang]})</option>${Object.keys(LANGS).map(l=>`<option${l==st.script?' selected':''}>${l}</option>`).join('')}</select>
+  <b>Appearance</b><br>Theme<select id="th"><option value="system"${st.theme!='light'&&st.theme!='dark'?' selected':''}>System</option><option value="light"${st.theme=='light'?' selected':''}>Light</option><option value="dark"${st.theme=='dark'?' selected':''}>Dark</option></select>English letter style<select id="ef"><option value="sans"${!st.efont||st.efont=='sans'?' selected':''}>Sans-serif</option><option value="serif"${st.efont=='serif'?' selected':''}>Serif</option><option value="mono"${st.efont=='mono'?' selected':''}>Monospace</option></select>
+  <label>Key text <input type="color" id="c1" value="${st.kfg||cv('--tx')}"></label> <label>Key background <input type="color" id="c2" value="${st.keybg||cv('--key')}"></label> <label>Keyboard background <input type="color" id="c3" value="${st.kbg||cv('--kf')}"></label> <button class="k fn" id="cr" style="width:auto;padding:0 10px">Reset colors</button><br><br>
+  <label><input type="checkbox" id="sm"${sm()?' checked':''}> Smart vowels: consonant + vowel joins into one syllable (Pure Brahmi)</label><br><br><button class="k fn" data-k="guide" style="width:100%;margin-bottom:8px">User guide and Ashokan notes</button><button class="k fn" data-k="abc" style="width:100%">← Back</button>
+  <small>Urdu, Kashmiri, Sindhi, Santali and Manipuri previews are phonetic approximations, not dictionary spellings.</small></div>`;
+  $('#sl').onchange=e=>{st.lang=e.target.value;st.script='';save();drawPrev();build()};$('#ss').onchange=e=>{st.script=e.target.value;save();drawPrev()};$('#sm').onchange=e=>{st.smart=e.target.checked;save()};
+  $('#th').onchange=e=>{st.theme=e.target.value;save();look();build()};$('#ef').onchange=e=>{st.efont=e.target.value;save();look()};
+  [['c1','kfg'],['c2','keybg'],['c3','kbg']].forEach(function(p){$('#'+p[0]).oninput=function(e){st[p[1]]=e.target.value;save();look()}});
+  $('#cr').onclick=()=>{st.kfg=st.keybg=st.kbg='';save();look();build()};return}
+ if(layer=='guide'){kb.innerHTML='<div class="guide">'+GUIDE+'</div><button class="k fn" data-k="set" style="width:100%;margin-top:6px">← Back to settings</button>';return}
+ if(layer=='lang'){kb.innerHTML=chunk(Object.keys(SC),4).map(r=>R(r.map(l=>K('L:'+l,l,'fn'+(l==st.lang?' on':''))).join(''))).join('')+R(K('abc','← back','fn'))+'<small>The 22 scheduled languages. Each uses its usual script by default; change the script in Settings.</small>';return}
+ let h='';
+ const shl=shift==2?'⇪':'⇧';
+ const shb=K('sh',shl,'fn'+(shift?' on':''));const bottom=(mid)=>R(shb+K('mode',st.mode.toUpperCase()+' ⇄','fn')+K('set','⚙','fn')+K('sp','space','sp')+shb+K('lang',st.lang.slice(0,5),'fn'));
+ if(layer=='num'){
+  h=R('1234567890'.split('').map(c=>K('c:'+c,c)).join(''))+
+    R('@#₹%&*-+()'.split('').map(c=>K('c:'+c,c)).join(''))+
+    R('!"\':;/?_=~'.split('').map(c=>K('c:'+c,c)).join(''))+
+    R(K('abc','ABC','fn')+',.€£^<>'.split('').map(c=>K('c:'+c,c)).join('')+K('bk','⌫','fn'))+
+    R(K('abc','← back','fn')+(st.mode=='pb'?K('more','Ext','fn'):'')+K('sp','space','sp')+K('en','↵','fn'));
+ }else if(st.mode=='pb'){h=pbLayout2()}else if(false){
+  const L=PG[pg],lc=Array.from(buf).pop(),pend=sm()&&lc&&isC(lc.codePointAt(0));
+  h=R(PG.map((_,i)=>K('pg:'+i,PL[i],'fn'+(i==pg?' on':''))).join(''))+chunk(L,10).map(r=>R(r.map(c=>{const v=BV.includes(c)&&pend;return K('c:'+sg(c),v?(c==0x11005?'∅':'◌'+sg(MT[c])):(COMB(c)?'◌':'')+sg(c)+cap(c),'br')}).join(''))).join('')+
+    R(K('num','123','fn')+K('mode','PB ⇄','fn')+K('set','⚙','fn')+K('c:'+sg(0x11046),'◌'+sg(0x11046),'fn br')+K('c:'+sg(0x200c),'⊘','fn')+K('sp','space','sp')+K('bk','⌫','fn')+K('en','↵','fn'));
+ }else{
+  const rows=['1234567890','qwertyuiop','asdfghjkl'];
+  const cs=c=>shift&&!/\d/.test(c)?c.toUpperCase():c;
+  h=rows.map((r,i)=>R((i==0?K('c:@','@'):'')+r.split('').map(c=>K('c:'+c,cs(c)+cap2(c))).join('')+(i==0?K('c:#','#')+K('c:%','%')+K('del','Delete','fn'):'')+(i==2?K('en','↵','fn'):''))).join('')+
+    R(K('num','123','fn')+'zxcvbnm'.split('').map(c=>K('c:'+c,cs(c)+cap2(c))).join('')+K('c:.','.')+K('c:,',',')+K('c:?','?')+K('bk','⌫','fn'))+
+    bottom('');
+ }
+ kb.innerHTML=h}
+function handle(k){
+ if(k.startsWith('L:')){st.lang=k.slice(2);st.script='';save();layer='abc';build();drawPrev();return}
+ if(k.startsWith('pg:')){pg=+k.slice(3);return build()}
+ if(k.startsWith('c:'))return add(k.slice(2));
+ switch(k){
+  case 'sh':{if(st.mode=='pb')break;const n=Date.now();if(shift==2)shift=0;else if(shift==1&&n-lastSh<350)shift=2;else shift=shift?0:1;lastSh=n;build();break}
+  case 'num':layer=layer=='num'?'abc':'num';build();break;
+  case 'abc':layer='abc';build();break;
+  case 'more':layer='more';build();break;
+  case 'lang':layer='lang';build();break;
+  case 'set':layer='set';build();break;
+  case 'guide':layer='guide';build();break;
+  case 'pg':pg=1-pg;build();break;
+  case 'mode':commit();st.mode={en:'br',br:'pb',pb:'en'}[st.mode];save();layer='abc';build();drawPrev();break;
+  case 'sp':commit(' ');break;
+  case 'en':commit('\n');break;
+  case 'bk':del();break;
+  case 'del':delWord();break}}
+kb.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-k]');if(!b)return;e.preventDefault();handle(b.dataset.k)});
+$('#pwc').onchange=e=>{commit();target=e.target.checked?'pw':'msg';drawFields();drawPrev()};
+$('#rv').onclick=()=>{reveal=!reveal;drawFields()};
+$('#cp').onclick=async()=>{try{await navigator.clipboard.writeText(val.msg);$('#cp').textContent='Copied'}catch(e){$('#cp').textContent='Select & copy manually'}setTimeout(()=>$('#cp').textContent='Copy',1500)};
+document.addEventListener('keydown',e=>{
+ if(e.ctrlKey||e.metaKey||e.altKey||layer=='set'||e.target.tagName=='SELECT')return;
+ if(e.key==' '){e.preventDefault();commit(' ')}
+ else if(e.key=='Enter'){e.preventDefault();commit('\n')}
+ else if(e.key=='Backspace'){e.preventDefault();del()}
+ else if(e.key.length==1&&st.mode!='pb'){e.preventDefault();add(e.key,true)}});
+build();drawFields();drawPrev();
+if(document.fonts&&document.fonts.load)document.fonts.load('22px "Noto Sans Brahmi"',String.fromCodePoint(0x11013)).then(f=>{if(!f.length)$('#fh').textContent='Brahmi web font did not load; keys may show empty boxes unless this device has a Brahmi font. Each key also shows its reading below it.'}).catch(()=>{});
+})();
+</script></body></html>

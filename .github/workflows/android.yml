@@ -1,0 +1,40 @@
+name: Android
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  data-in-sync:
+    name: Shared data matches the web prototype
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node tools/export-data.js
+      - run: git diff --exit-code data/
+
+  build:
+    name: Test and build APKs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: 8.10.2 }
+      - name: Brahmi font (skipped if already committed)
+        run: '[ -f data/fonts/NotoSansBrahmi-Regular.ttf ] || sh tools/fetch-font.sh'
+      - name: Unit tests (shared test cases)
+        working-directory: android
+        run: gradle :app:testPlayDebugUnitTest --no-daemon
+      - name: Build debug APKs
+        working-directory: android
+        run: gradle :app:assemblePlayDebug :app:assembleFdroidDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brahmi-keyboard-debug-apks
+          path: android/app/build/outputs/apk/**/*.apk
