@@ -100,6 +100,8 @@ class SettingsActivity : Activity() {
             })
         }
         colorRow("Keyboard colour", { prefs.kbColor }) { prefs.kbColor = it }
+        colorRow("Preview strip colour", { prefs.stripColor }) { prefs.stripColor = it }
+        colorRow("Preview letter colour", { prefs.stripText }) { prefs.stripText = it }
         colorRow("Key colour", { prefs.keyColor }) { prefs.keyColor = it }
         colorRow("Letter colour", { prefs.textColor }) { prefs.textColor = it }
         col.addView(label("Theme"))

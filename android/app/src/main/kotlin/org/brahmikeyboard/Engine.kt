@@ -119,6 +119,7 @@ class BrahmiEngine(private val t: Tables) {
     fun conv(b: String): String = when (mode) {
         "br" -> toBr(num2br(fold(toDev(b))))
         "lc" -> lcConvert(b)
+        "pb" -> num2br(b)
         else -> b
     }
 
@@ -140,7 +141,7 @@ class BrahmiEngine(private val t: Tables) {
 
     fun preview(): String = when (mode) {
         "br" -> if (buf.isEmpty()) "" else { val d = toDev(buf); toScript(d, lang) + " → " + toBr(num2br(fold(d))) }
-        "pb" -> if (buf.isEmpty()) "" else buf + " → " + toScript(fromBr(buf), lang)
+        "pb" -> if (buf.isEmpty()) "" else num2br(buf) + " → " + toScript(fromBr(buf), lang)
         "lc" -> when {
             buf.isEmpty() -> ""
             lcIn == "English" && lcOut == "English" -> buf
@@ -179,13 +180,8 @@ class BrahmiEngine(private val t: Tables) {
             if (voc.containsMatchIn(dn) && !voc.containsMatchIn(dp)) return AddResult(pop = "Not in Ashokan Brahmi: ṛ and ḷ cannot be typed.")
             if (absRe.containsMatchIn(dn) && !absRe.containsMatchIn(dp))
                 return AddResult(pop = "Not in Ashokan Pali: visarga, candrabindu, nukta, accents, avagraha and the candra and short vowels cannot be typed.")
-            if (ch.length == 1 && ch[0] in '0'..'9') {
-                val tail = Regex("[0-9]*$").find(buf)!!.value
-                val n = (tail + ch).toLong()
-                if (n == 0L) return AddResult(pop = "Ashokan Brahmi has no zero.")
-                if (n > 9999) return AddResult(pop = "Ashokan numerals here go up to 9999.")
-            }
         }
+        if (mode == "br" || mode == "pb") numberRefusal(ch)?.let { return AddResult(pop = it) }
         if (mode == "br" && raRe.containsMatchIn(toDev(buf + ch)) && !raRe.containsMatchIn(toDev(buf))) return AddResult(pop = raMsg)
         if (mode == "pb") {
             val ra = str(0x1102D); val vir = str(0x11046)
@@ -206,6 +202,37 @@ class BrahmiEngine(private val t: Tables) {
         }
         buf += ch
         return AddResult(warn = warn)
+    }
+
+    private val tooBig = "Ashokan numerals here go up to 9999."
+
+    /** Ashokan Brahmi has no zero and these numerals stop at 9999. Returns the message when the key must be refused. */
+    private fun numberRefusal(ch: String): String? {
+        if (ch.length == 1 && ch[0] in '0'..'9') {
+            val n = (Regex("[0-9]*$").find(buf)!!.value + ch).toLong()
+            if (n == 0L) return "Ashokan Brahmi has no zero."
+            if (n > 9999) return tooBig
+        }
+        // Brahmi numeral signs (Pure Brahmi keys): add up the run of signs at the end of the word.
+        val c = if (ch.isEmpty()) 0 else ch.codePointAt(0)
+        if (c in 0x11052..0x11065 || c == 0x1107F) {
+            val run = ArrayList<Int>()
+            for (x in cps(buf + ch).reversed()) { if (x in 0x11052..0x11065 || x == 0x1107F) run.add(x) else break }
+            if (brahmiNumberValue(run.reversed()) > 9999) return tooBig
+        }
+        return null
+    }
+
+    /** Value of a run of Ashokan numeral signs: signs add up; a digit, the number joiner and 100 or 1000 multiply. */
+    private fun brahmiNumberValue(run: List<Int>): Int {
+        fun v(c: Int) = when (c) { in 0x11052..0x1105B -> c - 0x11052 + 1; in 0x1105C..0x11063 -> (c - 0x1105C + 2) * 10; 0x11064 -> 100; 0x11065 -> 1000; else -> 0 }
+        var total = 0; var i = 0
+        while (i < run.size) {
+            if (i + 2 < run.size && run[i + 1] == 0x1107F && (run[i + 2] == 0x11064 || run[i + 2] == 0x11065) && run[i] in 0x11052..0x1105A) {
+                total += v(run[i]) * v(run[i + 2]); i += 3
+            } else { total += v(run[i]); i++ }
+        }
+        return total
     }
 
     fun backspace() { if (buf.isNotEmpty()) buf = buf.substring(0, buf.offsetByCodePoints(buf.length, -1)) }

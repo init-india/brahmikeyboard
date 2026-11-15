@@ -22,6 +22,7 @@ import android.widget.FrameLayout
 import android.view.inputmethod.EditorInfo
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 
 /** Brahmi keyboard: EN, BR (roman -> Brahmi) and PB (Pure Brahmi) modes. */
@@ -39,7 +40,7 @@ class BrahmiIme : InputMethodService() {
     private var brahmiFont: Typeface? = null
     private val ui = Handler(Looper.getMainLooper())
 
-    private var layer = "abc"            // abc | num | more | lang
+    private var layer = "abc"            // abc | num | emoji | lang | lang2
     private var shift = 0                // 0 off, 1 once, 2 caps lock
     private var lastShift = 0L
     private var password = false
@@ -129,14 +130,16 @@ class BrahmiIme : InputMethodService() {
         drawPreview()
     }
 
-    /** The Go / Search / Send key of the app. Falls back to Enter when the app sets no action. */
+    /**
+     * Go: move the word waiting in the preview into the app, and nothing else (no Enter, the keyboard stays open).
+     * When nothing is waiting, run the app's own action (Go, Search or Send). Apps decide whether they accept it.
+     */
     private fun go() {
-        commit(null)
+        if (engine.buf.isNotEmpty()) { commit(null); return }
         val ic = currentInputConnection ?: return
-        val action = (currentInputEditorInfo?.imeOptions ?: 0) and EditorInfo.IME_MASK_ACTION
-        if (action == EditorInfo.IME_ACTION_NONE || action == EditorInfo.IME_ACTION_UNSPECIFIED) {
-            if (!sendDefaultEditorAction(true)) sendDownUpKeyEvents(KeyEvent.KEYCODE_ENTER)
-        } else ic.performEditorAction(action)
+        val a = (currentInputEditorInfo?.imeOptions ?: 0) and EditorInfo.IME_MASK_ACTION
+        val act = when (a) { EditorInfo.IME_ACTION_GO, EditorInfo.IME_ACTION_SEARCH, EditorInfo.IME_ACTION_SEND -> a; else -> EditorInfo.IME_ACTION_SEND }
+        ic.performEditorAction(act)
     }
 
     private fun nativeIn() = engine.mode == "lc" && engine.lcIn != "English"
@@ -172,7 +175,7 @@ class BrahmiIme : InputMethodService() {
                 }
                 "num" -> { layer = if (layer == "num") "abc" else "num"; rebuild() }
                 "abc" -> { layer = "abc"; rebuild() }
-                "more" -> { layer = "more"; rebuild() }
+                "emoji" -> { layer = "emoji"; rebuild() }
                 "lang" -> { layer = "lang"; rebuild() }
                 "lang2" -> { layer = "lang2"; rebuild() }
                 "mode" -> if (plain) togglePlain() else {
@@ -258,7 +261,7 @@ class BrahmiIme : InputMethodService() {
      * Local with a native input language: that language's letter, with the output script's letter under it.
      */
     private fun pbKey(x: Any): K = when (x) {
-        "del" -> K("del", "Del", "fn"); "bk" -> K("bk", "⌫", "fn"); "en" -> K("en", "↵", "fn"); "num" -> K("num", "123", "fn")
+        "del" -> K("del", "Del", "fn"); "bk" -> K("bk", "⌫", "fn"); "en" -> K("en", "↵", "fn"); "num" -> numKey()
         is String -> K("c:$x", x)
         else -> gridKey(x as Int)
     }
@@ -280,6 +283,9 @@ class BrahmiIme : InputMethodService() {
         val shadow = if (engine.mode == "br") (if (comb(c)) "◌" else "") + sg(c) else if (to.isEmpty()) "" else mark + engine.toScript(dev, to)
         return K("c:$dev", small(mark + engine.toScript(dev, from), shadow), "br")
     }
+
+    /** The 123 key also shows a small smiley: the emoji picker is behind it. */
+    private fun numKey() = K("num", small("123", "☺"), "fn")
 
     private fun ab(l: String) = if (l == "English") "Eng" else l.take(3)
 
@@ -307,12 +313,12 @@ class BrahmiIme : InputMethodService() {
             val names = listOf("English") + engine.nativeLanguages()
             return names.chunked(4).map { r -> r.map { K("I:$it", it, if (it == engine.lcIn) "fnon" else "fn") } } + listOf(listOf(K("abc", "← back", "fn")))
         }
-        if (layer == "more") return listOf(listOf(0x11046, 0x1107F).map { pbKey(it) }, listOf(K("abc", "← back", "fn"), sp, K("bk", "⌫", "fn"), K("en", "↵", "fn")))
+        if (layer == "emoji") return listOf(listOf(K("abc", "ABC", "fn"), sp, K("bk", "⌫", "fn")))
         if (layer == "num") {
             fun r(s: String) = s.map { K("c:$it", it.toString()) }
             return listOf(r("1234567890"), r("@#₹%&*-+()"), r("!\"':;/?_=~"),
                 listOf(K("abc", "ABC", "fn")) + r(",.€£^<>") + K("bk", "⌫", "fn"),
-                listOf(K("abc", "← back", "fn")) + (if (gridMode()) listOf(K("more", "Ext", "fn")) else emptyList()) + sp + K("en", "↵", "fn") + goK)
+                listOf(K("abc", "← back", "fn")) + K("emoji", "😊", "fn") + sp + K("en", "↵", "fn") + goK)
         }
         if (gridMode()) {
             val bottom = listOf(sh, modeK, setK, pbKey(0x11030), sp, pbKey(0x11031), langK, goK)
@@ -328,7 +334,7 @@ class BrahmiIme : InputMethodService() {
             fun letter(c: Char) = K("c:$c", small(cs(c).toString(), cap2(c.toString())))
             out.add("qwertyuiop".map { letter(it) })
             out.add("asdfghjkl".map { letter(it) } + K("en", "↵", "fn"))
-            out.add(listOf(K("num", "123", "fn")) + "zxcvbnm".map { letter(it) } + listOf(K("c:.", "."), K("c:,", ","), K("c:?", "?"), K("bk", "⌫", "fn")))
+            out.add(listOf(numKey()) + "zxcvbnm".map { letter(it) } + listOf(K("c:.", "."), K("c:,", ","), K("c:?", "?"), K("bk", "⌫", "fn")))
         }
         out.add(listOf(sh, modeK, setK, sp, langK, goK))
         return out
@@ -337,7 +343,7 @@ class BrahmiIme : InputMethodService() {
     // ---------- drawing ----------
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 
-    private class Pal(val bg: Int, val key: Int, val fn: Int, val tx: Int, val ac: Int, val acTx: Int, val strip: Int)
+    private class Pal(val bg: Int, val key: Int, val fn: Int, val tx: Int, val ac: Int, val acTx: Int, val strip: Int, val stripTx: Int = tx)
 
     private fun pal(): Pal {
         val dark = when (prefs.theme) { "dark" -> true; "light" -> false
@@ -353,7 +359,7 @@ class BrahmiIme : InputMethodService() {
             fun m(a: Int) = (a + (to - a) * t).toInt()
             return Color.rgb(m(Color.red(c)), m(Color.green(c)), m(Color.blue(c)))
         }
-        return Pal(kbc ?: base.bg, kc ?: base.key, if (kc != null) shade(kc, 0.14f) else base.fn, tc ?: base.tx, base.ac, base.acTx, if (kbc != null) shade(kbc, 0.08f) else base.strip)
+        return Pal(kbc ?: base.bg, kc ?: base.key, if (kc != null) shade(kc, 0.14f) else base.fn, tc ?: base.tx, base.ac, base.acTx, mine(prefs.stripColor) ?: if (kbc != null) shade(kbc, 0.08f) else base.strip, mine(prefs.stripText) ?: tc ?: base.tx)
     }
 
     private fun rounded(c: Int, r: Int = 7) = GradientDrawable().apply { setColor(c); cornerRadius = dp(r).toFloat() }
@@ -375,31 +381,73 @@ class BrahmiIme : InputMethodService() {
         root.setBackgroundColor(p.bg)
         applyFrame()
         (tag.parent as View).setBackgroundColor(p.strip)
-        tag.background = rounded(p.ac, 4); tag.setTextColor(p.acTx); prev.setTextColor(p.tx)
+        tag.background = rounded(p.ac, 4); tag.setTextColor(p.acTx); prev.setTextColor(p.stripTx)
         keys.removeAllViews()
         val pb = gridMode() && layer == "abc"
         val h = prefs.keyH.coerceIn(34, 72)
-        for (row in layout()) {
-            val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-            for (k in row) {
-                val fn = k.kind == "fn" || k.kind == "fnon"
-                val v = TextView(this).apply {
-                    text = k.label; gravity = Gravity.CENTER; includeFontPadding = false; maxLines = 2
-                    textSize = if (fn) 12f else if (k.kind == "br") (if (pb) 17f else 20f) else 16f
-                    if (k.kind == "br" || (pb && !fn)) typeface = brahmiFont
-                    setTextColor(if (k.kind == "fnon") p.acTx else p.tx)
-                    background = rounded(if (k.kind == "fnon") p.ac else if (fn) p.fn else p.key).also {
-                        // Mode, Go and the joiner are the important keys: amber border.
-                        if (k.id == "mode" || k.id == "go" || k.id == "c:" + sg(0x11046) || k.id == "c:\u094D") it.setStroke(dp(2), Color.parseColor("#F5A623"))
-                    }
-                    setOnTouchListener { view, e -> touch(view, e, k.id); true }
-                }
-                val w = when (k.kind) { "sp" -> 4f; "fn", "fnon" -> 1.4f; else -> 1f }
-                r.addView(v, LinearLayout.LayoutParams(0, dp(if (pb) h - 4 else h), w).apply { setMargins(dp(2), dp(3), dp(2), dp(3)) })
-            }
-            keys.addView(r, LinearLayout.LayoutParams(-1, -2))
-        }
+        if (layer == "emoji") { buildEmoji(p, h); drawPreview(); return }
+        for (row in layout()) keys.addView(keyRow(row, p, h, pb), LinearLayout.LayoutParams(-1, -2))
         drawPreview()
+    }
+
+    private fun keyRow(row: List<K>, p: Pal, h: Int, pb: Boolean): LinearLayout {
+        val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        for (k in row) {
+            val fn = k.kind == "fn" || k.kind == "fnon"
+            val v = TextView(this).apply {
+                text = k.label; gravity = Gravity.CENTER; includeFontPadding = false; maxLines = 2
+                textSize = if (fn) 12f else if (k.kind == "br") (if (pb) 17f else 20f) else 16f
+                if (k.kind == "br" || (pb && !fn)) typeface = brahmiFont
+                setTextColor(if (k.kind == "fnon") p.acTx else p.tx)
+                background = rounded(if (k.kind == "fnon") p.ac else if (fn) p.fn else p.key).also {
+                    // Mode, Go and the joiner are the important keys: amber border.
+                    if (k.id == "mode" || k.id == "go" || k.id == "c:" + sg(0x11046) || k.id == "c:\u094D") it.setStroke(dp(2), Color.parseColor("#F5A623"))
+                }
+                setOnTouchListener { view, e -> touch(view, e, k.id); true }
+            }
+            val w = when (k.kind) { "sp" -> 4f; "fn", "fnon" -> 1.4f; else -> 1f }
+            r.addView(v, LinearLayout.LayoutParams(0, dp(if (pb) h - 4 else h), w).apply { setMargins(dp(2), dp(3), dp(2), dp(3)) })
+        }
+        return r
+    }
+
+    // ---------- emoji ----------
+    private var emojiGroup = 0          // 0 = recently used, 1.. = Emoji.groups
+
+    private fun pickEmoji(e: String) {
+        commit(null)
+        currentInputConnection?.commitText(e, 1)
+        prefs.recentEmoji = (listOf(e) + prefs.recentEmoji.split(" ").filter { it.isNotEmpty() && it != e }).take(24).joinToString(" ")
+    }
+
+    private fun buildEmoji(p: Pal, h: Int) {
+        fun tab(label: String, idx: Int) = TextView(this).apply {
+            text = label; textSize = 18f; gravity = Gravity.CENTER
+            setTextColor(if (idx == emojiGroup) p.acTx else p.tx)
+            background = rounded(if (idx == emojiGroup) p.ac else p.fn)
+            setOnClickListener { emojiGroup = idx; rebuild() }
+        }
+        val tabs = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        val labels = listOf("🕘") + Emoji.groups.map { it.icon }
+        labels.forEachIndexed { i, l -> tabs.addView(tab(l, i), LinearLayout.LayoutParams(0, dp(h - 6), 1f).apply { setMargins(dp(2), dp(3), dp(2), dp(3)) }) }
+        keys.addView(tabs, LinearLayout.LayoutParams(-1, -2))
+
+        val list = if (emojiGroup == 0) prefs.recentEmoji.split(" ").filter { it.isNotEmpty() } else Emoji.list(emojiGroup - 1)
+        val grid = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        if (list.isEmpty()) grid.addView(TextView(this).apply { text = "Emoji you use will appear here."; setTextColor(p.tx); setPadding(dp(12), dp(12), dp(12), dp(12)) })
+        for (row in list.chunked(8)) {
+            val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+            for (i in 0 until 8) {
+                val e = row.getOrNull(i)
+                r.addView(TextView(this).apply {
+                    text = e ?: ""; textSize = 24f; gravity = Gravity.CENTER; includeFontPadding = false
+                    if (e != null) setOnClickListener { pickEmoji(e) }
+                }, LinearLayout.LayoutParams(0, dp(h), 1f))
+            }
+            grid.addView(r, LinearLayout.LayoutParams(-1, -2))
+        }
+        keys.addView(ScrollView(this).apply { addView(grid) }, LinearLayout.LayoutParams(-1, dp(h) * 4))
+        keys.addView(keyRow(layout()[0], p, h, false), LinearLayout.LayoutParams(-1, -2))
     }
 
     private val repeat = object : Runnable { var id = ""; override fun run() { handle(id); ui.postDelayed(this, 60) } }

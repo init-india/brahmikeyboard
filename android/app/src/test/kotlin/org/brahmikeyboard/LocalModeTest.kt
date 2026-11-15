@@ -87,3 +87,33 @@ class LanguageKeysTest {
         val e = engine(); val r = type(e, "ऐ"); assertEquals("𑀐", e.commitText()); assertEquals(true, r!!.warn != null)
     }
 }
+
+/** Numbers in Pure Brahmi mode obey the Ashokan limits too; Custom mode does not. */
+class NumberLimitTest {
+    private fun engine(mode: String) = BrahmiEngine(Tables(File("../../data/tables.json").readText())).also { it.mode = mode; it.lang = "Hindi" }
+    private fun type(e: BrahmiEngine, keys: List<String>): List<String?> { e.clear(); return keys.map { e.add(it).pop } }
+    private val thousand = String(Character.toChars(0x11065))
+
+    @Test fun pureBrahmiDigitsBecomeAshokanNumerals() {
+        val e = engine("pb"); type(e, "256".map { it.toString() })
+        assertEquals("𑁓𑁿𑁤𑁟𑁗", e.commitText())
+    }
+    @Test fun pureBrahmiRefusesOver9999() {
+        val e = engine("pb"); val r = type(e, "10000".map { it.toString() })
+        assertEquals("Ashokan numerals here go up to 9999.", r.last()); assertEquals("1000", e.buf)
+    }
+    @Test fun pureBrahmiRefusesZero() {
+        val e = engine("pb"); assertEquals("Ashokan Brahmi has no zero.", type(e, listOf("0")).last())
+    }
+    @Test fun pureBrahmiNumeralSignsStopAt9999() {
+        val e = engine("pb"); val r = type(e, List(10) { thousand })
+        assertEquals(null, r[8]); assertEquals("Ashokan numerals here go up to 9999.", r[9]); assertEquals(9, e.buf.codePointCount(0, e.buf.length))
+    }
+    @Test fun brahmiModeStillRefusesOver9999() {
+        val e = engine("br"); assertEquals("Ashokan numerals here go up to 9999.", type(e, "10000".map { it.toString() }).last())
+    }
+    @Test fun customModeAllowsAnyNumber() {
+        val e = engine("lc"); val r = type(e, "1234567890".map { it.toString() })
+        assertEquals(true, r.all { it == null }); assertEquals("1234567890", e.commitText())
+    }
+}

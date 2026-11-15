@@ -19,6 +19,10 @@ class Prefs(ctx: Context) {
     var kbColor: String get() = p.getString("kbColor", "")!!; set(v) = p.edit().putString("kbColor", v).apply()
     var keyColor: String get() = p.getString("keyColor", "")!!; set(v) = p.edit().putString("keyColor", v).apply()
     var textColor: String get() = p.getString("textColor", "")!!; set(v) = p.edit().putString("textColor", v).apply()
+    var stripColor: String get() = p.getString("stripColor", "")!!; set(v) = p.edit().putString("stripColor", v).apply()
+    var stripText: String get() = p.getString("stripText", "")!!; set(v) = p.edit().putString("stripText", v).apply()
+    /** Recently used emoji, newest first, separated by spaces. */
+    var recentEmoji: String get() = p.getString("recentEmoji", "")!!; set(v) = p.edit().putString("recentEmoji", v).apply()
     var autoInset: Boolean get() = p.getBoolean("autoInset", true); set(v) = p.edit().putBoolean("autoInset", v).apply()
     var lang: String get() = p.getString("lang", "Hindi")!!; set(v) = p.edit().putString("lang", v).apply()
     var script: String get() = p.getString("script", "")!!; set(v) = p.edit().putString("script", v).apply()

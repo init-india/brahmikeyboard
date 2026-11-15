@@ -1,0 +1,42 @@
+package org.brahmikeyboard
+
+import android.graphics.Paint
+
+/**
+ * Emoji for the picker, in groups. Only emoji that this phone can actually draw are listed
+ * (checked with Paint.hasGlyph), so older phones do not show empty boxes.
+ */
+object Emoji {
+    class Group(val icon: String, val name: String, val ranges: List<IntRange>)
+
+    private fun singles(vararg c: Int) = c.map { it..it }
+
+    val groups = listOf(
+        Group("😀", "Faces", listOf(0x1F600..0x1F64F, 0x1F910..0x1F92F, 0x1F970..0x1F97A)),
+        Group("👍", "People", listOf(0x1F440..0x1F4AB, 0x1F590..0x1F596, 0x1F930..0x1F93F, 0x1F9D1..0x1F9DF)),
+        Group("🐶", "Animals and nature", listOf(0x1F400..0x1F43F, 0x1F330..0x1F344, 0x1F980..0x1F9AF)),
+        Group("🍔", "Food", listOf(0x1F345..0x1F37F, 0x1F950..0x1F96F, 0x1F9C0..0x1F9CB)),
+        Group("⚽", "Activities", listOf(0x1F380..0x1F3FA, 0x1F93A..0x1F94F)),
+        Group("🚗", "Travel and places", listOf(0x1F680..0x1F6C5, 0x1F300..0x1F32C)),
+        Group("💡", "Objects", listOf(0x1F4AC..0x1F4FF, 0x1F550..0x1F567, 0x1F9E0..0x1F9FF)),
+        Group("❤", "Symbols", singles(
+            0x2600, 0x2601, 0x2602, 0x2603, 0x2604, 0x260E, 0x2614, 0x2615, 0x2620, 0x2622, 0x262E, 0x2639, 0x263A, 0x2640, 0x2642,
+            0x2648, 0x2649, 0x264A, 0x264B, 0x264C, 0x264D, 0x264E, 0x264F, 0x2650, 0x2651, 0x2652, 0x2653,
+            0x2660, 0x2663, 0x2665, 0x2666, 0x267B, 0x267F, 0x2693, 0x26A0, 0x26A1, 0x26AA, 0x26AB, 0x26BD, 0x26BE, 0x26C4, 0x26C5, 0x26D4, 0x26EA,
+            0x2705, 0x2708, 0x2709, 0x270A, 0x270B, 0x270C, 0x270D, 0x270F, 0x2728, 0x2733, 0x2734, 0x2744, 0x2747, 0x274C, 0x274E,
+            0x2753, 0x2754, 0x2755, 0x2757, 0x2763, 0x2764, 0x2795, 0x2796, 0x2797, 0x27A1, 0x2B05, 0x2B06, 0x2B07, 0x2B1B, 0x2B1C, 0x2B50, 0x2B55,
+        ) + listOf(0x1F493..0x1F49F, 0x1F500..0x1F53D, 0x1F7E0..0x1F7EB)),
+    )
+
+    private val cache = HashMap<Int, List<String>>()
+    private val paint = Paint()
+
+    /** Text to type for one code point. Symbols from the old range get the emoji selector so they draw in colour. */
+    private fun text(cp: Int): String = String(Character.toChars(cp)) + if (cp < 0x10000) "\uFE0F" else ""
+
+    fun list(group: Int): List<String> = cache.getOrPut(group) {
+        val out = ArrayList<String>()
+        for (r in groups[group].ranges) for (cp in r) { val s = text(cp); if (paint.hasGlyph(s)) out.add(s) }
+        out.distinct()
+    }
+}
