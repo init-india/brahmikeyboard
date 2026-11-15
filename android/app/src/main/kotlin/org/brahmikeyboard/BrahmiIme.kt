@@ -185,7 +185,8 @@ class BrahmiIme : InputMethodService() {
                 }
                 "set" -> startActivity(Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 "sp" -> commit(" ")
-                "en" -> { commit(null); sendDownUpKeyEvents(KeyEvent.KEYCODE_ENTER) }
+                // Enter: with a word waiting, send it and stop. With nothing waiting, press the phone's Enter key.
+                "en" -> if (engine.buf.isNotEmpty()) commit(null) else sendDownUpKeyEvents(KeyEvent.KEYCODE_ENTER)
                 "go" -> go()
                 "bk" -> backspace()
                 "del" -> deleteWord()
