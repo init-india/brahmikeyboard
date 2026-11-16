@@ -1,0 +1,1 @@
+Added the Gradle wrapper so F-Droid can build the app. No change to how the keyboard works.

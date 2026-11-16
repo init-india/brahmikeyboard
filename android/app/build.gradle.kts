@@ -12,8 +12,8 @@ android {
         minSdk = 24
         targetSdk = 35
         // versionCode must only ever go up. versionName follows the git tag (vX.Y.Z).
-        versionCode = 2
-        versionName = "0.9.1"
+        versionCode = 3
+        versionName = "0.9.2"
     }
 
     // Same source for both stores. The only reason for flavors is to keep the
