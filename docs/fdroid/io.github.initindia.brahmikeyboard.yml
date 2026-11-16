@@ -20,6 +20,6 @@ Builds:
       - fdroid
 
 AutoUpdateMode: Version
-UpdateCheckMode: Tags
+UpdateCheckMode: Tags ^v[0-9.]+$
 CurrentVersion: 0.9.1
 CurrentVersionCode: 2
