@@ -20,7 +20,6 @@ import android.view.WindowInsets
 import android.os.Build
 import android.widget.FrameLayout
 import android.view.inputmethod.EditorInfo
-import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -68,9 +67,13 @@ class BrahmiIme : InputMethodService() {
         }
         val strip = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(8), dp(4), dp(8), dp(4)) }
         tag = TextView(this).apply { textSize = 11f; setPadding(dp(6), dp(1), dp(6), dp(1)) }
-        prev = TextView(this).apply { textSize = 20f; maxLines = 1; setPadding(dp(8), 0, 0, 0); typeface = brahmiFont }
-        val scroll = HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(prev) }
-        strip.addView(tag); strip.addView(scroll, LinearLayout.LayoutParams(0, dp(40), 1f))
+        // One fixed-width line that always shows the end of the word. (A scroll view around a wrap-content
+        // text left the newest letter clipped until the next key was pressed.)
+        prev = TextView(this).apply {
+            textSize = 20f; setSingleLine(true); ellipsize = android.text.TextUtils.TruncateAt.START
+            gravity = Gravity.CENTER_VERTICAL; setPadding(dp(8), 0, 0, 0); typeface = brahmiFont
+        }
+        strip.addView(tag); strip.addView(prev, LinearLayout.LayoutParams(0, dp(40), 1f))
         pop = banner("#B3261E", Color.WHITE); warn = banner("#F5A623", Color.parseColor("#1D1B16"))
         keys = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(4), dp(3), dp(4)) }
         root.addView(strip); root.addView(pop); root.addView(warn); root.addView(keys)
@@ -199,6 +202,7 @@ class BrahmiIme : InputMethodService() {
         if (!::tag.isInitialized) return
         tag.text = modeName()
         prev.text = if (password) "*".repeat(engine.buf.codePointCount(0, engine.buf.length)) else engine.preview()
+        prev.requestLayout(); prev.invalidate()
     }
 
     private fun modeName() = if (plain) "ENG" else when (engine.mode) { "lc" -> "CUS"; else -> engine.mode.uppercase() }
