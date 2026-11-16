@@ -1,0 +1,29 @@
+name: Add Gradle wrapper
+
+# Run once from the Actions tab. Creates the Gradle wrapper (gradlew and its files) and commits it,
+# because F-Droid's build server needs the wrapper to choose the right Gradle version.
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: 8.10.2 }
+      - name: Generate wrapper
+        working-directory: android
+        run: gradle wrapper --gradle-version 8.10.2 --distribution-type bin --no-daemon
+      - name: Commit the wrapper
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android/gradlew android/gradlew.bat android/gradle/wrapper
+          git diff --cached --quiet && { echo "Wrapper already committed"; exit 0; }
+          git commit -m "Add Gradle wrapper (8.10.2)"
+          git push
