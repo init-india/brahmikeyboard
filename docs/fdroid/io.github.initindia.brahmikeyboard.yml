@@ -12,9 +12,9 @@ RepoType: git
 Repo: https://github.com/init-india/brahmikeyboard.git
 
 Builds:
-  - versionName: 0.9.0
-    versionCode: 1
-    commit: 1cfda5f94e6dadd68921078649bf4facb201418e
+  - versionName: 0.9.1
+    versionCode: 2
+    commit: a27b8dcd49dce253a4c7c8bf569474c34505a69f
     subdir: android/app
     gradle:
       - fdroid
