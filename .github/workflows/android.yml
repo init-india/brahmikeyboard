@@ -47,9 +47,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          APK=$(ls android/app/build/outputs/apk/play/debug/*.apk | head -1)
-          cp "$APK" brahmi-keyboard-test.apk
+          cp "$(ls android/app/build/outputs/apk/play/debug/*.apk | head -1)" brahmi-keyboard-test.apk
+          cp "$(ls android/app/build/outputs/apk/play/debug/*.apk | head -1)" brahmi-keyboard-play-test.apk
+          cp "$(ls android/app/build/outputs/apk/fdroid/debug/*.apk | head -1)" brahmi-keyboard-fdroid-test.apk
           gh release delete latest-test --yes --cleanup-tag 2>/dev/null || true
-          gh release create latest-test brahmi-keyboard-test.apk --prerelease \
+          gh release create latest-test brahmi-keyboard-test.apk brahmi-keyboard-play-test.apk brahmi-keyboard-fdroid-test.apk --prerelease \
             --title "Latest test build" \
-            --notes "Debug APK built from commit ${GITHUB_SHA::7}. For testing only."
+            --notes "Debug APKs built from commit ${GITHUB_SHA::7}, for testing only. play = Google Play version, fdroid = F-Droid version. brahmi-keyboard-test.apk is the same as the play one."
